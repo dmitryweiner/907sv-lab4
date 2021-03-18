@@ -6,12 +6,14 @@ function App() {
     <div className="wrapper">
       <div>
         <h1>Список дел</h1>
-        <h2>Лабораторная №4. Redux</h2>
+        <h2>Лабораторная №4. Осваиваем Redux</h2>
       </div>
       <div>
         <input type="text" />
         <button>Добавить</button>
         <div>
+          Фильтр:
+          <input />
           <select>
             <option>Все</option>
             <option>Выполненные</option>
