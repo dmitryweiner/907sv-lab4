@@ -3,7 +3,7 @@
 Если это тяжело психологически, можно параллельно писать компонент и тест.
 
 В этой лабораторной надо реализовать динамический список с фильтрацией и поиском:
-![screenshot](https://github.com/dmitryweiner/907sv-labx/blob/main/screen.png)
+![screenshot](https://github.com/dmitryweiner/907sv-lab4/blob/main/screen.png)
 
 ## Задание 1
 * Аккуратно перенести компоненты и стор из третьей лабы.
