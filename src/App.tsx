@@ -4,6 +4,7 @@ import List from './components/List/List';
 import Form from './components/Form/Form';
 import SelectFilter from './components/SelectFilter/SelectFilter';
 import Search from './components/Search/Search';
+import Counter from './components/Counter/Counter';
 
 function App() {
   return (
@@ -16,6 +17,9 @@ function App() {
         <Form />
         <SelectFilter />
         <Search />
+        <div>
+          <Counter />
+        </div>
         <List />
       </div>
     </div>

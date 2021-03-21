@@ -85,3 +85,7 @@ export function filterList(state: ListI) {
     }
   }
 }
+
+export function countListItems(state: ListI): number {
+  return filterList(state).length;
+}
