@@ -89,3 +89,15 @@ export function filterList(state: ListI) {
 export function countListItems(state: ListI): number {
   return filterList(state).length;
 }
+
+export function checkTitle(state: ListI, title: string): boolean {
+  let check = true;
+
+  state.items.map(item => {
+    if (item.value === title) {
+      check = false;
+    }
+  });
+
+  return check;
+}

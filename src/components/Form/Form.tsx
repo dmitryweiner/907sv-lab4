@@ -2,12 +2,23 @@ import React, { FormEvent, useState } from 'react';
 import { ADD, REMOVELIST } from '../../store/types';
 import styles from './style.module.css';
 import { ItemI } from '../../store/interfaces/itemInterface';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
+import { ListI } from '../../store/interfaces/listInterface';
 
 function Form() {
   const [value, setValue] = useState<string>('');
   const [error, setError] = useState<string>('');
   const dispatch = useDispatch();
+  const list = useSelector((state: ListI) => state.items);
+
+  function checkTitleUnique() {
+    let check = true;
+
+    list.map(item => {
+      if (item.value === value) check = false;
+    });
+    return check;
+  }
 
   function handleSubmit(event: FormEvent) {
     event.preventDefault();
@@ -16,17 +27,22 @@ function Form() {
     } else {
       setError('');
 
-      const newItem: ItemI = {
-        index: Math.random().toString(36).substr(2),
-        value: value,
-        isChecked: false
-      };
+      if (checkTitleUnique()) {
+        const newItem: ItemI = {
+          index: Math.random().toString(36).substr(2),
+          value: value,
+          isChecked: false
+        };
 
-      dispatch({
-        type: ADD,
-        payload: newItem
-      });
-      setValue('');
+        dispatch({
+          type: ADD,
+          payload: newItem
+        });
+        setValue('');
+        setError('');
+      } else {
+        setError('Запись уже есть');
+      }
     }
   }
 
