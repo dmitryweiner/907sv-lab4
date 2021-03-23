@@ -6,6 +6,12 @@ export enum ACTION_TYPES {
   SEARCH = 'search'
 }
 
+export enum SELECTOR_TYPES {
+  ALL = 'Все',
+  DONE = 'Выполненные',
+  NOT_DONE = 'Невыполненные'
+}
+
 export interface IActionAdd {
   type: typeof ACTION_TYPES.ADD;
   payload: string;
@@ -23,6 +29,7 @@ export interface IActionCheck {
 
 export interface IActionFilter {
   type: typeof ACTION_TYPES.FILTER;
+  payload: string;
 }
 
 export interface IActionSearch {
@@ -38,11 +45,11 @@ export interface Item {
 
 export type IAction = IActionAdd | IActionRemove | IActionCheck | IActionFilter | IActionSearch;
 
-export type State = { list: Item[]; isFiltered: boolean; searchBar: string };
+export type State = { list: Item[]; filter: string; searchBar: string };
 
 export const initialState: State = {
   list: [],
-  isFiltered: false,
+  filter: SELECTOR_TYPES.ALL,
   searchBar: ''
 };
 
@@ -68,7 +75,7 @@ export const reducer = function (action: IAction, state = initialState): State {
       return { ...state, list: [...state.list] };
     }
     case ACTION_TYPES.FILTER: {
-      return { ...state, isFiltered: !state.isFiltered };
+      return { ...state };
     }
     case ACTION_TYPES.SEARCH: {
       return { ...state, searchBar: action.payload };
@@ -78,9 +85,12 @@ export const reducer = function (action: IAction, state = initialState): State {
   }
 };
 
-export function selectByChecked(isFiltered: boolean, list: Item[]): Item[] {
-  if (isFiltered) {
+export function selectByChecked(filter: string, list: Item[]): Item[] {
+  if (filter === SELECTOR_TYPES.DONE) {
     return list.filter(element => element.isChecked);
+  }
+  if (filter === SELECTOR_TYPES.NOT_DONE) {
+    return list.filter(element => !element.isChecked);
   }
   return list;
 }
@@ -97,7 +107,7 @@ export function selectBySearchBar(searchBar: string, list: Item[]): Item[] {
 }
 
 export function selectFilteredList(state: State): Item[] {
-  let itemList = selectByChecked(state.isFiltered, state.list);
+  let itemList = selectByChecked(state.filter, state.list);
   itemList = selectBySearchBar(state.searchBar, itemList);
   return itemList;
 }

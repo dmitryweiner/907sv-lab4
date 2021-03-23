@@ -11,13 +11,17 @@ export default function Filter({ dispatch, state }: FilterProps) {
     <>
       <div>
         <label>
-          Показывать только выполненные:
+          Фильтр:
           <input
-            type="checkbox"
-            data-testid="filter"
-            checked={state.isFiltered}
-            onChange={() => dispatch({ type: ACTION_TYPES.FILTER })}
+            type="text"
+            data-testid="search-bar"
+            value={state.searchBar}
+            onChange={e => dispatch({ type: ACTION_TYPES.SEARCH, payload: e.target.value })}
           />
+        </label>
+        <label>
+          Фильтр:
+          <input />
         </label>
       </div>
     </>

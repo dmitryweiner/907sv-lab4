@@ -1,4 +1,4 @@
-import { ACTION_TYPES, initialState, reducer, selectFilteredList } from './store';
+import { ACTION_TYPES, SELECTOR_TYPES, initialState, reducer, selectFilteredList } from './store';
 
 let state;
 
@@ -65,10 +65,11 @@ test('При вызове редьюсера с экшеном check возвр�
 
 test('При вызове редьюсера с экшеном filter возвращается состояние стора, в котором состояние isFiltered изменено', () => {
   const filter = {
-    type: ACTION_TYPES.FILTER
+    type: ACTION_TYPES.FILTER,
+    payload: SELECTOR_TYPES.DONE
   };
   const result = reducer(filter, state);
-  expect(result.isFiltered).toBe(true);
+  expect(result.filter).toEqual(SELECTOR_TYPES.DONE);
 });
 
 test('При вызове редьюсера с экшеном search возвращается состояние стора с переданной в SearchBar строкой', () => {
