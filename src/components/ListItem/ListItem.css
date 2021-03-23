@@ -1,0 +1,14 @@
+.task {
+    font-family: "Trebuchet MS", "Lucida Sans", serif;
+    width: 400px;
+    padding: 7px 20px;
+    margin-bottom: 10px;
+    border-radius: 5px;
+    border-left: 10px solid #f05d22;
+    box-shadow: 2px -2px 5px 0 rgba(0,0,0,.1),
+    -2px -2px 5px 0 rgba(0,0,0,.1),
+    2px 2px 5px 0 rgba(0,0,0,.1),
+    -2px 2px 5px 0 rgba(0,0,0,.1);
+    font-size: 20px;
+    letter-spacing: 2px;
+}
