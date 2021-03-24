@@ -1,0 +1,97 @@
+body {
+    color: #a9cb81;
+    font-family: "Consolas", serif;
+    font-size: 16pt;
+    text-shadow: 1px 1px 1px #ececec;
+}
+
+h1, h2 {
+    color: #63754b;
+}
+
+.errorMessage {
+    color: #ec4949;
+
+    margin-left: 1%;
+}
+
+button {
+    border-style: none;
+    background-color: #63754b;
+
+    color: #ffffff;
+    font-size: 12pt;
+
+    outline-style: none;
+}
+
+.addBtn {
+    height: 30px;
+    width: 150px;
+
+    margin-top: 1%;
+}
+
+.addBtn:hover, .addBtn:active,
+.deleteBtn:hover, .deleteBtn:active {
+    color: #d6d6d6;
+}
+
+.deleteBtn, .editBtn, .saveBtn {
+    height: 30px;
+    width: 30px;
+
+    margin: 1%;
+}
+
+input {
+    color: #a9cb81;
+    font-family: "Consolas", serif;
+    font-size: 16pt;
+    text-shadow: 1px 1px 1px #ececec;
+
+    height: 30px;
+    width: 400px;
+
+    border-style: solid;
+    border-color: #a9cb81;
+
+    outline-style: none;
+}
+
+.filter {
+    background-color: #63754b;
+    color: #ffffff;
+
+    height: 30px;
+    width: 150px;
+
+    outline-style: none;
+}
+
+.searchString {
+    height: 30px;
+    width: 242px;
+
+    margin-left: 1%;
+}
+
+ul {
+    list-style: none;
+}
+
+input[type=checkbox] {
+    width: 25px;
+    height: 25px;
+
+    margin-right: 1%;
+}
+
+.wrapper {
+    width: 900px;
+    margin: 0 auto;
+}
+
+.wrapper div {
+    margin: 10px;
+}
