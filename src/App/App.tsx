@@ -2,7 +2,7 @@ import React from 'react';
 import './App.css';
 import Form from '../components/Form/Form';
 import List from '../components/List/List';
-import Selector from '../components/SelectFilter/Selector';
+import Selector from '../components/Selector/Selector';
 
 export default function App() {
   return (
