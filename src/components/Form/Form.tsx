@@ -1,10 +1,9 @@
 import React, { ChangeEvent, FormEvent, useState } from 'react';
+import { ACTION_TYPES } from '../../store';
+import { useDispatch } from 'react-redux';
 
-type HandleSubmit = {
-  handleSubmit: (value: string) => void;
-};
-
-export default function Form({ handleSubmit }: HandleSubmit) {
+export default function Form() {
+  const dispatch = useDispatch();
   const [value, setValue] = useState('');
   const [errorMessage, setErrorMessage] = useState('');
 
@@ -14,7 +13,10 @@ export default function Form({ handleSubmit }: HandleSubmit) {
     if (value === '') {
       setErrorMessage('Введите текст, пожалуйста');
     } else {
-      handleSubmit(value);
+      dispatch({
+        type: ACTION_TYPES.ADD,
+        payload: value
+      });
       setErrorMessage('');
     }
     setValue('');

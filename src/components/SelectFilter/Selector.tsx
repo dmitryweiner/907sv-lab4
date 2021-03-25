@@ -1,12 +1,11 @@
 import React, { ChangeEvent } from 'react';
-import { ACTION_TYPES, IAction, SELECT_FILTER_TYPE, SELECT_FILTER_TYPES } from '../../store';
+import { ACTION_TYPES, SELECT_FILTER_TYPE, SELECT_FILTER_TYPES, Store } from '../../store';
+import { useDispatch, useSelector } from 'react-redux';
 
-type SelectorProps = {
-  dispatch: (action: IAction) => void;
-  substring: string;
-};
+export default function Selector() {
+  const dispatch = useDispatch();
+  const substring = useSelector((state: Store) => state.substring);
 
-export default function Selector({ dispatch, substring }: SelectorProps) {
   function filterHandler(e: ChangeEvent<HTMLSelectElement>) {
     dispatch({
       type: ACTION_TYPES.SELECT_BY_FILTER,

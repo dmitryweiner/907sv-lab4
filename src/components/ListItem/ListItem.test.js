@@ -1,16 +1,17 @@
-import { render, screen, fireEvent } from '@testing-library/react';
+import { screen, fireEvent } from '@testing-library/react';
 import ListItem from './ListItem';
 import React from 'react';
 import { ACTION_TYPES } from '../../store';
+import { makeTestStore, testRender } from '../../setupTests';
 
 const id = '19';
 const title = 'Покормить цветы';
 
 test('Отображение элемента в списке, реакция на кнопку', () => {
-  const dispatch = jest.fn();
+  const store = makeTestStore();
 
   // arrange
-  render(<ListItem id={id} title={title} dispatch={dispatch} />);
+  testRender(<ListItem id={id} title={title} />, { store });
   expect(screen.getByText(title)).toBeInTheDocument();
 
   // act
@@ -19,40 +20,44 @@ test('Отображение элемента в списке, реакция н
   fireEvent.click(deleteButton);
 
   // asset
-  expect(dispatch).toBeCalledWith({ type: ACTION_TYPES.REMOVE, payload: id });
+  expect(store.dispatch).toBeCalledWith({ type: ACTION_TYPES.REMOVE, payload: id });
 });
 
 test('Отображение выбранного чекбокса', () => {
-  render(<ListItem id={id} title={title} isChecked={true} />);
+  const store = makeTestStore();
+
+  testRender(<ListItem id={id} title={title} isChecked={true} />, { store });
   const checkbox = screen.getByTestId('checkbox');
   expect(checkbox).toBeInTheDocument();
   expect(checkbox).toHaveAttribute('checked');
 });
 
 test('Отображение пустого чекбокса', () => {
-  render(<ListItem id={id} title={title} isChecked={false} />);
+  const store = makeTestStore();
+
+  testRender(<ListItem id={id} title={title} isChecked={false} />, { store });
   const checkbox = screen.getByTestId('checkbox');
   expect(checkbox).toBeInTheDocument();
   expect(checkbox).not.toHaveAttribute('checked');
 });
 
 test('При клике на чекбокс вызывается нужный метод', () => {
-  const dispatch = jest.fn();
+  const store = makeTestStore();
 
-  render(<ListItem id={id} title={title} isChecked={false} dispatch={dispatch} />);
+  testRender(<ListItem id={id} title={title} isChecked={false} />, { store });
   const checkbox = screen.getByTestId('checkbox');
   expect(checkbox).toBeInTheDocument();
 
-  expect(dispatch).not.toBeCalled();
+  expect(store.dispatch).not.toBeCalled();
   fireEvent.click(checkbox);
-  expect(dispatch).toBeCalledWith({ type: ACTION_TYPES.CHECKED, payload: id });
+  expect(store.dispatch).toBeCalledWith({ type: ACTION_TYPES.CHECKED, payload: id });
 });
 
 test('Отображение поля редактирования и возможности сохранения содержимого', () => {
-  const dispatch = jest.fn();
+  const store = makeTestStore();
   const value = 'value';
 
-  render(<ListItem id={id} title={title} dispatch={dispatch} />);
+  testRender(<ListItem id={id} title={title} />, { store });
 
   const editButton = screen.getByTestId('editButton');
   fireEvent.click(editButton);
@@ -69,5 +74,5 @@ test('Отображение поля редактирования и возмо
   expect(screen.queryByTestId('saveButton')).toBeNull();
   expect(screen.queryByTestId('editButton')).not.toBeNull();
 
-  expect(dispatch).toBeCalledWith({ type: ACTION_TYPES.EDIT, payload: { id, title: value } });
+  expect(store.dispatch).toBeCalledWith({ type: ACTION_TYPES.EDIT, payload: { id, title: value } });
 });

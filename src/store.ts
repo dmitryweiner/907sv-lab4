@@ -73,7 +73,7 @@ export interface IActionSelectBySearchString {
   payload: string;
 }
 
-export type StateType = {
+export type Store = {
   list: IItem[];
   filter: SELECT_FILTER_TYPE;
   substring: string;
@@ -85,7 +85,7 @@ export const initialState = {
   substring: ''
 };
 
-export default function reducer(action: IAction, state: StateType = initialState): StateType {
+export default function reducer(state: Store = initialState, action: IAction): Store {
   switch (action.type) {
     case ACTION_TYPES.ADD: {
       const newValue = {
@@ -143,9 +143,9 @@ export function selectByFilter(list: IItem[], filter: SELECT_FILTER_TYPE) {
 
 export function selectBySearchString(list: IItem[], substring: string) {
   if (substring === '') return list;
-  return list.filter(item => item.title.toLowerCase().indexOf(substring.toLowerCase()) != -1);
+  return list.filter(item => item.title.toLowerCase().includes(substring.toLowerCase()));
 }
 
-export function selectFilteredList(state: StateType): IItem[] {
+export function selectFilteredList(state: Store): IItem[] {
   return selectByFilter(selectBySearchString(state.list, state.substring), state.filter);
 }

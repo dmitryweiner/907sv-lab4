@@ -1,14 +1,15 @@
 import React, { useState } from 'react';
-import { IAction, ACTION_TYPES } from '../../store';
+import { ACTION_TYPES } from '../../store';
+import { useDispatch } from 'react-redux';
 
 type ListItemProps = {
   id: string;
   title: string;
   isChecked: boolean;
-  dispatch: (action: IAction) => void;
 };
 
-export default function ListItem({ id, title, isChecked, dispatch }: ListItemProps) {
+export default function ListItem({ id, title, isChecked }: ListItemProps) {
+  const dispatch = useDispatch();
   const [editMode, setEditMode] = useState(false);
   const [editInput, setEditInput] = useState(title);
 
