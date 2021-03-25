@@ -1,5 +1,6 @@
 import { ListI } from './interfaces/listInterface';
 import { ACTION_TYPE, ADD, CHECKED, EDIT, FILTER, REMOVE, REMOVELIST, SEARCH } from './types';
+import { createSelector } from 'reselect';
 
 export const initialState: ListI = {
   items: [],
@@ -62,42 +63,32 @@ export function reducer(state: ListI = initialState, action: ACTION_TYPE): ListI
   }
 }
 
-function searchFilter(state: ListI) {
-  if (state.search === '') return state.items;
-  return state.items.filter(
-    element => element.value.toUpperCase().indexOf(state.search.toUpperCase()) != -1
-  );
-}
+const getSearchFilteredItems = createSelector(
+  (state: ListI) => state.search,
+  (state: ListI) => state.items,
+  (search, items) =>
+    items.filter(element => element.value.toUpperCase().indexOf(search.toUpperCase()) != -1)
+);
 
-export function filterList(state: ListI) {
-  switch (state.filter) {
-    case 'All': {
-      return searchFilter(state);
-    }
-    case 'Completed': {
-      return searchFilter(state).filter(element => element.isChecked);
-    }
-    case 'NotCompleted': {
-      return searchFilter(state).filter(element => !element.isChecked);
-    }
-    default: {
-      return state.items;
+export const getSelectFilteredList = createSelector(
+  getSearchFilteredItems,
+  (state: ListI) => state.filter,
+  (items, filter) => {
+    switch (filter) {
+      case 'All': {
+        return items;
+      }
+      case 'Completed': {
+        return items.filter(element => element.isChecked);
+      }
+      case 'NotCompleted': {
+        return items.filter(element => !element.isChecked);
+      }
+      default: {
+        return items;
+      }
     }
   }
-}
+);
 
-export function countListItems(state: ListI): number {
-  return filterList(state).length;
-}
-
-export function checkTitle(state: ListI, title: string): boolean {
-  let check = true;
-
-  state.items.map(item => {
-    if (item.value === title) {
-      check = false;
-    }
-  });
-
-  return check;
-}
+export const getFilteredItemsCount = createSelector(getSelectFilteredList, items => items.length);

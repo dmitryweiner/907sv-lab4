@@ -1,10 +1,10 @@
 import React from 'react';
 import Item from '../Item/Item';
 import { useSelector } from 'react-redux';
-import { filterList } from '../../store/store';
+import { getSelectFilteredList } from '../../store/store';
 
 function List() {
-  const list = useSelector(filterList);
+  const list = useSelector(getSelectFilteredList);
   return (
     <>
       <div data-testid="list">

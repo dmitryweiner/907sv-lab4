@@ -1,9 +1,9 @@
 import React from 'react';
 import { useSelector } from 'react-redux';
-import { countListItems } from '../../store/store';
+import { getFilteredItemsCount } from '../../store/store';
 
 function Counter() {
-  const number = useSelector(countListItems);
+  const number = useSelector(getFilteredItemsCount);
   return <span>Всего: {number}</span>;
 }
 
