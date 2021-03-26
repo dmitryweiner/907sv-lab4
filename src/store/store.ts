@@ -63,7 +63,7 @@ export function reducer(state: ListI = initialState, action: ACTION_TYPE): ListI
   }
 }
 
-const getSearchFilteredItems = createSelector(
+export const getSearchFilteredItems = createSelector(
   (state: ListI) => state.search,
   (state: ListI) => state.items,
   (search, items) =>
