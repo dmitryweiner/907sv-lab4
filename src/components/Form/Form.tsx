@@ -6,14 +6,13 @@ export default function Form() {
   const dispatch = useDispatch();
   const [value, setValue] = useState('');
   const [errorMessage, setErrorMessage] = useState('');
-  const list = useSelector(((state: Store) => state.list));
+  const list = useSelector((state: Store) => state.list);
 
   function checkValueForUniqueness() {
     let isUnique = true;
 
     list.map(item => {
-      if (item.title === value)
-        isUnique = false;
+      if (item.title === value) isUnique = false;
     });
 
     return isUnique;
@@ -25,7 +24,6 @@ export default function Form() {
     if (value === '') {
       setErrorMessage('Введите текст, пожалуйста');
     } else {
-
       if (checkValueForUniqueness()) {
         dispatch({
           type: ACTION_TYPES.ADD,
@@ -34,8 +32,7 @@ export default function Form() {
 
         setErrorMessage('');
         setValue('');
-      }
-      else {
+      } else {
         setErrorMessage('Задача уже имеется');
       }
     }
