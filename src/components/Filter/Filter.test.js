@@ -25,3 +25,17 @@ test('Фильтр отображает варианты фильтрации', 
     expect(screen.getByText(options[i])).toBeInTheDocument();
   }
 });
+
+test('При выборе варианта фильтрации вызывается dispatch с экшеном filter', () => {
+  render(<Filter dispatch={dispatch} state={initialState} />);
+  const done = screen.getByText(SELECTOR_TYPES.DONE);
+  expect(dispatch).not.toBeCalledWith({
+    type: ACTION_TYPES.FILTER,
+    payload: SELECTOR_TYPES.DONE
+  });
+  fireEvent.click(done);
+  expect(dispatch).toBeCalledWith({
+    type: ACTION_TYPES.FILTER,
+    payload: SELECTOR_TYPES.DONE
+  });
+});
