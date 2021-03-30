@@ -1,10 +1,10 @@
 import { createSelector } from 'reselect';
-import { ListI } from '../store/interfaces/listInterface';
 import { getSearchFilteredItems } from './getSearchFilteredItems';
+import { Store } from '../store/reducers';
 
 export const getSelectFilteredList = createSelector(
   getSearchFilteredItems,
-  (state: ListI) => state.filter,
+  (state: Store) => state.todo.filter,
   (items, filter) => {
     switch (filter) {
       case 'All': {

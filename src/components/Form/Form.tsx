@@ -1,15 +1,15 @@
 import React, { FormEvent, useState } from 'react';
 import { ADD, REMOVELIST } from '../../store/actions/todoAction';
-import styles from './style.module.css';
+import { ADD as ADD_ALERT } from '../../store/actions/alertAction';
 import { ItemI } from '../../store/interfaces/itemInterface';
 import { useDispatch, useSelector } from 'react-redux';
-import { ListI } from '../../store/interfaces/listInterface';
+import { Store } from '../../store/reducers';
+import { AlertMessageI } from '../../store/interfaces/alertMessageInterface';
 
 function Form() {
   const [value, setValue] = useState<string>('');
-  const [error, setError] = useState<string>('');
   const dispatch = useDispatch();
-  const list = useSelector((state: ListI) => state.items);
+  const list = useSelector((state: Store) => state.todo.items);
 
   function checkTitleUnique() {
     let check = true;
@@ -20,13 +20,22 @@ function Form() {
     return check;
   }
 
+  function alertDispatch(payload: string) {
+    const newAlert: AlertMessageI = {
+      index: Math.random().toString(36).substr(2),
+      message: payload
+    };
+    dispatch({
+      type: ADD_ALERT,
+      payload: newAlert
+    });
+  }
+
   function handleSubmit(event: FormEvent) {
     event.preventDefault();
     if (value === '') {
-      setError('Поле пустое, как твоя голова');
+      alertDispatch('Поле пустое, как твоя голова');
     } else {
-      setError('');
-
       if (checkTitleUnique()) {
         const newItem: ItemI = {
           index: Math.random().toString(36).substr(2),
@@ -39,9 +48,8 @@ function Form() {
           payload: newItem
         });
         setValue('');
-        setError('');
       } else {
-        setError('Запись уже есть');
+        alertDispatch('Поле уже существует');
       }
     }
   }
@@ -64,9 +72,6 @@ function Form() {
         <button type="submit" onClick={handleSubmit}>
           Добавить
         </button>
-        <div>
-          <span className={styles.error}>{error}</span>
-        </div>
       </form>
       <button onClick={removeListDispatch}>Очистить список</button>
     </>

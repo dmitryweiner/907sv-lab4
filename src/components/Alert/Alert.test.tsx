@@ -1,0 +1,33 @@
+import { makeTestStore, testRender } from '../../setupTests';
+import Alert from '../Alert/Alert';
+import { screen } from '@testing-library/react';
+import React from 'react';
+import { AlertI } from '../../store/interfaces/alertinterface';
+
+const initialState: AlertI = {
+  messages: [
+    {
+      index: 'test',
+      message: 'error'
+    },
+    {
+      index: 'test1',
+      message: 'error'
+    }
+  ]
+};
+
+const store = makeTestStore({ initialState });
+
+test('render alert', () => {
+  testRender(<Alert />, { store });
+  const alert = screen.getByTestId('alert');
+  expect(alert).toBeInTheDocument();
+});
+
+test('number errors', () => {
+  testRender(<Alert />, { store });
+  const errors = screen.getAllByTestId('alert-message');
+  expect(errors.length).not.toEqual(1);
+  expect(errors.length).toEqual(2);
+});

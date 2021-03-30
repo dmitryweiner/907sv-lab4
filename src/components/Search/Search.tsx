@@ -1,10 +1,10 @@
 import React, { ChangeEvent } from 'react';
 import { SEARCH } from '../../store/actions/todoAction';
 import { useDispatch, useSelector } from 'react-redux';
-import { ListI } from '../../store/interfaces/listInterface';
+import { Store } from '../../store/reducers';
 
 function Search() {
-  const searchString = useSelector((state: ListI) => state.search);
+  const searchString = useSelector((state: Store) => state.todo.search);
   const dispatch = useDispatch();
   function inputHandler(event: ChangeEvent<HTMLInputElement>) {
     dispatch({

@@ -1,9 +1,9 @@
 import { createSelector } from 'reselect';
-import { ListI } from '../store/interfaces/listInterface';
+import { Store } from '../store/reducers';
 
 export const getSearchFilteredItems = createSelector(
-  (state: ListI) => state.search,
-  (state: ListI) => state.items,
+  (state: Store) => state.todo.search,
+  (state: Store) => state.todo.items,
   (search, items) =>
     items.filter(element => element.value.toUpperCase().indexOf(search.toUpperCase()) != -1)
 );

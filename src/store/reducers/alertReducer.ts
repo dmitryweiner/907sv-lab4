@@ -8,6 +8,7 @@ export const initialState: AlertI = {
 export function reducer(state: AlertI = initialState, action: ACTION_TYPE): AlertI {
   switch (action.type) {
     case ADD: {
+      console.log(state.messages);
       return { ...state, messages: [...state.messages, action.payload] };
     }
     case REMOVE: {

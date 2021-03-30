@@ -5,6 +5,7 @@ import Form from './components/Form/Form';
 import SelectFilter from './components/SelectFilter/SelectFilter';
 import Search from './components/Search/Search';
 import Counter from './components/Counter/Counter';
+import Alert from './components/Alert/Alert';
 
 function App() {
   return (
@@ -21,6 +22,7 @@ function App() {
           <Counter />
         </div>
         <List />
+        <Alert />
       </div>
     </div>
   );

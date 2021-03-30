@@ -1,0 +1,7 @@
+.error_message {
+    width: 250px;
+    height: 40px;
+    background-color: pink;
+    cursor: crosshair;
+    padding: 10px;
+}

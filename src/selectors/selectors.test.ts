@@ -1,5 +1,5 @@
-import { ACTION_TYPE, ADD, CHECKED, SEARCH, FILTER } from '../store/types';
-import { initialState, reducer } from '../store/store';
+import { ACTION_TYPE, ADD, CHECKED, SEARCH, FILTER } from '../store/actions/todoAction';
+import { initialState, reducer } from '../store/reducers/todoReducer';
 import { ItemI } from '../store/interfaces/itemInterface';
 import { getSelectFilteredList } from './getSelectFilteredList';
 import { getSearchFilteredItems } from './getSearchFilteredItems';
