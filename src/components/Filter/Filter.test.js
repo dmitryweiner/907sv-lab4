@@ -1,7 +1,7 @@
 import React from 'react';
 import { fireEvent, render, screen } from '@testing-library/react';
 import Filter from './Filter';
-import { ACTION_TYPES, initialState } from '../../store';
+import { ACTION_TYPES, initialState, SELECTOR_TYPES } from '../../store';
 
 const dispatch = jest.fn();
 
@@ -16,4 +16,12 @@ test('Отображает поле ввода, при вводе в котор�
   });
   fireEvent.input(searchbar, { target: { value: field } });
   expect(dispatch).toBeCalledWith({ type: ACTION_TYPES.SEARCH, payload: field });
+});
+
+test('Фильтр отображает варианты фильтрации', () => {
+  render(<Filter dispatch={dispatch} state={initialState} />);
+  const options = [SELECTOR_TYPES.ALL, SELECTOR_TYPES.DONE, SELECTOR_TYPES.NOT_DONE];
+  for (let i = 0; i < options.length; i++) {
+    expect(screen.getByText(options[i])).toBeInTheDocument();
+  }
 });
