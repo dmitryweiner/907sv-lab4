@@ -19,10 +19,6 @@ export default function Filter({ dispatch, state }: FilterProps) {
             onChange={e => dispatch({ type: ACTION_TYPES.SEARCH, payload: e.target.value })}
           />
         </label>
-        <label>
-          Фильтр:
-          <input />
-        </label>
       </div>
     </>
   );

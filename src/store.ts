@@ -12,6 +12,11 @@ export enum SELECTOR_TYPES {
   NOT_DONE = 'Невыполненные'
 }
 
+export type SELECTOR_TYPE =
+  | typeof SELECTOR_TYPES.ALL
+  | SELECTOR_TYPES.DONE
+  | SELECTOR_TYPES.NOT_DONE;
+
 export interface IActionAdd {
   type: typeof ACTION_TYPES.ADD;
   payload: string;
@@ -29,7 +34,7 @@ export interface IActionCheck {
 
 export interface IActionFilter {
   type: typeof ACTION_TYPES.FILTER;
-  payload: string;
+  payload: SELECTOR_TYPE;
 }
 
 export interface IActionSearch {
@@ -45,11 +50,11 @@ export interface Item {
 
 export type IAction = IActionAdd | IActionRemove | IActionCheck | IActionFilter | IActionSearch;
 
-export type State = { list: Item[]; filter: string; searchBar: string };
+export type State = { list: Item[]; filtered: SELECTOR_TYPE; searchBar: string };
 
 export const initialState: State = {
   list: [],
-  filter: SELECTOR_TYPES.ALL,
+  filtered: SELECTOR_TYPES.ALL,
   searchBar: ''
 };
 
@@ -75,39 +80,37 @@ export const reducer = function (action: IAction, state = initialState): State {
       return { ...state, list: [...state.list] };
     }
     case ACTION_TYPES.FILTER: {
-      return { ...state };
+      return { ...state, filtered: action.payload };
     }
     case ACTION_TYPES.SEARCH: {
       return { ...state, searchBar: action.payload };
     }
     default:
-      return { ...state };
+      return state;
   }
 };
 
-export function selectByChecked(filter: string, list: Item[]): Item[] {
-  if (filter === SELECTOR_TYPES.DONE) {
+export function selectByChecked(filtered: SELECTOR_TYPE, list: Item[]): Item[] {
+  if (filtered === SELECTOR_TYPES.DONE) {
     return list.filter(element => element.isChecked);
   }
-  if (filter === SELECTOR_TYPES.NOT_DONE) {
+  if (filtered === SELECTOR_TYPES.NOT_DONE) {
     return list.filter(element => !element.isChecked);
   }
   return list;
 }
 
-function filtration(element: string, substr: string): boolean {
-  return element.toUpperCase().indexOf(substr.toUpperCase()) !== -1;
-}
-
 export function selectBySearchBar(searchBar: string, list: Item[]): Item[] {
   if (searchBar !== '') {
-    return list.filter(element => filtration(element.title, searchBar));
+    return list.filter(
+      element => element.title.toUpperCase().indexOf(searchBar.toUpperCase()) !== -1
+    );
   }
   return list;
 }
 
 export function selectFilteredList(state: State): Item[] {
-  let itemList = selectByChecked(state.filter, state.list);
+  let itemList = selectByChecked(state.filtered, state.list);
   itemList = selectBySearchBar(state.searchBar, itemList);
   return itemList;
 }

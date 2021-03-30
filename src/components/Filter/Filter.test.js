@@ -5,15 +5,6 @@ import { ACTION_TYPES, initialState } from '../../store';
 
 const dispatch = jest.fn();
 
-test('Отображается чекбокс Показывать только выполненные и после нажатия на него вызывается dispatch с типом экшена filter', () => {
-  render(<Filter dispatch={dispatch} state={initialState} />);
-  const filter = screen.getByTestId('filter');
-  expect(filter).toBeInTheDocument();
-  expect(dispatch).not.toBeCalledWith({ type: ACTION_TYPES.FILTER });
-  fireEvent.click(filter);
-  expect(dispatch).toBeCalledWith({ type: ACTION_TYPES.FILTER });
-});
-
 test('Отображает поле ввода, при вводе в которое осуществляется фильтрация по подстроке', () => {
   const field = 's';
   render(<Filter dispatch={dispatch} state={initialState} />);
