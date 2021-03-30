@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { CHECKED, EDIT, REMOVE } from '../../store/types';
+import { CHECKED, EDIT, REMOVE } from '../../store/actions/todoAction';
 import styles from './style.module.css';
 import { useDispatch } from 'react-redux';
 import { ItemI } from '../../store/interfaces/itemInterface';

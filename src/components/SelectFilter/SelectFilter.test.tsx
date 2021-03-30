@@ -1,7 +1,7 @@
 import React from 'react';
 import { fireEvent, screen } from '@testing-library/react';
 import SelectFilter from './SelectFilter';
-import { FILTER } from '../../store/types';
+import { FILTER } from '../../store/actions/todoAction';
 import { testRender, makeTestStore } from '../../setupTests';
 
 const store = makeTestStore({ initialState: { items: [], filter: 'All', search: '' } });

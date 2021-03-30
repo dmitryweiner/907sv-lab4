@@ -1,6 +1,6 @@
-import { ACTION_TYPE, ADD, REMOVE, REMOVELIST, CHECKED, EDIT } from './store/types';
-import { initialState, reducer } from './store/store';
-import { ItemI } from './store/interfaces/itemInterface';
+import { ACTION_TYPE, ADD, REMOVE, REMOVELIST, CHECKED, EDIT } from '../actions/todoAction';
+import { initialState, reducer } from './todoReducer';
+import { ItemI } from '../interfaces/itemInterface';
 
 const title = 'item';
 

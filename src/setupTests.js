@@ -3,7 +3,7 @@ import '@testing-library/jest-dom';
 import { render } from '@testing-library/react';
 import { createStore } from 'redux';
 import { Provider } from 'react-redux';
-import { reducer } from './store/store';
+import { reducer } from './store/reducers/todoReducer';
 const TestProvider = ({ store, children }) => <Provider store={store}>{children}</Provider>;
 export function testRender(ui, { store, ...otherOpts }) {
   return render(<TestProvider store={store}>{ui}</TestProvider>, otherOpts);

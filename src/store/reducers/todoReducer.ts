@@ -1,5 +1,14 @@
-import { ListI } from './interfaces/listInterface';
-import { ACTION_TYPE, ADD, CHECKED, EDIT, FILTER, REMOVE, REMOVELIST, SEARCH } from './types';
+import { ListI } from '../interfaces/listInterface';
+import {
+  ACTION_TYPE,
+  ADD,
+  CHECKED,
+  EDIT,
+  FILTER,
+  REMOVE,
+  REMOVELIST,
+  SEARCH
+} from '../actions/todoAction';
 
 export const initialState: ListI = {
   items: [],

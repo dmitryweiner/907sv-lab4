@@ -1,7 +1,7 @@
 import React from 'react';
 import { fireEvent, screen } from '@testing-library/react';
 import Search from './Search';
-import { SEARCH } from '../../store/types';
+import { SEARCH } from '../../store/actions/todoAction';
 import { makeTestStore, testRender } from '../../setupTests';
 
 const store = makeTestStore();

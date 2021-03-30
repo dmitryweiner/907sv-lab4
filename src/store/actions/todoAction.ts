@@ -1,12 +1,12 @@
-import { ItemI } from './interfaces/itemInterface';
+import { ItemI } from '../interfaces/itemInterface';
 
-export const ADD = 'Add';
-export const REMOVE = 'Remove';
-export const REMOVELIST = 'RemoveList';
-export const EDIT = 'Edit';
-export const CHECKED = 'Checked';
-export const FILTER = 'Filter';
-export const SEARCH = 'search';
+export const ADD = 'TODO/Add';
+export const REMOVE = 'TODO/Remove';
+export const REMOVELIST = 'TODO/RemoveList';
+export const EDIT = 'TODO/Edit';
+export const CHECKED = 'TODO/Checked';
+export const FILTER = 'TODO/Filter';
+export const SEARCH = 'TODO/search';
 
 interface AddItem {
   type: typeof ADD;

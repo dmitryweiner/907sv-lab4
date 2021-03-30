@@ -1,7 +1,7 @@
 import React from 'react';
 import { screen, fireEvent } from '@testing-library/react';
 import { ItemI } from '../../store/interfaces/itemInterface';
-import { REMOVE, CHECKED } from '../../store/types';
+import { REMOVE, CHECKED } from '../../store/actions/todoAction';
 import { testRender, makeTestStore } from '../../setupTests';
 import Item from './Item';
 

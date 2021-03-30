@@ -1,5 +1,5 @@
 import React, { FormEvent, useState } from 'react';
-import { ADD, REMOVELIST } from '../../store/types';
+import { ADD, REMOVELIST } from '../../store/actions/todoAction';
 import styles from './style.module.css';
 import { ItemI } from '../../store/interfaces/itemInterface';
 import { useDispatch, useSelector } from 'react-redux';

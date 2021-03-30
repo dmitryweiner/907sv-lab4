@@ -1,6 +1,6 @@
 import React, { ChangeEvent } from 'react';
 import { selectOptions } from './selectOptions';
-import { FILTER } from '../../store/types';
+import { FILTER } from '../../store/actions/todoAction';
 import { useDispatch } from 'react-redux';
 
 function SelectFilter() {

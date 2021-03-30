@@ -1,5 +1,5 @@
 import React, { ChangeEvent } from 'react';
-import { SEARCH } from '../../store/types';
+import { SEARCH } from '../../store/actions/todoAction';
 import { useDispatch, useSelector } from 'react-redux';
 import { ListI } from '../../store/interfaces/listInterface';
 
