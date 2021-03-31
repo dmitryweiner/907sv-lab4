@@ -14,6 +14,11 @@ const list = [
     id: '2',
     title: 'Покормить цветы',
     isChecked: true
+  },
+  {
+    id: '3',
+    title: 'Написать тесты',
+    isChecked: true
   }
 ];
 

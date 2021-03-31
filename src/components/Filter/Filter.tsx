@@ -2,7 +2,7 @@ import React, { ChangeEvent } from 'react';
 import { ACTION_TYPES, SELECT_FILTER_TYPE, SELECT_FILTER_TYPES, Store } from '../../store';
 import { useDispatch, useSelector } from 'react-redux';
 
-export default function Selector() {
+export default function Filter() {
   const dispatch = useDispatch();
   const substring = useSelector((state: Store) => state.substring);
 

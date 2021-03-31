@@ -2,7 +2,8 @@ import React from 'react';
 import './App.css';
 import Form from '../components/Form/Form';
 import List from '../components/List/List';
-import Selector from '../components/Selector/Selector';
+import Filter from '../components/Filter/Filter';
+import ItemsCounter from '../components/ItemsCounter/ItemsCounter';
 
 export default function App() {
   return (
@@ -13,7 +14,10 @@ export default function App() {
       </div>
       <Form />
       <div>
-        <Selector />
+        <Filter />
+      </div>
+      <div>
+        <ItemsCounter />
       </div>
       <List />
     </div>

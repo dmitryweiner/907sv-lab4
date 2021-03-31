@@ -141,11 +141,15 @@ export function selectByFilter(list: IItem[], filter: SELECT_FILTER_TYPE) {
   return list;
 }
 
-export function selectBySearchString(list: IItem[], substring: string) {
+export function selectBySearchString(list: IItem[], substring: string): IItem[] {
   if (substring === '') return list;
   return list.filter(item => item.title.toLowerCase().includes(substring.toLowerCase()));
 }
 
 export function selectFilteredList(state: Store): IItem[] {
   return selectByFilter(selectBySearchString(state.list, state.substring), state.filter);
+}
+
+export function selectItemsCount(state: Store) {
+  return selectFilteredList(state).length;
 }

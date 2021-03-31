@@ -4,7 +4,8 @@ import reducer, {
   SELECT_FILTER_TYPES,
   selectByFilter,
   selectBySearchString,
-  selectFilteredList
+  selectFilteredList,
+  selectItemsCount
 } from './store';
 
 const title = 'Покормить цветы';
@@ -19,6 +20,11 @@ const list = [
   {
     id: '2',
     title: 'Покормить цветы',
+    isChecked: true
+  },
+  {
+    id: '3',
+    title: 'Написать тесты',
     isChecked: true
   }
 ];
@@ -136,7 +142,7 @@ describe('Проверка функционирования store.js', () => {
     expect(filteredList[0].id).toEqual(list[0].id);
 
     filteredList = selectByFilter(list, SELECT_FILTER_TYPES.ALL);
-    expect(filteredList.length).toEqual(2);
+    expect(filteredList.length).toEqual(3);
   });
 
   test('Проверка фильтрации списка selectBySearchString', () => {
@@ -166,5 +172,12 @@ describe('Проверка функционирования store.js', () => {
     };
     let state = reducer(initialState, defaultAction);
     expect(state.list.length).toEqual(0);
+  });
+
+  test('Проверка selectItemsCount', () => {
+    const itemsCount = selectItemsCount(state); // {}
+    expect(itemsCount[SELECT_FILTER_TYPES.ALL]).toBe(3);
+    expect(itemsCount[SELECT_FILTER_TYPES.DONE]).toBe(2);
+    expect(itemsCount[SELECT_FILTER_TYPES.NOT_DONE]).toBe(1);
   });
 });
