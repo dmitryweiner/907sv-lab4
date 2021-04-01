@@ -43,7 +43,14 @@ export default function Form() {
     setValue(newValue);
   }
 
+  async function testFetchHandler(e: FormEvent<HTMLButtonElement>) {
+    const response = await fetch('http://localhost:3001');
+    const json = await response.json();
+    console.log(json);
+  }
+
   return (
+    <>
     <form data-testid="form" onSubmit={innerSubmit}>
       <div className="errorMessage">{errorMessage}</div>
       <div>
@@ -54,5 +61,9 @@ export default function Form() {
         </button>
       </div>
     </form>
-  );
+    <div>
+      <button className="fetchBtn" onClick={testFetchHandler}>Fetch</button>
+    </div>
+    </>
+);
 }

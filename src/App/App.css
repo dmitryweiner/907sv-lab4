@@ -32,16 +32,24 @@ button {
     margin-top: 1%;
 }
 
-.addBtn:hover, .addBtn:active,
-.deleteBtn:hover, .deleteBtn:active {
-    color: #d6d6d6;
-}
-
 .deleteBtn, .editBtn, .saveBtn {
     height: 30px;
     width: 30px;
 
     margin: 1%;
+}
+
+.fetchBtn {
+    height: 30px;
+    width: 150px;
+
+    background-color: #ec4949;
+}
+
+.addBtn:hover, .addBtn:active,
+.deleteBtn:hover, .deleteBtn:active,
+.fetchBtn:hover, .fetchBtn:active {
+    color: #d6d6d6;
 }
 
 input {
