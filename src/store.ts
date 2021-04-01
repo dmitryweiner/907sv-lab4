@@ -60,10 +60,10 @@ export const initialState: Store = {
   searchBar: ''
 };
 
-export const reducer = function (store = initialState, action: Action): Store {
+export const reducer = function (state = initialState, action: Action): Store {
   switch (action.type) {
     case ACTION_TYPES.REMOVE: {
-      return { ...store, list: [...store.list.filter(Item => Item.id !== action.payload)] };
+      return { ...state, list: [...state.list.filter(Item => Item.id !== action.payload)] };
     }
     case ACTION_TYPES.ADD: {
       const newTask = {
@@ -71,24 +71,24 @@ export const reducer = function (store = initialState, action: Action): Store {
         title: action.payload,
         isChecked: false
       };
-      return { ...store, list: [...store.list, newTask] };
+      return { ...state, list: [...state.list, newTask] };
     }
     case ACTION_TYPES.CHECK: {
-      for (let i = 0; i < store.list.length; i++) {
-        if (store.list[i].id === action.payload) {
-          store.list[i].isChecked = !store.list[i].isChecked;
+      for (let i = 0; i < state.list.length; i++) {
+        if (state.list[i].id === action.payload) {
+          state.list[i].isChecked = !state.list[i].isChecked;
         }
       }
-      return { ...store, list: [...store.list] };
+      return { ...state, list: [...state.list] };
     }
     case ACTION_TYPES.FILTER: {
-      return { ...store, filtered: action.payload };
+      return { ...state, filtered: action.payload };
     }
     case ACTION_TYPES.SEARCH: {
-      return { ...store, searchBar: action.payload };
+      return { ...state, searchBar: action.payload };
     }
     default:
-      return store;
+      return state;
   }
 };
 
@@ -111,10 +111,35 @@ export function selectBySearchBar(searchBar: string, list: Item[]): Item[] {
   return list;
 }
 
-export function selectFilteredList(store: Store): Item[] {
-  let itemList = selectByChecked(store.filtered, store.list);
-  itemList = selectBySearchBar(store.searchBar, itemList);
+export function selectFilteredList(state: Store): Item[] {
+  let itemList = selectByChecked(state.filtered, state.list);
+  itemList = selectBySearchBar(state.searchBar, itemList);
   return itemList;
 }
 
 export const store = createStore(reducer);
+
+export const add = (content: string) => ({
+  type: ACTION_TYPES.ADD,
+  payload: content
+});
+
+export const remove = (content: string) => ({
+  type: ACTION_TYPES.REMOVE,
+  payload: content
+});
+
+export const check = (content: string) => ({
+  type: ACTION_TYPES.CHECK,
+  payload: content
+});
+
+export const filter = (content: SELECTOR_TYPE) => ({
+  type: ACTION_TYPES.FILTER,
+  payload: content
+});
+
+export const search = (content: string) => ({
+  type: ACTION_TYPES.SEARCH,
+  payload: content
+});
