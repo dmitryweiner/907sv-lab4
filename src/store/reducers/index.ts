@@ -1,11 +1,11 @@
 import { combineReducers } from 'redux';
 import { reducer as todoReducer } from './todoReducer';
 import { reducer as alertReducer } from './alertReducer';
-import { ListI } from '../interfaces/listInterface';
 import { AlertI } from '../interfaces/alertinterface';
+import { TodoI } from '../interfaces/todoInterface';
 
 export type Store = {
-  todo: ListI;
+  todo: TodoI;
   alert: AlertI;
 };
 

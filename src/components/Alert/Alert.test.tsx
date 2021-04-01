@@ -17,7 +17,8 @@ const initialState: Store = {
         index: 'test1',
         message: 'error'
       }
-    ]
+    ],
+    delay: 3000
   }
 };
 

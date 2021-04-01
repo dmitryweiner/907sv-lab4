@@ -1,6 +1,6 @@
 import { ItemI } from './itemInterface';
 
-export interface ListI {
+export interface TodoI {
   items: ItemI[];
   filter: string;
   search: string;

@@ -1,4 +1,4 @@
-import { ListI } from '../interfaces/listInterface';
+import { TodoI } from '../interfaces/todoInterface';
 import {
   ACTION_TYPE,
   ADD,
@@ -9,15 +9,20 @@ import {
   REMOVELIST,
   SEARCH
 } from '../actions/todoAction';
-import { selectOptions } from '../../components/SelectFilter/selectOptions';
 
-export const initialState: ListI = {
+export const selectOptions = {
+  All: 'Все',
+  Completed: 'Выполненные',
+  NotCompleted: 'Не выполненные'
+};
+
+export const initialState: TodoI = {
   items: [],
   filter: selectOptions.All,
   search: ''
 };
 
-export function reducer(state: ListI = initialState, action: ACTION_TYPE): ListI {
+export function reducer(state: TodoI = initialState, action: ACTION_TYPE): TodoI {
   switch (action.type) {
     case ADD: {
       return {

@@ -2,14 +2,14 @@ import { ACTION_TYPE, ADD, REMOVE } from '../actions/alertAction';
 import { AlertI } from '../interfaces/alertinterface';
 
 export const initialState: AlertI = {
-  messages: []
+  messages: [],
+  delay: 3000
 };
 
 export function reducer(state: AlertI = initialState, action: ACTION_TYPE): AlertI {
   switch (action.type) {
     case ADD: {
-      console.log(state.messages);
-      return { ...state, messages: [...state.messages, action.payload] };
+      return { ...state, messages: [action.payload, ...state.messages] };
     }
     case REMOVE: {
       return {

@@ -1,10 +1,10 @@
 import React, { ChangeEvent } from 'react';
-import { selectOptions } from './selectOptions';
+import { selectOptions } from '../../store/reducers/todoReducer';
 import { FILTER } from '../../store/actions/todoAction';
 import { useDispatch } from 'react-redux';
 
 function SelectFilter() {
-  const optins = Object.values(selectOptions);
+  const options = Object.values(selectOptions);
   const dispatch = useDispatch();
   function selectHandler(event: ChangeEvent<HTMLSelectElement>) {
     dispatch({
@@ -15,7 +15,7 @@ function SelectFilter() {
 
   return (
     <select data-testid="select" onChange={selectHandler}>
-      {optins.map((option, index) => (
+      {options.map((option, index) => (
         <option key={index} value={option}>
           {option}
         </option>

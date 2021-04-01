@@ -3,7 +3,7 @@ import { fireEvent, screen } from '@testing-library/react';
 import SelectFilter from './SelectFilter';
 import { FILTER } from '../../store/actions/todoAction';
 import { testRender, makeTestStore } from '../../setupTests';
-import { selectOptions } from './selectOptions';
+import { selectOptions } from '../../store/reducers/todoReducer';
 
 const store = makeTestStore({ initialState: { items: [], filter: 'All', search: '' } });
 

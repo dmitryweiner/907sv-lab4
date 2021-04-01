@@ -3,8 +3,16 @@ import { screen } from '@testing-library/react';
 import React from 'react';
 import AlertMessage from './AlertMessage';
 import { AlertMessageI } from '../../store/interfaces/alertMessageInterface';
+import { Store } from '../../store/reducers';
+import { initialState as todoInitialState } from '../../store/reducers/todoReducer';
+import { initialState as alertInitialState } from '../../store/reducers/alertReducer';
 
-const store = makeTestStore();
+const initialState: Store = {
+  todo: todoInitialState,
+  alert: alertInitialState
+};
+
+const store = makeTestStore({ initialState });
 const error: AlertMessageI = {
   index: 'index',
   message: 'error'

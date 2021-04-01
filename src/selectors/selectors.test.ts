@@ -6,7 +6,7 @@ import { getSelectFilteredList } from './getSelectFilteredList';
 import { getSearchFilteredItems } from './getSearchFilteredItems';
 import { getFilteredItemsCount } from './getFilteredItemsCount';
 import { Store } from '../store/reducers';
-import { selectOptions } from '../components/SelectFilter/selectOptions';
+import { selectOptions } from '../store/reducers/todoReducer';
 
 const title = 'item';
 

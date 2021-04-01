@@ -5,7 +5,7 @@ import { testRender, makeTestStore } from '../../setupTests';
 import { Store } from '../../store/reducers';
 import { initialState as alertInitialState } from '../../store/reducers/alertReducer';
 import { ADD } from '../../store/actions/alertAction';
-import { selectOptions } from '../SelectFilter/selectOptions';
+import { selectOptions } from '../../store/reducers/todoReducer';
 
 const initialState: Store = {
   todo: {
