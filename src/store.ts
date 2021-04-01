@@ -92,29 +92,32 @@ export const reducer = function (state = initialState, action: Action): Store {
   }
 };
 
-export function selectByChecked(filtered: SELECTOR_TYPE, list: Item[]): Item[] {
-  if (filtered === SELECTOR_TYPES.DONE) {
-    return list.filter(element => element.isChecked);
+export function selectByChecked(state: Store): Store {
+  if (state.filtered === SELECTOR_TYPES.DONE) {
+    return { ...state, list: [...state.list.filter(element => element.isChecked)] };
   }
-  if (filtered === SELECTOR_TYPES.NOT_DONE) {
-    return list.filter(element => !element.isChecked);
+  if (state.filtered === SELECTOR_TYPES.NOT_DONE) {
+    return { ...state, list: [...state.list.filter(element => !element.isChecked)] };
   }
-  return list;
+  return state;
 }
 
-export function selectBySearchBar(searchBar: string, list: Item[]): Item[] {
-  if (searchBar !== '') {
-    return list.filter(
-      element => element.title.toUpperCase().indexOf(searchBar.toUpperCase()) !== -1
-    );
+export function selectBySearchBar(state: Store): Store {
+  if (state.searchBar !== '') {
+    return {
+      ...state,
+      list: [
+        ...state.list.filter(
+          element => element.title.toUpperCase().indexOf(state.searchBar.toUpperCase()) !== -1
+        )
+      ]
+    };
   }
-  return list;
+  return state;
 }
 
-export function selectFilteredList(state: Store): Item[] {
-  let itemList = selectByChecked(state.filtered, state.list);
-  itemList = selectBySearchBar(state.searchBar, itemList);
-  return itemList;
+export function selectFilteredList(state: Store): Store {
+  return selectBySearchBar(selectByChecked(state));
 }
 
 export const store = createStore(reducer);
