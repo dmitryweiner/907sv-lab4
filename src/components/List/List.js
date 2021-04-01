@@ -1,10 +1,11 @@
 import React from 'react';
 import ListItem from '../ListItem/ListItem';
 
-function List({ list, deleteHandler, checkHandler, moveUpHandler, moveDownHandler }) {
+function List({ list, dispatch }) {
   if (list.length === 0) {
     return <div className="emptyList">There are no elements yet (￣︿￣)</div>;
   }
+
   return (
     <div className="listWrapper">
       <ul>
@@ -14,10 +15,7 @@ function List({ list, deleteHandler, checkHandler, moveUpHandler, moveDownHandle
             key={item.id}
             isChecked={item.isChecked}
             title={item.title}
-            deleteHandler={deleteHandler}
-            checkHandler={checkHandler}
-            moveUpHandler={moveUpHandler}
-            moveDownHandler={moveDownHandler}
+            dispatch={dispatch}
           />
         ))}
       </ul>

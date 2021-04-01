@@ -1,15 +1,17 @@
 import React from 'react';
+import { ACTION_TYPES } from '../Store';
 
-function Form({ addHandler = () => {}, isFilterDone = false, filterHandler = () => {} }) {
+function Form({ dispatch, isFilterDone = false, filterHandler = () => {} }) {
   const [inputValue, setInputValue] = React.useState('');
   const [errorMessage, setErrorMessage] = React.useState('');
+
   function emptinessCheck() {
     if (inputValue === '') {
       setErrorMessage('Enter something first (￢_￢;)');
     } else {
       setErrorMessage('');
       setInputValue('');
-      return addHandler(inputValue);
+      return dispatch({ type: ACTION_TYPES.ADD, payload: inputValue });
     }
   }
 
@@ -38,5 +40,4 @@ function Form({ addHandler = () => {}, isFilterDone = false, filterHandler = () 
     </div>
   );
 }
-
 export default Form;

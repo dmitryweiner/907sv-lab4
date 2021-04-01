@@ -1,14 +1,7 @@
 import React from 'react';
+import { ACTION_TYPES } from '../Store';
 
-function ListItem({
-  title,
-  id,
-  isChecked,
-  deleteHandler,
-  checkHandler,
-  moveUpHandler,
-  moveDownHandler
-}) {
+function ListItem({ title, id, isChecked, dispatch }) {
   return (
     <div className="listItem">
       <div className="listItemInformation">
@@ -16,24 +9,32 @@ function ListItem({
           type="checkbox"
           data-testid="checkbox"
           checked={isChecked}
-          onChange={e => checkHandler(id, e.target.checked)}
+          onChange={() => dispatch({ type: ACTION_TYPES.CHECK, payload: id })}
         />
         {title}
       </div>
       <div className="listItemButtons">
         <div className="moveButtons">
-          <button id="moveUpButton" data-testid="moveUpButton" onClick={() => moveUpHandler(id)}>
+          <button
+            id="moveUpButton"
+            data-testid="moveUpButton"
+            onClick={() => dispatch({ type: ACTION_TYPES.MOVE_UP, payload: id })}
+          >
             ^
           </button>
           <button
             id="moveDownButton"
             data-testid="moveDownButton"
-            onClick={() => moveDownHandler(id)}
+            onClick={() => dispatch({ type: ACTION_TYPES.MOVE_DOWN, payload: id })}
           >
             ˅
           </button>
         </div>
-        <button id="delete-button" data-testid="delete-button" onClick={() => deleteHandler(id)}>
+        <button
+          id="delete-button"
+          data-testid="delete-button"
+          onClick={() => dispatch({ type: ACTION_TYPES.DELETE, payload: id })}
+        >
           ✗
         </button>
       </div>

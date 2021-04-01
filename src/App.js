@@ -2,18 +2,16 @@ import React from 'react';
 import './App.css';
 import Form from './components/Form/Form';
 import List from './components/List/List';
-import {
-  getFilteredList,
-  moveUpHandler,
-  moveDownHandler,
-  addHandler,
-  deleteHandler,
-  checkHandler
-} from './components/Store';
+import { reducer, getFilteredList } from './components/Store';
 
 function App() {
   const [list, setList] = React.useState([]);
   const [isFilterDone, setIsFilterDone] = React.useState(false);
+
+  function dispatch(action) {
+    setList(reducer(action, list));
+  }
+
   return (
     <div className="body">
       <div className="appWrapper">
@@ -21,20 +19,13 @@ function App() {
           <h1>ᕕ( ᐛ )ᕗ To do:</h1>
         </div>
         <Form
-          addHandler={value => setList(addHandler(list, value))}
+          dispatch={dispatch}
           isFilterDone={isFilterDone}
           filterHandler={() => setIsFilterDone(!isFilterDone)}
         />
-        <List
-          list={getFilteredList(list, isFilterDone)}
-          deleteHandler={id => setList(deleteHandler(list, id))}
-          checkHandler={id => setList(checkHandler(list, id))}
-          moveUpHandler={id => setList(moveUpHandler(list, id))}
-          moveDownHandler={id => setList(moveDownHandler(list, id))}
-        />
+        <List list={getFilteredList(list, isFilterDone)} dispatch={dispatch} />
       </div>
     </div>
   );
 }
-
 export default App;
