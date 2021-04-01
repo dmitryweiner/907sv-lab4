@@ -1,52 +1,37 @@
 import React from 'react';
 import './App.css';
+import Form from './components/Form/Form';
+import List from './components/List/List';
+import {
+  getFilteredList,
+  moveUpHandler,
+  moveDownHandler,
+  addHandler,
+  deleteHandler,
+  checkHandler
+} from './components/Store';
 
 function App() {
+  const [list, setList] = React.useState([]);
+  const [isFilterDone, setIsFilterDone] = React.useState(false);
   return (
-    <div className="wrapper">
-      <div>
-        <h1>Список дел</h1>
-        <h2>Лабораторная №4. Осваиваем Redux</h2>
-      </div>
-      <div>
-        <input type="text" />
-        <button>Добавить</button>
-        <div>
-          Фильтр:
-          <input />
-          <select>
-            <option>Все</option>
-            <option>Выполненные</option>
-            <option>Невыполненные</option>
-          </select>
+    <div className="body">
+      <div className="appWrapper">
+        <div className="name">
+          <h1>ᕕ( ᐛ )ᕗ To do:</h1>
         </div>
-        <ul>
-          <li>
-            <input type="checkbox" checked />
-            Завести рыб
-            <button>[x]</button>
-          </li>
-          <li>
-            <input type="checkbox" checked />
-            Поиграть в шахматы под водой
-            <button>[x]</button>
-          </li>
-          <li>
-            <input type="checkbox" />
-            Покормить рыб
-            <button>[x]</button>
-          </li>
-          <li>
-            <input type="checkbox" />
-            Выгулять картошку
-            <button>[x]</button>
-          </li>
-          <li>
-            <input type="checkbox" />
-            Полить кошку
-            <button>[x]</button>
-          </li>
-        </ul>
+        <Form
+          addHandler={value => setList(addHandler(list, value))}
+          isFilterDone={isFilterDone}
+          filterHandler={() => setIsFilterDone(!isFilterDone)}
+        />
+        <List
+          list={getFilteredList(list, isFilterDone)}
+          deleteHandler={id => setList(deleteHandler(list, id))}
+          checkHandler={id => setList(checkHandler(list, id))}
+          moveUpHandler={id => setList(moveUpHandler(list, id))}
+          moveDownHandler={id => setList(moveDownHandler(list, id))}
+        />
       </div>
     </div>
   );
