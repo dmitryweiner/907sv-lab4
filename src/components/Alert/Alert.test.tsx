@@ -2,19 +2,23 @@ import { makeTestStore, testRender } from '../../setupTests';
 import Alert from '../Alert/Alert';
 import { screen } from '@testing-library/react';
 import React from 'react';
-import { AlertI } from '../../store/interfaces/alertinterface';
+import { Store } from '../../store/reducers';
+import { initialState as todoInitialState } from '../../store/reducers/todoReducer';
 
-const initialState: AlertI = {
-  messages: [
-    {
-      index: 'test',
-      message: 'error'
-    },
-    {
-      index: 'test1',
-      message: 'error'
-    }
-  ]
+const initialState: Store = {
+  todo: todoInitialState,
+  alert: {
+    messages: [
+      {
+        index: 'test',
+        message: 'error'
+      },
+      {
+        index: 'test1',
+        message: 'error'
+      }
+    ]
+  }
 };
 
 const store = makeTestStore({ initialState });

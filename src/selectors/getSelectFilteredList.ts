@@ -1,19 +1,22 @@
 import { createSelector } from 'reselect';
 import { getSearchFilteredItems } from './getSearchFilteredItems';
 import { Store } from '../store/reducers';
+import { selectOptions } from '../components/SelectFilter/selectOptions';
+
+const getSelectFilter = (state: Store) => state.todo.filter;
 
 export const getSelectFilteredList = createSelector(
   getSearchFilteredItems,
-  (state: Store) => state.todo.filter,
+  getSelectFilter,
   (items, filter) => {
     switch (filter) {
-      case 'All': {
+      case selectOptions.All: {
         return items;
       }
-      case 'Completed': {
+      case selectOptions.Completed: {
         return items.filter(element => element.isChecked);
       }
-      case 'NotCompleted': {
+      case selectOptions.NotCompleted: {
         return items.filter(element => !element.isChecked);
       }
       default: {

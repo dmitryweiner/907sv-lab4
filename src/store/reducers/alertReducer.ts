@@ -18,7 +18,7 @@ export function reducer(state: AlertI = initialState, action: ACTION_TYPE): Aler
       };
     }
     default: {
-      return { ...state };
+      return state;
     }
   }
 }

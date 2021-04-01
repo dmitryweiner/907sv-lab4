@@ -3,8 +3,16 @@ import { fireEvent, screen } from '@testing-library/react';
 import Search from './Search';
 import { SEARCH } from '../../store/actions/todoAction';
 import { makeTestStore, testRender } from '../../setupTests';
+import { Store } from '../../store/reducers';
+import { initialState as todoInitialState } from '../../store/reducers/todoReducer';
+import { initialState as alertInitialState } from '../../store/reducers/alertReducer';
 
-const store = makeTestStore();
+const initialState: Store = {
+  todo: todoInitialState,
+  alert: alertInitialState
+};
+
+const store = makeTestStore({ initialState });
 
 test('render search component', () => {
   testRender(<Search />, { store });

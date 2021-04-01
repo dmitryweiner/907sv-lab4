@@ -9,10 +9,11 @@ import {
   REMOVELIST,
   SEARCH
 } from '../actions/todoAction';
+import { selectOptions } from '../../components/SelectFilter/selectOptions';
 
 export const initialState: ListI = {
   items: [],
-  filter: 'All',
+  filter: selectOptions.All,
   search: ''
 };
 

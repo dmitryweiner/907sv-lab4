@@ -2,9 +2,13 @@ import { makeTestStore, testRender } from '../../setupTests';
 import { screen } from '@testing-library/react';
 import React from 'react';
 import AlertMessage from './AlertMessage';
+import { AlertMessageI } from '../../store/interfaces/alertMessageInterface';
 
 const store = makeTestStore();
-const error = 'error';
+const error: AlertMessageI = {
+  index: 'index',
+  message: 'error'
+};
 
 test('render alert message', () => {
   testRender(<AlertMessage error={error} />, { store });

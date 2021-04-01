@@ -3,6 +3,7 @@ import { fireEvent, screen } from '@testing-library/react';
 import SelectFilter from './SelectFilter';
 import { FILTER } from '../../store/actions/todoAction';
 import { testRender, makeTestStore } from '../../setupTests';
+import { selectOptions } from './selectOptions';
 
 const store = makeTestStore({ initialState: { items: [], filter: 'All', search: '' } });
 
@@ -15,21 +16,21 @@ test('click select options', () => {
   testRender(<SelectFilter />, { store });
   const select = screen.getByTestId('select');
 
-  fireEvent.change(select, { target: { value: 'All' } });
+  fireEvent.change(select, { target: { value: selectOptions.All } });
   expect(store.dispatch).toBeCalledWith({
     type: FILTER,
-    payload: 'All'
+    payload: selectOptions.All
   });
 
-  fireEvent.change(select, { target: { value: 'Completed' } });
+  fireEvent.change(select, { target: { value: selectOptions.Completed } });
   expect(store.dispatch).toBeCalledWith({
     type: FILTER,
-    payload: 'Completed'
+    payload: selectOptions.Completed
   });
 
-  fireEvent.change(select, { target: { value: 'NotCompleted' } });
+  fireEvent.change(select, { target: { value: selectOptions.NotCompleted } });
   expect(store.dispatch).toBeCalledWith({
     type: FILTER,
-    payload: 'NotCompleted'
+    payload: selectOptions.NotCompleted
   });
 });
