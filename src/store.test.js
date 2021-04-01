@@ -42,7 +42,7 @@ test('При вызове редьюсера с экшеном add возвра�
     type: ACTION_TYPES.ADD,
     payload: field
   };
-  const result = reducer(add, initialState);
+  const result = reducer(initialState, add);
   expect(result.list).toHaveLength(1);
   expect(result.list[0].title).toEqual(field);
 });
@@ -53,7 +53,7 @@ test('При вызове редьюсера с экшеном delete возвр
     type: ACTION_TYPES.REMOVE,
     payload: id
   };
-  const result = reducer(remove, state);
+  const result = reducer(state, remove);
   expect(result.list.length).toEqual(2);
   for (let i = 0; i < result.list.length; i++) {
     expect(result.list[i].id).not.toBe(state.list[1].id);
@@ -67,7 +67,7 @@ test('При вызове редьюсера с экшеном check возвр�
     type: ACTION_TYPES.CHECK,
     payload: id
   };
-  const result = reducer(check, state);
+  const result = reducer(state, check);
   expect(result.list[0].isChecked).toEqual(true);
 });
 
@@ -76,7 +76,7 @@ test('При вызове редьюсера с экшеном filter возвр
     type: ACTION_TYPES.FILTER,
     payload: SELECTOR_TYPES.DONE
   };
-  const result = reducer(filter, state);
+  const result = reducer(state, filter);
   expect(result.filtered).toEqual(SELECTOR_TYPES.DONE);
 });
 
@@ -86,7 +86,7 @@ test('При вызове редьюсера с экшеном search возвр
     type: ACTION_TYPES.SEARCH,
     payload: stringForSearch
   };
-  const result = reducer(search, state);
+  const result = reducer(state, search);
   expect(result.searchBar).toEqual(stringForSearch);
 });
 

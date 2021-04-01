@@ -1,3 +1,5 @@
+import { createStore } from 'redux';
+
 export enum ACTION_TYPES {
   ADD = 'add',
   REMOVE = 'remove',
@@ -17,27 +19,27 @@ export type SELECTOR_TYPE =
   | SELECTOR_TYPES.DONE
   | SELECTOR_TYPES.NOT_DONE;
 
-export interface IActionAdd {
+export interface ActionAdd {
   type: typeof ACTION_TYPES.ADD;
   payload: string;
 }
 
-export interface IActionRemove {
+export interface ActionRemove {
   type: typeof ACTION_TYPES.REMOVE;
   payload: string;
 }
 
-export interface IActionCheck {
+export interface ActionCheck {
   type: typeof ACTION_TYPES.CHECK;
   payload: string;
 }
 
-export interface IActionFilter {
+export interface ActionFilter {
   type: typeof ACTION_TYPES.FILTER;
   payload: SELECTOR_TYPE;
 }
 
-export interface IActionSearch {
+export interface ActionSearch {
   type: typeof ACTION_TYPES.SEARCH;
   payload: string;
 }
@@ -48,20 +50,20 @@ export interface Item {
   isChecked: boolean;
 }
 
-export type IAction = IActionAdd | IActionRemove | IActionCheck | IActionFilter | IActionSearch;
+export type Action = ActionAdd | ActionRemove | ActionCheck | ActionFilter | ActionSearch;
 
-export type State = { list: Item[]; filtered: SELECTOR_TYPE; searchBar: string };
+export type Store = { list: Item[]; filtered: SELECTOR_TYPE; searchBar: string };
 
-export const initialState: State = {
+export const initialState: Store = {
   list: [],
   filtered: SELECTOR_TYPES.ALL,
   searchBar: ''
 };
 
-export const reducer = function (action: IAction, state = initialState): State {
+export const reducer = function (store = initialState, action: Action): Store {
   switch (action.type) {
     case ACTION_TYPES.REMOVE: {
-      return { ...state, list: [...state.list.filter(Item => Item.id !== action.payload)] };
+      return { ...store, list: [...store.list.filter(Item => Item.id !== action.payload)] };
     }
     case ACTION_TYPES.ADD: {
       const newTask = {
@@ -69,24 +71,24 @@ export const reducer = function (action: IAction, state = initialState): State {
         title: action.payload,
         isChecked: false
       };
-      return { ...state, list: [...state.list, newTask] };
+      return { ...store, list: [...store.list, newTask] };
     }
     case ACTION_TYPES.CHECK: {
-      for (let i = 0; i < state.list.length; i++) {
-        if (state.list[i].id === action.payload) {
-          state.list[i].isChecked = !state.list[i].isChecked;
+      for (let i = 0; i < store.list.length; i++) {
+        if (store.list[i].id === action.payload) {
+          store.list[i].isChecked = !store.list[i].isChecked;
         }
       }
-      return { ...state, list: [...state.list] };
+      return { ...store, list: [...store.list] };
     }
     case ACTION_TYPES.FILTER: {
-      return { ...state, filtered: action.payload };
+      return { ...store, filtered: action.payload };
     }
     case ACTION_TYPES.SEARCH: {
-      return { ...state, searchBar: action.payload };
+      return { ...store, searchBar: action.payload };
     }
     default:
-      return state;
+      return store;
   }
 };
 
@@ -109,8 +111,10 @@ export function selectBySearchBar(searchBar: string, list: Item[]): Item[] {
   return list;
 }
 
-export function selectFilteredList(state: State): Item[] {
-  let itemList = selectByChecked(state.filtered, state.list);
-  itemList = selectBySearchBar(state.searchBar, itemList);
+export function selectFilteredList(store: Store): Item[] {
+  let itemList = selectByChecked(store.filtered, store.list);
+  itemList = selectBySearchBar(store.searchBar, itemList);
   return itemList;
 }
+
+export const store = createStore(reducer);

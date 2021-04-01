@@ -1,12 +1,12 @@
 import React from 'react';
 import './ListItem.css';
-import { ACTION_TYPES, IAction } from '../../store';
+import { ACTION_TYPES, Action } from '../../store';
 
 type ListItemProps = {
   title: string;
   id: string;
   isChecked: boolean;
-  dispatch: (action: IAction) => void;
+  dispatch: (action: Action) => void;
 };
 
 export default function ListItem({ title, id, isChecked, dispatch }: ListItemProps) {

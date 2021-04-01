@@ -1,9 +1,9 @@
 import React, { FormEvent, useState } from 'react';
 import './Form.css';
-import { ACTION_TYPES, IAction } from '../../store';
+import { ACTION_TYPES, Action } from '../../store';
 
 type FormProps = {
-  dispatch: (action: IAction) => void;
+  dispatch: (action: Action) => void;
 };
 
 export default function Form({ dispatch }: FormProps) {

@@ -1,10 +1,10 @@
 import React from 'react';
 import ListItem from '../ListItem/ListItem';
-import { IAction, Item } from '../../store';
+import { Action, Item } from '../../store';
 
 type ListProps = {
   list: Item[];
-  dispatch: (action: IAction) => void;
+  dispatch: (action: Action) => void;
 };
 
 export default function List({ list, dispatch }: ListProps) {

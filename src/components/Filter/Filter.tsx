@@ -1,9 +1,9 @@
 import React from 'react';
-import { ACTION_TYPES, IAction, SELECTOR_TYPES, State } from '../../store';
+import { ACTION_TYPES, Action, SELECTOR_TYPES, Store } from '../../store';
 
 type FilterProps = {
-  dispatch: (action: IAction) => void;
-  state: State;
+  dispatch: (action: Action) => void;
+  state: Store;
 };
 
 export default function Filter({ dispatch, state }: FilterProps) {

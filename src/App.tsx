@@ -4,13 +4,13 @@ import './App.css';
 import List from './components/List/List';
 import Form from './components/Form/Form';
 import Filter from './components/Filter/Filter';
-import { IAction, initialState, reducer, selectFilteredList } from './store';
+import { Action, initialState, reducer, selectFilteredList } from './store';
 
 function App() {
   const [state, setState] = useState(initialState);
 
-  function dispatch(action: IAction) {
-    setState(reducer(action, state));
+  function dispatch(action: Action) {
+    setState(reducer(state, action));
   }
 
   return (
