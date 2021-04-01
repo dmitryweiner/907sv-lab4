@@ -1,18 +1,10 @@
 import React from 'react';
-import { useState } from 'react';
 import './App.css';
 import List from './components/List/List';
 import Form from './components/Form/Form';
 import Filter from './components/Filter/Filter';
-import { Action, initialState, reducer, selectFilteredList } from './store';
 
 function App() {
-  const [state, setState] = useState(initialState);
-
-  function dispatch(action: Action) {
-    setState(reducer(state, action));
-  }
-
   return (
     <div className="wrapper">
       <div>
@@ -20,11 +12,11 @@ function App() {
         <h2>Лабораторная №3. Список с чекбоксами</h2>
       </div>
       <div>
-        <Form dispatch={dispatch} />
+        <Form />
         <div>
-          <Filter dispatch={dispatch} state={state} />
+          <Filter />
         </div>
-        <List list={selectFilteredList(state)} dispatch={dispatch} />
+        <List />
       </div>
     </div>
   );

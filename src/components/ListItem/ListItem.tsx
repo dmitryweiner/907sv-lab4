@@ -1,15 +1,16 @@
 import React from 'react';
 import './ListItem.css';
-import { ACTION_TYPES, Action } from '../../store';
+import { ACTION_TYPES } from '../../store';
+import { useDispatch } from 'react-redux';
 
 type ListItemProps = {
   title: string;
   id: string;
   isChecked: boolean;
-  dispatch: (action: Action) => void;
 };
 
-export default function ListItem({ title, id, isChecked, dispatch }: ListItemProps) {
+export default function ListItem({ title, id, isChecked }: ListItemProps) {
+  const dispatch = useDispatch();
   return (
     <>
       <div>

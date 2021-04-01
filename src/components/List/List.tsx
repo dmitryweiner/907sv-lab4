@@ -1,13 +1,10 @@
 import React from 'react';
+import { useSelector } from 'react-redux';
 import ListItem from '../ListItem/ListItem';
-import { Action, Item } from '../../store';
+import { selectFilteredList } from '../../store';
 
-type ListProps = {
-  list: Item[];
-  dispatch: (action: Action) => void;
-};
-
-export default function List({ list, dispatch }: ListProps) {
+export default function List() {
+  const list = useSelector(selectFilteredList);
   function renderList() {
     if (!list.length) {
       return 'Нет дел в списке';
@@ -15,13 +12,7 @@ export default function List({ list, dispatch }: ListProps) {
     return (
       <>
         {list.map(item => (
-          <ListItem
-            key={item.id}
-            title={item.title}
-            id={item.id}
-            isChecked={item.isChecked}
-            dispatch={dispatch}
-          />
+          <ListItem key={item.id} title={item.title} id={item.id} isChecked={item.isChecked} />
         ))}
       </>
     );

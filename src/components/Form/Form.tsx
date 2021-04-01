@@ -1,14 +1,12 @@
 import React, { FormEvent, useState } from 'react';
 import './Form.css';
-import { ACTION_TYPES, Action } from '../../store';
+import { ACTION_TYPES } from '../../store';
+import { useDispatch } from 'react-redux';
 
-type FormProps = {
-  dispatch: (action: Action) => void;
-};
-
-export default function Form({ dispatch }: FormProps) {
+export default function Form() {
   const [field, setField] = useState('');
   const [errorMessage, setErrorMessage] = useState('');
+  const dispatch = useDispatch();
 
   function handleSubmitInner(e: FormEvent) {
     e.preventDefault();
