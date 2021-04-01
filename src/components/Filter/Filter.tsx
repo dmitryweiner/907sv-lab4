@@ -1,5 +1,5 @@
 import React from 'react';
-import { ACTION_TYPES, SELECTOR_TYPES, Store } from '../../store';
+import { SELECTOR_TYPES, Store, search, filter } from '../../store';
 import { useDispatch, useSelector } from 'react-redux';
 
 export default function Filter() {
@@ -15,11 +15,11 @@ export default function Filter() {
             type="text"
             data-testid="search-bar"
             value={searchBar}
-            onChange={e => dispatch({ type: ACTION_TYPES.SEARCH, payload: e.target.value })}
+            onChange={e => dispatch(search(e.target.value))}
           />
         </label>
         {options.map(item => (
-          <a key={item} onClick={() => dispatch({ type: ACTION_TYPES.FILTER, payload: item })}>
+          <a key={item} onClick={() => dispatch(filter(item))}>
             {item}{' '}
           </a>
         ))}

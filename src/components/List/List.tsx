@@ -4,14 +4,14 @@ import ListItem from '../ListItem/ListItem';
 import { selectFilteredList } from '../../store';
 
 export default function List() {
-  const list = useSelector(selectFilteredList);
+  const listState = useSelector(selectFilteredList);
   function renderList() {
-    if (!list.length) {
+    if (!listState.list.length) {
       return 'Нет дел в списке';
     }
     return (
       <>
-        {list.map(item => (
+        {listState.list.map(item => (
           <ListItem key={item.id} title={item.title} id={item.id} isChecked={item.isChecked} />
         ))}
       </>
