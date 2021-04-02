@@ -1,48 +1,57 @@
 import React from 'react';
-import { render, screen, fireEvent } from '@testing-library/react';
+import { screen, fireEvent } from '@testing-library/react';
 import ListItem from './ListItem';
-import { ACTION_TYPES } from '../../store';
+import { SELECTOR_TYPES, remove, check } from '../../store';
+import { makeTestStore, testRender } from '../../setupTests';
 
 const task = 'Принять таблетки';
-const id = 1;
-const dispatch = jest.fn();
+const id = '1';
 const checked = false;
 
+const initialState = {
+  list: [
+    {
+      id: id,
+      title: task,
+      isChecked: checked
+    }
+  ],
+  filtered: SELECTOR_TYPES.ALL,
+  searchBar: ''
+};
+
+const store = makeTestStore({ initialState });
+
 test('Отображает на экране то, что передали в пропсе title', () => {
-  render(<ListItem title={task} id={id} isChecked={checked} dispatch={dispatch} />);
+  testRender(<ListItem title={task} id={id} isChecked={checked} />, { store });
   const element = screen.getByTestId('task');
   expect(element).toBeInTheDocument();
   expect(element).toHaveTextContent(task);
   screen.getByText(content => content.startsWith('таблетки', 8));
 });
 
-test('При нажатии на кнопку должен вызываться переданный в пропсах коллбэк dispatch с параметром id', () => {
-  render(<ListItem title={task} id={id} isChecked={checked} dispatch={dispatch} />);
+test('При нажатии на кнопку должен вызываться store.dispatch с параметром id', () => {
+  testRender(<ListItem title={task} id={id} isChecked={checked} />, { store });
   const button = screen.getByTestId('delete-button');
   expect(button).toBeInTheDocument();
-  expect(dispatch).not.toBeCalled();
+  expect(store.dispatch).not.toBeCalled();
   fireEvent.click(button);
-  expect(dispatch).toBeCalledWith({ payload: id, type: ACTION_TYPES.REMOVE });
+  expect(store.dispatch).toBeCalledWith(remove(id));
 });
 
-test('Должен показывать на экране чекбокс', () => {
-  render(<ListItem title={task} id={id} isChecked={checked} dispatch={dispatch} />);
+test('Должен показывать на экране чекбокс, состояние которого зависит от переданного пропса checked', () => {
+  testRender(<ListItem title={task} id={id} isChecked={checked} />, { store });
   const checkbox = screen.getByTestId('checkbox');
   expect(checkbox).toBeInTheDocument();
   expect(checkbox).toBeVisible();
-});
-
-test('Состояние чекбокса зависит от переданного пропса checked.', () => {
-  render(<ListItem title={task} id={id} isChecked={checked} dispatch={dispatch} />);
-  const checkbox = screen.getByTestId('checkbox');
   expect(checkbox.checked).toEqual(checked);
 });
 
-test('При клике на чекбокс должен вызываться коллбэк dispatch с параметром id', () => {
-  render(<ListItem title={task} id={id} isChecked={checked} dispatch={dispatch} />);
+test('При клике на чекбокс должен вызываться store.dispatch с параметром id', () => {
+  testRender(<ListItem title={task} id={id} isChecked={checked} />, { store });
   const checkbox = screen.getByTestId('checkbox');
   expect(checkbox).toBeInTheDocument();
-  expect(dispatch).not.toBeCalled();
+  expect(store.dispatch).not.toBeCalled();
   fireEvent.click(checkbox);
-  expect(dispatch).toBeCalledWith({ payload: id, type: ACTION_TYPES.CHECK });
+  expect(store.dispatch).toBeCalledWith(check(id));
 });

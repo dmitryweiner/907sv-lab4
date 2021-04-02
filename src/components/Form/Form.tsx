@@ -1,6 +1,6 @@
 import React, { FormEvent, useState } from 'react';
 import './Form.css';
-import { ACTION_TYPES } from '../../store';
+import { add } from '../../store';
 import { useDispatch } from 'react-redux';
 
 export default function Form() {
@@ -11,7 +11,7 @@ export default function Form() {
   function handleSubmitInner(e: FormEvent) {
     e.preventDefault();
     if (field !== '') {
-      dispatch({ type: ACTION_TYPES.ADD, payload: field });
+      dispatch(add(field));
       setField('');
       setErrorMessage('');
     } else {

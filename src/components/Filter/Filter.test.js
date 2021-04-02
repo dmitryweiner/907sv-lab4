@@ -1,7 +1,7 @@
 import React from 'react';
 import { fireEvent, screen } from '@testing-library/react';
 import Filter from './Filter';
-import { ACTION_TYPES, initialState, SELECTOR_TYPES } from '../../store';
+import { SELECTOR_TYPES, initialState, search, filter } from '../../store';
 import { makeTestStore, testRender } from '../../setupTests';
 
 const store = makeTestStore({ initialState });
@@ -13,7 +13,7 @@ test('Отображает поле ввода, при вводе в котор�
   expect(searchbar).toBeInTheDocument();
   expect(store.dispatch).not.toBeCalled();
   fireEvent.input(searchbar, { target: { value: field } });
-  expect(store.dispatch).toBeCalledWith({ type: ACTION_TYPES.SEARCH, payload: field });
+  expect(store.dispatch).toBeCalledWith(search(field));
 });
 
 test('Фильтр отображает варианты фильтрации', () => {
@@ -24,16 +24,10 @@ test('Фильтр отображает варианты фильтрации', 
   }
 });
 
-test('При выборе варианта фильтрации вызывается dispatch с экшеном filter', () => {
+test('При выборе варианта фильтрации вызывается store.dispatch с экшеном filter', () => {
   testRender(<Filter />, { store });
   const done = screen.getByText(SELECTOR_TYPES.DONE);
-  expect(store.dispatch).not.toBeCalledWith({
-    type: ACTION_TYPES.FILTER,
-    payload: SELECTOR_TYPES.DONE
-  });
+  expect(store.dispatch).not.toBeCalledWith(filter(SELECTOR_TYPES.DONE));
   fireEvent.click(done);
-  expect(store.dispatch).toBeCalledWith({
-    type: ACTION_TYPES.FILTER,
-    payload: SELECTOR_TYPES.DONE
-  });
+  expect(store.dispatch).toBeCalledWith(filter(SELECTOR_TYPES.DONE));
 });

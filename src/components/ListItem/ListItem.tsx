@@ -1,6 +1,6 @@
 import React from 'react';
 import './ListItem.css';
-import { ACTION_TYPES } from '../../store';
+import { check, remove } from '../../store';
 import { useDispatch } from 'react-redux';
 
 type ListItemProps = {
@@ -18,15 +18,12 @@ export default function ListItem({ title, id, isChecked }: ListItemProps) {
           type="checkbox"
           checked={isChecked}
           data-testid="checkbox"
-          onChange={() => dispatch({ type: ACTION_TYPES.CHECK, payload: id })}
+          onChange={() => dispatch(check(id))}
         />
         <div className="task" data-testid="task">
           {title}
         </div>
-        <button
-          data-testid="delete-button"
-          onClick={() => dispatch({ type: ACTION_TYPES.REMOVE, payload: id })}
-        >
+        <button data-testid="delete-button" onClick={() => dispatch(remove(id))}>
           X
         </button>
       </div>
