@@ -5,7 +5,8 @@ import { useDispatch } from 'react-redux';
 
 export default function Form() {
   const [field, setField] = useState('');
-  const [errorMessage, setErrorMessage] = useState('');
+  const [emptyFieldErrorMessage, setEmptyFieldErrorMessage] = useState('');
+  const [existingFieldErrorMessage, setExistingFieldErrorMessage] = useState('');
   const dispatch = useDispatch();
 
   function handleSubmitInner(e: FormEvent) {
@@ -13,9 +14,10 @@ export default function Form() {
     if (field !== '') {
       dispatch(add(field));
       setField('');
-      setErrorMessage('');
+      setEmptyFieldErrorMessage('');
+      setExistingFieldErrorMessage('');
     } else {
-      setErrorMessage('Поле не должно быть пустым!');
+      setEmptyFieldErrorMessage('Поле не должно быть пустым!');
     }
   }
 
@@ -26,7 +28,8 @@ export default function Form() {
         <button data-testid="button" type="submit">
           Добавить
         </button>
-        <div className="errorMessage">{errorMessage}</div>
+        <div className="errorMessage">{emptyFieldErrorMessage}</div>
+        <div className="errorMessage">{existingFieldErrorMessage}</div>
       </form>
     </>
   );
