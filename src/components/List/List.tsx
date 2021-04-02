@@ -1,7 +1,7 @@
 import React from 'react';
 import { useSelector } from 'react-redux';
 import ListItem from '../ListItem/ListItem';
-import { selectFilteredList } from '../../store';
+import { selectFilteredList } from '../../selector';
 
 export default function List() {
   const listState = useSelector(selectFilteredList);
