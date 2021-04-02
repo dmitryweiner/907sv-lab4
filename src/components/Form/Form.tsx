@@ -8,34 +8,28 @@ export default function Form() {
   const [errorMessage, setErrorMessage] = useState('');
   const list = useSelector((state: Store) => state.list);
 
-  function checkValueForUniqueness() {
-    let isUnique = true;
-
-    list.map(item => {
-      if (item.title === value) isUnique = false;
-    });
-
-    return isUnique;
+  function checkValueForExistence() {
+    return list.some((item) => item.title === value);
   }
 
   function innerSubmit(e: FormEvent) {
     e.preventDefault();
 
     if (value === '') {
-      setErrorMessage('Введите текст, пожалуйста');
-    } else {
-      if (checkValueForUniqueness()) {
-        dispatch({
-          type: ACTION_TYPES.ADD,
-          payload: value
-        });
-
-        setErrorMessage('');
-        setValue('');
-      } else {
-        setErrorMessage('Задача уже имеется');
-      }
+      return setErrorMessage('Введите текст, пожалуйста');
     }
+
+    if (checkValueForExistence()) {
+      return setErrorMessage('Задача уже имеется');
+    }
+
+    dispatch({
+      type: ACTION_TYPES.ADD,
+      payload: value
+    });
+
+    setErrorMessage('');
+    setValue('');
   }
 
   function handleChange(e: ChangeEvent<HTMLInputElement>) {
@@ -43,8 +37,21 @@ export default function Form() {
     setValue(newValue);
   }
 
-  async function testFetchHandler(e: FormEvent<HTMLButtonElement>) {
-    const response = await fetch('http://localhost:3001');
+  async function fetchPOSTHandler() {
+    let data = { title: 'Камушек' };
+    const url = 'http://localhost:3001/todos';
+    const response = await fetch(url, {
+      method: 'POST',
+      headers: {"Content-Type": "application/json"},
+      body: JSON.stringify(data)
+    });
+    const json = await response.json();
+    console.log(json);
+  }
+
+  async function fetchGETHandler() {
+    const url = 'http://localhost:3001/todos';
+    const response = await fetch(url);
     const json = await response.json();
     console.log(json);
   }
@@ -62,7 +69,8 @@ export default function Form() {
       </div>
     </form>
     <div>
-      <button className="fetchBtn" onClick={testFetchHandler}>Fetch</button>
+      <button className="fetchBtn" onClick={fetchPOSTHandler}>PUT</button>
+      <button className="fetchBtn" onClick={fetchGETHandler}>GET</button>
     </div>
     </>
 );

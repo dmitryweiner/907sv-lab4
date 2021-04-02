@@ -44,6 +44,8 @@ button {
     width: 150px;
 
     background-color: #ec4949;
+
+    margin-right: 1%;
 }
 
 .addBtn:hover, .addBtn:active,
