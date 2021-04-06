@@ -10,11 +10,13 @@ export const ACTION_TYPES = {
   CHECKED: 'checked',
   EDIT: 'edit',
   SELECT_BY_FILTER: 'selectByFilter',
-  SELECT_BY_SEARCH_STRING: 'selectBySearchString'
+  SELECT_BY_SEARCH_STRING: 'selectBySearchString',
+  ADD_ALL: 'addAll'
 } as const;
 
 export type ACTION_TYPE =
   | typeof ACTION_TYPES.ADD
+  | typeof ACTION_TYPES.ADD_ALL
   | typeof ACTION_TYPES.EDIT
   | typeof ACTION_TYPES.REMOVE
   | typeof ACTION_TYPES.CHECKED
@@ -23,6 +25,7 @@ export type ACTION_TYPE =
 
 export type IAction =
   | IActionAdd
+  | IActionAddAll
   | IActionRemove
   | IActionChecked
   | IActionEdit
@@ -43,6 +46,11 @@ export type SELECT_FILTER_TYPE =
 export interface IActionAdd {
   type: typeof ACTION_TYPES.ADD;
   payload: string;
+}
+
+export interface IActionAddAll {
+  type: typeof ACTION_TYPES.ADD_ALL;
+  payload: IItem[];
 }
 
 export interface IActionRemove {
@@ -94,6 +102,9 @@ export default function reducer(state: Store = initialState, action: IAction): S
         isChecked: false
       };
       return { ...state, list: [...state.list, newValue] };
+    }
+    case ACTION_TYPES.ADD_ALL: {
+      return { ...state, list: [...action.payload] };
     }
     case ACTION_TYPES.REMOVE: {
       return { ...state, list: [...state.list.filter(item => item.id !== action.payload)] };

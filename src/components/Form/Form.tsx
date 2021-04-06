@@ -9,7 +9,7 @@ export default function Form() {
   const list = useSelector((state: Store) => state.list);
 
   function checkValueForExistence() {
-    return list.some((item) => item.title === value);
+    return list.some(item => item.title === value);
   }
 
   function innerSubmit(e: FormEvent) {
@@ -42,7 +42,7 @@ export default function Form() {
     const url = 'http://localhost:3001/todos';
     const response = await fetch(url, {
       method: 'POST',
-      headers: {"Content-Type": "application/json"},
+      headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(data)
     });
     const json = await response.json();
@@ -58,20 +58,24 @@ export default function Form() {
 
   return (
     <>
-    <form data-testid="form" onSubmit={innerSubmit}>
-      <div className="errorMessage">{errorMessage}</div>
+      <form data-testid="form" onSubmit={innerSubmit}>
+        <div className="errorMessage">{errorMessage}</div>
+        <div>
+          <input data-testid="input" type="text" value={value} onChange={handleChange} />
+          <br />
+          <button data-testid="handleSubmit" type="submit" className="addBtn">
+            Добавить
+          </button>
+        </div>
+      </form>
       <div>
-        <input data-testid="input" type="text" value={value} onChange={handleChange} />
-        <br />
-        <button data-testid="handleSubmit" type="submit" className="addBtn">
-          Добавить
+        <button className="fetchBtn" onClick={fetchPOSTHandler}>
+          PUT
+        </button>
+        <button className="fetchBtn" onClick={fetchGETHandler}>
+          GET
         </button>
       </div>
-    </form>
-    <div>
-      <button className="fetchBtn" onClick={fetchPOSTHandler}>PUT</button>
-      <button className="fetchBtn" onClick={fetchGETHandler}>GET</button>
-    </div>
     </>
-);
+  );
 }

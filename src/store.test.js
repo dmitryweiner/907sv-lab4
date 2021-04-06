@@ -42,6 +42,16 @@ describe('Проверка функционирования store.js', () => {
     expect(newState.list[0].title).toEqual(title);
   });
 
+  test('Проверка добавления всех элементов (ACTION_TYPES.ADD_ALL)', () => {
+    const addAllAction = {
+      type: ACTION_TYPES.ADD_ALL,
+      payload: list
+    };
+
+    const state = reducer(initialState, addAllAction);
+    expect(state.list.length).toEqual(list.length);
+  });
+
   test('Проверка удаления элемента (ACTION_TYPES.REMOVE)', () => {
     const addAction = {
       type: ACTION_TYPES.ADD,
