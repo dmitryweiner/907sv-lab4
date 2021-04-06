@@ -12,7 +12,7 @@ export default function Form() {
     return list.some(item => item.title === value);
   }
 
-  function innerSubmit(e: FormEvent) {
+  async function innerSubmit(e: FormEvent) {
     e.preventDefault();
 
     if (value === '') {
@@ -22,6 +22,16 @@ export default function Form() {
     if (checkValueForExistence()) {
       return setErrorMessage('Задача уже имеется');
     }
+
+    let data = { title: value };
+    const url = 'http://localhost:3001/todos';
+    const response = await fetch(url, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(data)
+    });
+    const json = await response.json();
+    console.log(json);
 
     dispatch({
       type: ACTION_TYPES.ADD,
@@ -37,25 +47,6 @@ export default function Form() {
     setValue(newValue);
   }
 
-  async function fetchPOSTHandler() {
-    let data = { title: 'Камушек' };
-    const url = 'http://localhost:3001/todos';
-    const response = await fetch(url, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(data)
-    });
-    const json = await response.json();
-    console.log(json);
-  }
-
-  async function fetchGETHandler() {
-    const url = 'http://localhost:3001/todos';
-    const response = await fetch(url);
-    const json = await response.json();
-    console.log(json);
-  }
-
   return (
     <>
       <form data-testid="form" onSubmit={innerSubmit}>
@@ -68,14 +59,6 @@ export default function Form() {
           </button>
         </div>
       </form>
-      <div>
-        <button className="fetchBtn" onClick={fetchPOSTHandler}>
-          PUT
-        </button>
-        <button className="fetchBtn" onClick={fetchGETHandler}>
-          GET
-        </button>
-      </div>
     </>
   );
 }

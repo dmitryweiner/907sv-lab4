@@ -4,7 +4,8 @@ import reducer, {
   SELECT_FILTER_TYPES,
   selectByFilter,
   selectBySearchString,
-  selectFilteredList
+  selectFilteredList,
+  selectItemsCount
 } from './store';
 
 const title = 'Покормить цветы';
@@ -183,5 +184,8 @@ describe('Проверка функционирования store.js', () => {
     expect(state.list.length).toEqual(0);
   });
 
-  test('Проверка selectItemsCount', () => {});
+  test('Проверка selectItemsCount', () => {
+    const itemsCount = selectItemsCount(state);
+    expect(itemsCount).toBe(state.list.length);
+  });
 });

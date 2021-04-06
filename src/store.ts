@@ -161,6 +161,6 @@ export function selectFilteredList(state: Store): IItem[] {
   return selectByFilter(selectBySearchString(state.list, state.substring), state.filter);
 }
 
-export function selectItemsCount(state: Store) {
+export function selectItemsCount(state: Store): number {
   return selectFilteredList(state).length;
 }
