@@ -1,7 +1,14 @@
 import React from 'react';
-import { ACTION_TYPES } from '../Store';
+import { Action, ACTION_TYPES } from '../Store';
 
-function ListItem({ title, id, isChecked, dispatch }) {
+type ItemProps = {
+  title: string;
+  id: string;
+  isChecked: boolean;
+  dispatch: (action: Action) => void
+}
+
+function ListItem({ title, id, isChecked, dispatch }: ItemProps) {
   return (
     <div className="listItem">
       <div className="listItemInformation">

@@ -1,7 +1,13 @@
 import React from 'react';
 import ListItem from '../ListItem/ListItem';
+import { Action, Item } from '../Store';
 
-function List({ list, dispatch }) {
+type ListProps = {
+  list: Item[];
+  dispatch: (action: Action) => void
+}
+
+function List({ list, dispatch }: ListProps) {
   if (list.length === 0) {
     return <div className="emptyList">There are no elements yet (￣︿￣)</div>;
   }
