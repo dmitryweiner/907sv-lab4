@@ -4,6 +4,7 @@ import Form from '../components/Form/Form';
 import List from '../components/List/List';
 import Filter from '../components/Filter/Filter';
 import ItemsCounter from '../components/ItemsCounter/ItemsCounter';
+import Alert from '../components/Alert/Alert';
 
 export default function App() {
   return (
@@ -20,6 +21,7 @@ export default function App() {
         <ItemsCounter />
       </div>
       <List />
+      <Alert />
     </div>
   );
 }

@@ -1,3 +1,7 @@
+import thunkMiddleware from 'redux-thunk';
+import { createStore, applyMiddleware } from 'redux';
+import api from './api';
+
 export interface IItem {
   id: string;
   title: string;
@@ -6,13 +10,22 @@ export interface IItem {
 
 export const ACTION_TYPES = {
   ADD: 'add',
+  ADD_ALL: 'addAll',
   REMOVE: 'remove',
   CHECKED: 'checked',
   EDIT: 'edit',
   SELECT_BY_FILTER: 'selectByFilter',
   SELECT_BY_SEARCH_STRING: 'selectBySearchString',
-  ADD_ALL: 'addAll'
+  SET_REQUEST_STATE: 'setRequestState',
+  SET_ERROR: 'setError'
 } as const;
+
+export enum REQUEST_STATE_TYPES {
+  IDLE,
+  LOADING,
+  SUCCESS,
+  ERROR
+}
 
 export type ACTION_TYPE =
   | typeof ACTION_TYPES.ADD
@@ -21,7 +34,9 @@ export type ACTION_TYPE =
   | typeof ACTION_TYPES.REMOVE
   | typeof ACTION_TYPES.CHECKED
   | typeof ACTION_TYPES.SELECT_BY_FILTER
-  | typeof ACTION_TYPES.SELECT_BY_SEARCH_STRING;
+  | typeof ACTION_TYPES.SELECT_BY_SEARCH_STRING
+  | typeof ACTION_TYPES.SET_REQUEST_STATE
+  | typeof ACTION_TYPES.SET_ERROR;
 
 export type IAction =
   | IActionAdd
@@ -30,7 +45,9 @@ export type IAction =
   | IActionChecked
   | IActionEdit
   | IActionSelectByFilter
-  | IActionSelectBySearchString;
+  | IActionSelectBySearchString
+  | IActionSetRequestState
+  | IActionSetError;
 
 export const SELECT_FILTER_TYPES = {
   ALL: 'Все',
@@ -45,7 +62,7 @@ export type SELECT_FILTER_TYPE =
 
 export interface IActionAdd {
   type: typeof ACTION_TYPES.ADD;
-  payload: string;
+  payload: IItem;
 }
 
 export interface IActionAddAll {
@@ -81,27 +98,36 @@ export interface IActionSelectBySearchString {
   payload: string;
 }
 
+export interface IActionSetRequestState {
+  type: typeof ACTION_TYPES.SET_REQUEST_STATE;
+  payload: REQUEST_STATE_TYPES;
+}
+
+export interface IActionSetError {
+  type: typeof ACTION_TYPES.SET_ERROR;
+  payload: string;
+}
+
 export type Store = {
   list: IItem[];
   filter: SELECT_FILTER_TYPE;
   substring: string;
+  requestState: REQUEST_STATE_TYPES;
+  error: string;
 };
 
 export const initialState = {
   list: [],
   filter: SELECT_FILTER_TYPES.ALL,
-  substring: ''
+  substring: '',
+  requestState: REQUEST_STATE_TYPES.IDLE,
+  error: ''
 };
 
-export default function reducer(state: Store = initialState, action: IAction): Store {
+export function reducer(state: Store = initialState, action: IAction): Store {
   switch (action.type) {
     case ACTION_TYPES.ADD: {
-      const newValue = {
-        id: Math.random().toString(36).substr(2),
-        title: action.payload,
-        isChecked: false
-      };
-      return { ...state, list: [...state.list, newValue] };
+      return { ...state, list: [...state.list, action.payload] };
     }
     case ACTION_TYPES.ADD_ALL: {
       return { ...state, list: [...action.payload] };
@@ -141,6 +167,12 @@ export default function reducer(state: Store = initialState, action: IAction): S
     case ACTION_TYPES.SELECT_BY_SEARCH_STRING: {
       return { ...state, substring: action.payload };
     }
+    case ACTION_TYPES.SET_REQUEST_STATE: {
+      return { ...state, requestState: action.payload };
+    }
+    case ACTION_TYPES.SET_ERROR: {
+      return { ...state, error: action.payload };
+    }
     default:
       return state;
   }
@@ -164,3 +196,41 @@ export function selectFilteredList(state: Store): IItem[] {
 export function selectItemsCount(state: Store): number {
   return selectFilteredList(state).length;
 }
+
+const setRequestState = (requestState: REQUEST_STATE_TYPES) => ({
+  type: ACTION_TYPES.SET_REQUEST_STATE,
+  payload: requestState
+});
+
+const setError = (error: string) => ({
+  type: ACTION_TYPES.SET_ERROR,
+  payload: error
+});
+
+export const addItem = (title: string) => async (dispatch: AppDispatch) => {
+  try {
+    dispatch(setRequestState(REQUEST_STATE_TYPES.LOADING));
+    const data = await api.todos.add({ title });
+    dispatch({ type: ACTION_TYPES.ADD, payload: data as IItem });
+    dispatch(setRequestState(REQUEST_STATE_TYPES.SUCCESS));
+  } catch (error) {
+    dispatch(setError(error.message));
+    dispatch(setRequestState(REQUEST_STATE_TYPES.ERROR));
+  }
+};
+
+export const getItems = () => async (dispatch: AppDispatch) => {
+  try {
+    dispatch(setRequestState(REQUEST_STATE_TYPES.LOADING));
+    const data = await api.todos.list();
+    dispatch({ type: ACTION_TYPES.ADD_ALL, payload: data });
+    dispatch(setRequestState(REQUEST_STATE_TYPES.SUCCESS));
+  } catch (error) {
+    dispatch(setError(error.message));
+    dispatch(setRequestState(REQUEST_STATE_TYPES.ERROR));
+  }
+};
+
+const store = createStore(reducer, applyMiddleware(thunkMiddleware));
+type AppDispatch = typeof store.dispatch;
+export default store;

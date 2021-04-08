@@ -3,10 +3,7 @@ import ReactDOM from 'react-dom';
 import './index.css';
 import App from './App/App';
 import { Provider } from 'react-redux';
-import { createStore } from 'redux';
-import reducer from './store';
-
-const store = createStore(reducer);
+import store from './store';
 
 ReactDOM.render(
   <React.StrictMode>
