@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { CHECKED, EDIT, REMOVE } from '../../store/actions/todoAction';
+import { CHECKED, checkedItem, EDIT, REMOVE, removeTodo } from '../../store/actions/todoAction';
 import styles from './style.module.css';
 import { useDispatch } from 'react-redux';
 import { ItemI } from '../../store/interfaces/itemInterface';
@@ -12,17 +12,11 @@ function Item({ item }: ItemProps) {
   const dispatch = useDispatch();
   const [error, setError] = useState<string>('');
   function dispatchChecked() {
-    dispatch({
-      type: CHECKED,
-      payload: item.index
-    });
+    dispatch(checkedItem(item.id, !item.isChecked));
   }
 
   function dispatchRemove() {
-    dispatch({
-      type: REMOVE,
-      payload: item.index
-    });
+    dispatch(removeTodo(item.id));
   }
 
   function dispatchEdit() {
@@ -32,7 +26,7 @@ function Item({ item }: ItemProps) {
       dispatch({
         type: EDIT,
         payload: {
-          index: item.index,
+          index: item.id,
           newValue: newItemValue
         }
       });
@@ -49,7 +43,7 @@ function Item({ item }: ItemProps) {
         checked={item.isChecked}
         onChange={dispatchChecked}
       />
-      <span data-testid="item">{item.value}</span>
+      <span data-testid="item">{item.title}</span>
       <button data-testid="delete" onClick={dispatchRemove}>
         X
       </button>

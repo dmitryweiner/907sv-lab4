@@ -8,5 +8,5 @@ export const getSearchFilteredItems = createSelector(
   getSearchFilter,
   getTodoItems,
   (search, items) =>
-    items.filter(element => element.value.toUpperCase().indexOf(search.toUpperCase()) != -1)
+    items.filter(element => element.title.toUpperCase().indexOf(search.toUpperCase()) != -1)
 );

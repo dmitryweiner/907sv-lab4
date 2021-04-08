@@ -6,7 +6,7 @@ const title = 'item';
 
 const newItem: ItemI = {
   index: 'index',
-  value: title,
+  title: title,
   isChecked: false
 };
 
@@ -19,7 +19,7 @@ test('add item', () => {
   const state = reducer(initialState, action);
   expect(state.items.length).toEqual(1);
   expect(state.items[0]).toHaveProperty('index');
-  expect(state.items[0].value).toEqual(title);
+  expect(state.items[0].title).toEqual(title);
 });
 
 test('remove item', () => {
@@ -90,5 +90,5 @@ test('edit item', () => {
   let state = reducer(initialState, action);
   state = reducer(state, editAction);
 
-  expect(state.items[0].value).toEqual('editItem');
+  expect(state.items[0].title).toEqual('editItem');
 });

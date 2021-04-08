@@ -1,13 +1,16 @@
 import { TodoI } from '../interfaces/todoInterface';
+import { REQUEST_STATUS } from '../../Api/Api';
 import {
   ACTION_TYPE,
   ADD,
+  ADD_ALL,
   CHECKED,
   EDIT,
   FILTER,
   REMOVE,
   REMOVELIST,
-  SEARCH
+  SEARCH,
+  SET_REQUEST_STATUS
 } from '../actions/todoAction';
 
 export const selectOptions = {
@@ -19,7 +22,8 @@ export const selectOptions = {
 export const initialState: TodoI = {
   items: [],
   filter: selectOptions.All,
-  search: ''
+  search: '',
+  requestStatus: REQUEST_STATUS.IDLE
 };
 
 export function reducer(state: TodoI = initialState, action: ACTION_TYPE): TodoI {
@@ -30,10 +34,13 @@ export function reducer(state: TodoI = initialState, action: ACTION_TYPE): TodoI
         items: [...state.items, action.payload]
       };
     }
+    case ADD_ALL: {
+      return { ...state, items: action.payload };
+    }
     case REMOVE: {
       return {
         ...state,
-        items: [...state.items.filter(item => item.index !== action.payload)]
+        items: [...state.items.filter(item => item.id !== action.payload)]
       };
     }
     case CHECKED: {
@@ -41,7 +48,7 @@ export function reducer(state: TodoI = initialState, action: ACTION_TYPE): TodoI
         ...state,
         items: [
           ...state.items.map(item => {
-            if (item.index === action.payload) {
+            if (item.id === action.payload) {
               return { ...item, isChecked: !item.isChecked };
             }
             return item;
@@ -57,7 +64,7 @@ export function reducer(state: TodoI = initialState, action: ACTION_TYPE): TodoI
         ...state,
         items: [
           ...state.items.map(item => {
-            if (item.index === action.payload.index) {
+            if (item.id === action.payload.id) {
               return { ...item, value: action.payload.newValue };
             } else {
               return item;
@@ -71,6 +78,9 @@ export function reducer(state: TodoI = initialState, action: ACTION_TYPE): TodoI
     }
     case SEARCH: {
       return { ...state, search: action.payload };
+    }
+    case SET_REQUEST_STATUS: {
+      return { ...state, requestStatus: action.payload };
     }
     default:
       return state;

@@ -1,5 +1,5 @@
 export interface ItemI {
-  index: string;
-  value: string;
+  id: string;
+  title: string;
   isChecked: boolean;
 }
