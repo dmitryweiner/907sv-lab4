@@ -5,8 +5,8 @@ type ItemProps = {
   title: string;
   id: string;
   isChecked: boolean;
-  dispatch: (action: Action) => void
-}
+  dispatch: (action: Action) => void;
+};
 
 function ListItem({ title, id, isChecked, dispatch }: ItemProps) {
   return (

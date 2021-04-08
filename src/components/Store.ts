@@ -1,9 +1,14 @@
+import { createStore } from 'redux';
+const store = createStore(reducer);
+export default store;
+
 export const ACTION_TYPES = {
   ADD: 'add',
   DELETE: 'delete',
   CHECK: 'check',
   MOVE_UP: 'move_up',
-  MOVE_DOWN: 'move_down'
+  MOVE_DOWN: 'move_down',
+  IS_FILTER_DONE: 'is_filter_done'
 } as const;
 
 export interface ActionAdd {
@@ -31,7 +36,17 @@ export interface ActionMoveDown {
   payload: string;
 }
 
-export type Action = ActionAdd | ActionDelete | ActionCheck | ActionMoveUp | ActionMoveDown;
+export interface ActionIsFilterDone {
+  type: typeof ACTION_TYPES.IS_FILTER_DONE;
+}
+
+export type Action =
+  | ActionAdd
+  | ActionDelete
+  | ActionCheck
+  | ActionMoveUp
+  | ActionMoveDown
+  | ActionIsFilterDone;
 
 export interface Item {
   id: string;
@@ -39,9 +54,17 @@ export interface Item {
   title: string;
 }
 
-export const initialState: Item[] = [];
+export type Store = {
+  list: Item[];
+  isFilterDone: boolean;
+};
 
-export function reducer(action: Action, prevState = initialState): Item[] {
+export const initialState: Store = {
+  list: [],
+  isFilterDone: false
+};
+
+export function reducer(state = initialState, action: Action): Store {
   switch (action.type) {
     case ACTION_TYPES.ADD: {
       const newElement = {
@@ -49,49 +72,83 @@ export function reducer(action: Action, prevState = initialState): Item[] {
         isChecked: false,
         title: action.payload
       };
-      return [...prevState, newElement];
+      return {
+        ...state,
+        list: [...state.list, newElement]
+      };
     }
 
     case ACTION_TYPES.CHECK: {
-      return [
-        ...prevState.map(function (item) {
-          if (item.id === action.payload) {
-            return { ...item, isChecked: !item.isChecked };
-          }
-          return item;
-        })
-      ];
+      return {
+        ...state,
+        list: [
+          ...state.list.map(function (item) {
+            if (item.id === action.payload) {
+              return { ...item, isChecked: !item.isChecked };
+            }
+            return item;
+          })
+        ]
+      };
     }
 
     case ACTION_TYPES.DELETE: {
-      return [...prevState.filter(item => item.id !== action.payload)];
+      return {
+        ...state,
+        list: [...state.list.filter(item => item.id !== action.payload)]
+      };
     }
 
     case ACTION_TYPES.MOVE_UP: {
-      const indexOfMovingUpItem = prevState.findIndex(item => item.id === action.payload);
-      if (indexOfMovingUpItem === 0) {
-        return prevState;
-      } else {
-        [prevState[indexOfMovingUpItem - 1], prevState[indexOfMovingUpItem]] = [
-          prevState[indexOfMovingUpItem],
-          prevState[indexOfMovingUpItem - 1]
-        ];
-        return [...prevState];
-      }
+      return {
+        ...state,
+        list: moveUp(state.list, action.payload)
+      };
     }
 
     case ACTION_TYPES.MOVE_DOWN: {
-      const indexOfMovingDownItem = prevState.findIndex(item => item.id === action.payload);
-      if (indexOfMovingDownItem === prevState.length - 1) {
-        return prevState;
-      } else {
-        [prevState[indexOfMovingDownItem], prevState[indexOfMovingDownItem + 1]] = [
-          prevState[indexOfMovingDownItem + 1],
-          prevState[indexOfMovingDownItem]
-        ];
-        return [...prevState];
-      }
+      return {
+        ...state,
+        list: moveDown(state.list, action.payload)
+      };
     }
+
+    case ACTION_TYPES.IS_FILTER_DONE: {
+      return {
+        ...state,
+        isFilterDone: !state.isFilterDone
+      };
+    }
+
+    default:
+      return state;
+  }
+}
+
+// these are mutators
+function moveUp(list: Item[], id: string): Item[] {
+  const indexOfMovingUpItem = list.findIndex(item => item.id === id);
+  if (indexOfMovingUpItem === 0) {
+    return list;
+  } else {
+    [list[indexOfMovingUpItem - 1], list[indexOfMovingUpItem]] = [
+      list[indexOfMovingUpItem],
+      list[indexOfMovingUpItem - 1]
+    ];
+    return [...list];
+  }
+}
+
+function moveDown(list: Item[], id: string): Item[] {
+  const indexOfMovingDownItem = list.findIndex(item => item.id === id);
+  if (indexOfMovingDownItem === list.length - 1) {
+    return list;
+  } else {
+    [list[indexOfMovingDownItem], list[indexOfMovingDownItem + 1]] = [
+      list[indexOfMovingDownItem + 1],
+      list[indexOfMovingDownItem]
+    ];
+    return [...list];
   }
 }
 

@@ -9,7 +9,7 @@ function App() {
   const [isFilterDone, setIsFilterDone] = React.useState(false);
 
   function dispatch(action: Action) {
-    setList(reducer(action, list));
+    setList(reducer(list, action));
   }
 
   return (

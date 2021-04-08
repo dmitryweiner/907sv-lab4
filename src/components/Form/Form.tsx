@@ -4,7 +4,7 @@ import { Action, ACTION_TYPES } from '../Store';
 type FormProps = {
   dispatch: (action: Action) => void;
   isFilterDone: boolean;
-  filterHandler: () => void
+  filterHandler: () => void;
 };
 
 function Form({ dispatch, isFilterDone = false, filterHandler = () => {} }: FormProps) {

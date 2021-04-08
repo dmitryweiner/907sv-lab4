@@ -4,8 +4,8 @@ import { Action, Item } from '../Store';
 
 type ListProps = {
   list: Item[];
-  dispatch: (action: Action) => void
-}
+  dispatch: (action: Action) => void;
+};
 
 function List({ list, dispatch }: ListProps) {
   if (list.length === 0) {
