@@ -2,13 +2,13 @@ import React from 'react';
 import './App.css';
 import Form from './components/Form/Form';
 import List from './components/List/List';
-import { reducer, getFilteredList } from './components/Store';
+import { reducer, getFilteredList, Action, Item } from './components/Store';
 
 function App() {
-  const [list, setList] = React.useState([]);
+  const [list, setList] = React.useState<Item[]>([]);
   const [isFilterDone, setIsFilterDone] = React.useState(false);
 
-  function dispatch(action) {
+  function dispatch(action: Action) {
     setList(reducer(action, list));
   }
 
@@ -23,7 +23,7 @@ function App() {
           isFilterDone={isFilterDone}
           filterHandler={() => setIsFilterDone(!isFilterDone)}
         />
-        <List list={getFilteredList(list, isFilterDone)} dispatch={dispatch} />
+        <List list={getFilteredList({ list, isFilterDone })} dispatch={dispatch} />
       </div>
     </div>
   );
