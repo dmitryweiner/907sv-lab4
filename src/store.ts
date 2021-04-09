@@ -211,7 +211,7 @@ export const addItem = (title: string) => async (dispatch: AppDispatch) => {
   try {
     dispatch(setRequestState(REQUEST_STATE_TYPES.LOADING));
     const data = await api.todos.add({ title });
-    dispatch({ type: ACTION_TYPES.ADD, payload: data as IItem });
+    dispatch({ type: ACTION_TYPES.ADD, payload: data });
     dispatch(setRequestState(REQUEST_STATE_TYPES.SUCCESS));
   } catch (error) {
     dispatch(setError(error.message));
@@ -224,6 +224,18 @@ export const getItems = () => async (dispatch: AppDispatch) => {
     dispatch(setRequestState(REQUEST_STATE_TYPES.LOADING));
     const data = await api.todos.list();
     dispatch({ type: ACTION_TYPES.ADD_ALL, payload: data });
+    dispatch(setRequestState(REQUEST_STATE_TYPES.SUCCESS));
+  } catch (error) {
+    dispatch(setError(error.message));
+    dispatch(setRequestState(REQUEST_STATE_TYPES.ERROR));
+  }
+};
+
+export const removeItem = (id: string) => async (dispatch: AppDispatch) => {
+  try {
+    dispatch(setRequestState(REQUEST_STATE_TYPES.LOADING));
+    const data = await api.todos.remove({ id });
+    dispatch({ type: ACTION_TYPES.REMOVE, payload: data.id });
     dispatch(setRequestState(REQUEST_STATE_TYPES.SUCCESS));
   } catch (error) {
     dispatch(setError(error.message));

@@ -20,8 +20,8 @@ export default function App() {
       <div>
         <ItemsCounter />
       </div>
-      <List />
       <Alert />
+      <List />
     </div>
   );
 }

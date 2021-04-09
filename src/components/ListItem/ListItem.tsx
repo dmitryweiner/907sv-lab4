@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { ACTION_TYPES } from '../../store';
+import { ACTION_TYPES, removeItem } from '../../store';
 import { useDispatch } from 'react-redux';
 
 type ListItemProps = {
@@ -57,12 +57,7 @@ export default function ListItem({ id, title, isChecked }: ListItemProps) {
       <button
         className="deleteBtn"
         data-testid="deleteButton"
-        onClick={() =>
-          dispatch({
-            type: ACTION_TYPES.REMOVE,
-            payload: id
-          })
-        }
+        onClick={() => dispatch(removeItem(id))}
       >
         &#10006;
       </button>
