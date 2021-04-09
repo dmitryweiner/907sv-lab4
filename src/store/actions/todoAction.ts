@@ -2,6 +2,7 @@ import { ItemI } from '../interfaces/itemInterface';
 import { AppDispatch } from '../reducers';
 import api, { REQUEST_STATUS } from '../../Api/Api';
 import { ADD as ADD_ALERT } from './alertAction';
+import { AlertMessageI } from '../interfaces/alertMessageInterface';
 
 export const ADD = 'TODO/Add';
 export const ADD_ALL = 'TODO/addAll';
@@ -60,67 +61,58 @@ interface SetRequestStatus {
   payload: REQUEST_STATUS;
 }
 
+function getAlertMessage(error: string): AlertMessageI {
+  return {
+    index: Math.random().toString(36).substr(2),
+    message: error
+  };
+}
+
 export const addItem = (value: string) => async (dispatch: AppDispatch) => {
   try {
     dispatch({ type: SET_REQUEST_STATUS, payload: REQUEST_STATUS.LOADING });
-    const response = await api.add(value);
-    const data = await response.json();
-    if (!response.ok) {
-      throw new Error(data.error);
-    }
+    const data = await api.add(value);
     dispatch({ type: SET_REQUEST_STATUS, payload: REQUEST_STATUS.IDLE });
     dispatch({ type: ADD, payload: data });
   } catch (error) {
     dispatch({ type: SET_REQUEST_STATUS, payload: REQUEST_STATUS.ERROR });
-    dispatch({ type: ADD_ALERT, payload: error });
+    dispatch({ type: ADD_ALERT, payload: getAlertMessage(error.message) });
   }
 };
 
 export const removeTodo = (id: string) => async (dispatch: AppDispatch) => {
   try {
     dispatch({ type: SET_REQUEST_STATUS, payload: REQUEST_STATUS.LOADING });
-    const response = await api.remove(id);
-    const data = await response.json();
-    if (!response.ok) {
-      throw new Error(data.error);
-    }
+    const data = await api.remove(id);
     dispatch({ type: SET_REQUEST_STATUS, payload: REQUEST_STATUS.IDLE });
-    dispatch({ type: REMOVE, payload: id });
+    dispatch({ type: REMOVE, payload: data.id });
   } catch (error) {
     dispatch({ type: SET_REQUEST_STATUS, payload: REQUEST_STATUS.ERROR });
-    dispatch({ type: ADD_ALERT, payload: error });
+    dispatch({ type: ADD_ALERT, payload: getAlertMessage(error.message) });
   }
 };
 
 export const addAllTodos = () => async (dispatch: AppDispatch) => {
   try {
     dispatch({ type: SET_REQUEST_STATUS, payload: REQUEST_STATUS.LOADING });
-    const response = await api.list();
-    const data = await response.json();
-    if (!response.ok) {
-      throw new Error(data.error);
-    }
+    const data = await api.list();
     dispatch({ type: SET_REQUEST_STATUS, payload: REQUEST_STATUS.IDLE });
     dispatch({ type: ADD_ALL, payload: data });
   } catch (error) {
     dispatch({ type: SET_REQUEST_STATUS, payload: REQUEST_STATUS.ERROR });
-    dispatch({ type: ADD_ALERT, payload: error });
+    dispatch({ type: ADD_ALERT, payload: getAlertMessage(error.message) });
   }
 };
 
 export const checkedItem = (id: string, isChecked: boolean) => async (dispatch: AppDispatch) => {
   try {
     dispatch({ type: SET_REQUEST_STATUS, payload: REQUEST_STATUS.LOADING });
-    const response = await api.checked(id, isChecked);
-    const data = await response.json();
-    if (!response.ok) {
-      throw new Error(data.error);
-    }
+    const data = await api.checked(id, isChecked);
     dispatch({ type: SET_REQUEST_STATUS, payload: REQUEST_STATUS.IDLE });
     dispatch({ type: CHECKED, payload: data.id });
   } catch (error) {
     dispatch({ type: SET_REQUEST_STATUS, payload: REQUEST_STATUS.ERROR });
-    dispatch({ type: ADD_ALERT, payload: error });
+    dispatch({ type: ADD_ALERT, payload: getAlertMessage(error.message) });
   }
 };
 
