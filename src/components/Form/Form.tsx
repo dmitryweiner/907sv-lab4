@@ -1,10 +1,18 @@
-import React, { ChangeEvent, FormEvent, useState } from 'react';
-import { addItem } from '../../store';
-import { useDispatch } from 'react-redux';
+import React, { ChangeEvent, FormEvent, useEffect, useState } from 'react';
+import { addItem, REQUEST_STATE_TYPES, Store } from '../../store';
+import { useDispatch, useSelector } from 'react-redux';
 
 export default function Form() {
   const dispatch = useDispatch();
+  const requestState = useSelector((state: Store) => state.requestState);
   const [value, setValue] = useState('');
+
+  useEffect(() => {
+    console.log('useEffect');
+    if (requestState === REQUEST_STATE_TYPES.SUCCESS) {
+      setValue('');
+    }
+  }, [requestState])
 
   function innerSubmit(e: FormEvent) {
     e.preventDefault();
