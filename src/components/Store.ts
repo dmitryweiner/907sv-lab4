@@ -1,6 +1,4 @@
 import { createStore } from 'redux';
-const store = createStore(reducer);
-export default store;
 
 export const ACTION_TYPES = {
   ADD: 'add',
@@ -131,11 +129,12 @@ function moveUp(list: Item[], id: string): Item[] {
   if (indexOfMovingUpItem === 0) {
     return list;
   } else {
-    [list[indexOfMovingUpItem - 1], list[indexOfMovingUpItem]] = [
-      list[indexOfMovingUpItem],
-      list[indexOfMovingUpItem - 1]
+    const copiedList = [...list];
+    [copiedList[indexOfMovingUpItem - 1], copiedList[indexOfMovingUpItem]] = [
+      copiedList[indexOfMovingUpItem],
+      copiedList[indexOfMovingUpItem - 1]
     ];
-    return [...list];
+    return copiedList;
   }
 }
 
@@ -144,11 +143,12 @@ function moveDown(list: Item[], id: string): Item[] {
   if (indexOfMovingDownItem === list.length - 1) {
     return list;
   } else {
-    [list[indexOfMovingDownItem], list[indexOfMovingDownItem + 1]] = [
-      list[indexOfMovingDownItem + 1],
-      list[indexOfMovingDownItem]
+    const copiedList = [...list];
+    [copiedList[indexOfMovingDownItem], copiedList[indexOfMovingDownItem + 1]] = [
+      copiedList[indexOfMovingDownItem + 1],
+      copiedList[indexOfMovingDownItem]
     ];
-    return [...list];
+    return copiedList;
   }
 }
 
@@ -164,3 +164,6 @@ export function getFilteredList({
   }
   return list;
 }
+
+const store = createStore(reducer);
+export default store;

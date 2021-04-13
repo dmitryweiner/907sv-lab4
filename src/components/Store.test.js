@@ -1,11 +1,5 @@
-import {
-  getFilteredList,
-  moveUpHandler,
-  moveDownHandler,
-  addHandler,
-  deleteHandler,
-  checkHandler
-} from './Store';
+import { ACTION_TYPES, reducer, getFilteredList, initialState } from './Store';
+const testTitle = "I'm a deed";
 const listToAlter = [
   {
     id: 1,
@@ -19,73 +13,114 @@ const listToAlter = [
   }
 ];
 
-describe(' Тесты Store > getFilteredList ', () => {
-  test(' getFilteredList проводит фильтрацию и возвращает список только с выбранными checkbox ', () => {
-    const showedDeeds = getFilteredList(listToAlter, true);
-    for (let item of showedDeeds) {
-      expect(item.isChecked).toBeTruthy();
+describe(' Тесты Store > getFilteredList + action.type.isFilterDone ', () => {
+  test(
+    ' добавление нескольких элементов, изменение isChecked у одного, изменение isFilterDone самого списка, ' +
+      'фильтрация списка так чтобы в новом списке только элемент с isChecked === true ',
+    () => {
+      const addAction = {
+        type: ACTION_TYPES.ADD,
+        payload: testTitle
+      };
+      let state = reducer(initialState, addAction);
+      state = reducer(state, addAction);
+      state = reducer(state, addAction);
+      const checkAction = {
+        type: ACTION_TYPES.CHECK,
+        payload: state.list[0].id
+      };
+      state = reducer(state, checkAction);
+      const filterCheckAction = {
+        type: ACTION_TYPES.IS_FILTER_DONE
+      };
+      state = reducer(state, filterCheckAction);
+      const filteredList = getFilteredList(state);
+      expect(filteredList).toHaveLength(1);
     }
-  });
-
-  test(' getFilteredList проводит фильтрацию и возвращает неизмененный список ', () => {
-    let showedDeeds = getFilteredList(listToAlter, false);
-    expect(showedDeeds).toEqual(listToAlter);
-  });
+  );
 });
 
 describe(' Тесты Store > moveUp и moveDown ', () => {
-  test(' moveUpHandler меняет порядок элементов, возвращает измененный список ', () => {
-    const alteredList = moveUpHandler(listToAlter, 2);
-    expect(alteredList[0]).toHaveProperty('id', 2);
-    expect(alteredList[1]).toHaveProperty('id', 1);
-  });
+  const filledState = {
+    ...initialState,
+    list: listToAlter
+  };
 
-  test(' moveUpHandler получает элемент с index = 0, возвращает неизмененный список ', () => {
-    const alteredList = moveUpHandler(listToAlter, 1);
-    expect(alteredList[0]).toHaveProperty('id', 1);
-    expect(alteredList[1]).toHaveProperty('id', 2);
+  test(' moveUp меняет порядок элементов, возвращает измененный список ', () => {
+    const moveUpAction = {
+      type: ACTION_TYPES.MOVE_UP,
+      payload: filledState.list[1].id
+    };
+    let alteredList = reducer(filledState, moveUpAction);
+    expect(alteredList.list[0].id).toEqual(listToAlter[1].id);
+    expect(alteredList.list[1].id).toEqual(listToAlter[0].id);
   });
+  // test(' moveUpHandler меняет порядок элементов, возвращает измененный список ', () => {
+  //   const alteredList = moveUpHandler(listToAlter, 2);
+  //   expect(alteredList[0]).toHaveProperty('id', 2);
+  //   expect(alteredList[1]).toHaveProperty('id', 1);
+  // });
+  // test(' moveUpHandler получает элемент с index = 0, возвращает неизмененный список ', () => {
+  //   const alteredList = moveUpHandler(listToAlter, 1);
+  //   expect(alteredList[0]).toHaveProperty('id', 1);
+  //   expect(alteredList[1]).toHaveProperty('id', 2);
+  // });
+  // test(' moveDownHandler меняет порядок элементов, возвращает измененный список ', () => {
+  //   const alteredList = moveDownHandler(listToAlter, 1);
+  //   expect(alteredList[0]).toHaveProperty('id', 2);
+  //   expect(alteredList[1]).toHaveProperty('id', 1);
+  // });
+  // test(' moveDownHandler получает элемент с index = list.length-1, возвращает не измененный список ', () => {
+  //   const alteredList = moveDownHandler(listToAlter, 2);
+  //   expect(alteredList[0]).toHaveProperty('id', 1);
+  //   expect(alteredList[1]).toHaveProperty('id', 2);
+  // });
+});
 
-  test(' moveDownHandler меняет порядок элементов, возвращает измененный список ', () => {
-    const alteredList = moveDownHandler(listToAlter, 1);
-    expect(alteredList[0]).toHaveProperty('id', 2);
-    expect(alteredList[1]).toHaveProperty('id', 1);
-  });
-
-  test(' moveDownHandler получает элемент с index = list.length-1, возвращает не измененный список ', () => {
-    const alteredList = moveDownHandler(listToAlter, 2);
-    expect(alteredList[0]).toHaveProperty('id', 1);
-    expect(alteredList[1]).toHaveProperty('id', 2);
+describe(' Тесты Store > action.type.add ', () => {
+  test(' добавление нового элемента ', () => {
+    const action = {
+      type: ACTION_TYPES.ADD,
+      payload: testTitle
+    };
+    const newState = reducer(initialState, action);
+    expect(newState.list.length).toEqual(1);
+    expect(newState.list[0]).toHaveProperty('id');
+    expect(newState.list[0].title).toEqual(testTitle);
+    expect(newState.list[0]).toHaveProperty('isChecked');
+    expect(newState.list[0].isChecked).toEqual(false);
   });
 });
 
-describe(' Тесты Store > addHandler ', () => {
-  test(' addHandler получает list и value, возвращает list с элементом с value, проверка что новый элемент содержат все нужные правильные поля ', () => {
-    const testValue = 'title';
-    const alteredList = addHandler(listToAlter, testValue);
-    expect(alteredList.length).toEqual(3);
-    expect(alteredList[2]).toHaveProperty('id');
-    expect(alteredList[2]).toHaveProperty('isChecked');
-    expect(alteredList[2].isChecked).toEqual(false);
-    expect(alteredList[2]).toHaveProperty('title');
-    expect(alteredList[2].title).toEqual(testValue);
+describe(' Тесты Store > action.type.delete ', () => {
+  test(' сначала добавление элемента, потом его удаление ', () => {
+    const addAction = {
+      type: ACTION_TYPES.ADD,
+      payload: testTitle
+    };
+    let state = reducer(initialState, addAction);
+    const deleteAction = {
+      type: ACTION_TYPES.DELETE,
+      payload: state.list[0].id
+    };
+    state = reducer(state, deleteAction);
+    expect(state.list.length).toEqual(0);
   });
 });
 
-describe(' Тесты Store > deleteHandler ', () => {
-  test(' deleteHandler получает list и id, возвращает list без элемента с id, проверка что не удален неправильный элемент ', () => {
-    const alteredList = deleteHandler(listToAlter, 2);
-    expect(alteredList).not.toEqual(listToAlter);
-    expect(alteredList.length).toEqual(1);
-    expect(alteredList[0]).toHaveProperty('id', 1);
-  });
-});
-
-describe(' Тесты Store > checkHandler ', () => {
-  test(' checkHandler получает list и id, возвращает list, в котором у элемента с id изменился isChecked, проверка что isChecked не изменился у ненужного элемента ', () => {
-    const alteredList = checkHandler(listToAlter, 2);
-    expect(alteredList).not.toEqual(listToAlter);
-    expect(alteredList[1].isChecked).toEqual(true);
-    expect(alteredList[0].isChecked).toEqual(true);
+describe(' Тесты Store > action.type.check ', () => {
+  test(' добавление элемента, изменение isChecked, проверка что изменился ', () => {
+    const addAction = {
+      type: ACTION_TYPES.ADD,
+      payload: testTitle
+    };
+    let state = reducer(initialState, addAction);
+    expect(state.list[0].isChecked).toEqual(false);
+    const checkAction = {
+      type: ACTION_TYPES.CHECK,
+      payload: state.list[0].id
+    };
+    state = reducer(state, checkAction);
+    expect(state.list[0].isChecked).toEqual(true);
   });
 });
