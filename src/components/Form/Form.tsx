@@ -1,4 +1,4 @@
-import React, { FormEvent, useState } from 'react';
+import React, { FormEvent, useEffect, useState } from 'react';
 import { addItem, REMOVELIST } from '../../store/actions/todoAction';
 import { useDispatch, useSelector } from 'react-redux';
 import { Store } from '../../store/reducers';
@@ -6,15 +6,26 @@ import { REQUEST_STATUS } from '../../Api/Api';
 
 function Form() {
   const [value, setValue] = useState<string>('');
+  const [disabled, setDisabled] = useState(false);
   const reqStatus = useSelector((state: Store) => state.todo.requestStatus);
   const dispatch = useDispatch();
+
+  useEffect(() => {
+    if (reqStatus === REQUEST_STATUS.LOADING) {
+      setDisabled(true);
+    }
+    if (reqStatus === REQUEST_STATUS.ERROR) {
+      setDisabled(false);
+    }
+    if (reqStatus === REQUEST_STATUS.IDLE) {
+      setDisabled(false);
+      setValue('');
+    }
+  }, [reqStatus]);
 
   function handleSubmit(event: FormEvent) {
     event.preventDefault();
     dispatch(addItem(value));
-    if (reqStatus === REQUEST_STATUS.IDLE) {
-      setValue('');
-    }
   }
 
   function removeListDispatch() {
@@ -32,7 +43,7 @@ function Form() {
           value={value}
           onChange={e => setValue(e.target.value)}
         />
-        <button type="submit" onClick={handleSubmit}>
+        <button disabled={disabled} type="submit" onClick={handleSubmit}>
           Добавить
         </button>
       </form>

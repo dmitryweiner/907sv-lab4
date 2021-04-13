@@ -6,10 +6,14 @@ import SelectFilter from './components/SelectFilter/SelectFilter';
 import Search from './components/Search/Search';
 import Counter from './components/Counter/Counter';
 import Alert from './components/Alert/Alert';
+import StarrySky from './components/StarrySky /StarrySky';
 
 function App() {
   return (
     <>
+      <div className="bg">
+        <StarrySky />
+      </div>
       <div className="relative">
         <Alert />
       </div>
