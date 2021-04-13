@@ -243,6 +243,30 @@ export const removeItem = (id: string) => async (dispatch: AppDispatch) => {
   }
 };
 
+export const checkedItem = (id: string, isChecked: boolean) => async (dispatch: AppDispatch) => {
+  try {
+    dispatch(setRequestState(REQUEST_STATE_TYPES.LOADING));
+    const data = await api.todos.checked({ id, isChecked });
+    dispatch({ type: ACTION_TYPES.CHECKED, payload: data.id });
+    dispatch(setRequestState(REQUEST_STATE_TYPES.SUCCESS));
+  } catch (error) {
+    dispatch(setError(error.message));
+    dispatch(setRequestState(REQUEST_STATE_TYPES.ERROR));
+  }
+};
+
+export const editItem = (id: string, title: string) => async (dispatch: AppDispatch) => {
+  try {
+    dispatch(setRequestState(REQUEST_STATE_TYPES.LOADING));
+    const data = await api.todos.edit({ id, title });
+    dispatch({ type: ACTION_TYPES.EDIT, payload: data });
+    dispatch(setRequestState(REQUEST_STATE_TYPES.SUCCESS));
+  } catch (error) {
+    dispatch(setError(error.message));
+    dispatch(setRequestState(REQUEST_STATE_TYPES.ERROR));
+  }
+};
+
 const store = createStore(reducer, applyMiddleware(thunkMiddleware));
 type AppDispatch = typeof store.dispatch;
 export default store;

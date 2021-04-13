@@ -24,7 +24,7 @@ const api = {
         method: 'POST',
         headers: defaultHeaders,
         body: JSON.stringify({
-          title: title
+          title
         })
       }).then(handleAlert),
     list: () =>
@@ -36,6 +36,24 @@ const api = {
       fetch(`${URL}/todos/${id}`, {
         method: 'DELETE',
         headers: defaultHeaders
+      }).then(handleAlert),
+    checked: ({ id, isChecked }: { id: string; isChecked: boolean }) =>
+      fetch(`${URL}/todos/${id}`, {
+        method: 'PUT',
+        headers: defaultHeaders,
+        body: JSON.stringify({
+          id,
+          isChecked
+        })
+      }).then(handleAlert),
+    edit: ({ id, title }: { id: string; title: string }) =>
+      fetch(`${URL}/todos/${id}`, {
+        method: 'PUT',
+        headers: defaultHeaders,
+        body: JSON.stringify({
+          id,
+          title
+        })
       }).then(handleAlert)
   }
 };

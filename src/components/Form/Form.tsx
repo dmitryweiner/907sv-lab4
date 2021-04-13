@@ -8,11 +8,10 @@ export default function Form() {
   const [value, setValue] = useState('');
 
   useEffect(() => {
-    console.log('useEffect');
     if (requestState === REQUEST_STATE_TYPES.SUCCESS) {
       setValue('');
     }
-  }, [requestState])
+  }, [requestState]);
 
   function innerSubmit(e: FormEvent) {
     e.preventDefault();

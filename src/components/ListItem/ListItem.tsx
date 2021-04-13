@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { ACTION_TYPES, removeItem } from '../../store';
+import { checkedItem, editItem, removeItem } from '../../store';
 import { useDispatch } from 'react-redux';
 
 type ListItemProps = {
@@ -15,10 +15,7 @@ export default function ListItem({ id, title, isChecked }: ListItemProps) {
 
   function saveHandler() {
     setEditMode(false);
-    dispatch({
-      type: ACTION_TYPES.EDIT,
-      payload: { id, title: editInput }
-    });
+    dispatch(editItem(id, editInput));
   }
 
   return (
@@ -27,12 +24,7 @@ export default function ListItem({ id, title, isChecked }: ListItemProps) {
         type="checkbox"
         data-testid="checkbox"
         checked={isChecked}
-        onChange={() =>
-          dispatch({
-            type: ACTION_TYPES.CHECKED,
-            payload: id
-          })
-        }
+        onChange={() => dispatch(checkedItem(id, !isChecked))}
       />
       {!editMode && (
         <>
