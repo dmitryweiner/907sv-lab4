@@ -2,6 +2,7 @@ import React, { ChangeEvent } from 'react';
 import { selectOptions } from '../../store/reducers/todoReducer';
 import { FILTER } from '../../store/actions/todoAction';
 import { useDispatch } from 'react-redux';
+import './style.css';
 
 function SelectFilter() {
   const options = Object.values(selectOptions);

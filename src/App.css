@@ -1,14 +1,14 @@
 .wrapper {
-    z-index: 2;
-    width: 500px;
-    height: 100%;
+    max-width: 500px;
+    height: 600px;
+    width: 100%;
     margin-left: auto;
     margin-right: auto;
-    margin-top: 10%;
+    margin-top: 6%;
     padding: 10px;
     background-color: rgba(255, 255, 255, 0.5);
     border-radius: 20px;
-    color: #c7135c;
+    z-index: 1000;
 }
 
 .wrapper div {
@@ -19,7 +19,12 @@
     position: relative;
 }
 
-.bg {
-    z-index: 1;
-    position: relative;
+.filter {
+    display: flex;
+    flex-direction: row;
+}
+
+.filter div {
+    display: flex;
+    flex-direction: row;
 }

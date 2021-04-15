@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { AlertMessageI } from '../../store/interfaces/alertMessageInterface';
 import styles from './style.module.css';
 import { useDispatch, useSelector } from 'react-redux';
@@ -11,6 +11,7 @@ type AlertMessagePost = {
 
 function AlertMessage({ error }: AlertMessagePost) {
   const dispatch = useDispatch();
+  const [fadeIn, setFadeIn] = useState(styles.fadeInLeft);
   const delay = useSelector((state: Store) => state.alert.delay);
 
   useEffect(() => {
@@ -19,8 +20,7 @@ function AlertMessage({ error }: AlertMessagePost) {
   }, []);
 
   function removeDispatch() {
-    const element = document.getElementById(error.index);
-    if (element !== null) element.classList.add(styles.fadeOut);
+    setFadeIn(styles.fadeOut);
     setTimeout(
       () =>
         dispatch({
@@ -35,7 +35,7 @@ function AlertMessage({ error }: AlertMessagePost) {
     <div
       onClick={removeDispatch}
       data-testid="alert-message"
-      className={styles.error_message + ' ' + styles.animate + ' ' + styles.fadeInLeft}
+      className={styles.error_message + ' ' + styles.animate + ' ' + fadeIn}
       id={error.index}
     >
       <span>{error.message}</span>

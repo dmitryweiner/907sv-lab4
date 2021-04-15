@@ -7,31 +7,34 @@ import Search from './components/Search/Search';
 import Counter from './components/Counter/Counter';
 import Alert from './components/Alert/Alert';
 import StarrySky from './components/StarrySky /StarrySky';
+import DayNightToggle from './components/DayNightToggle/DayNightToggle';
 
 function App() {
   return (
     <>
-      <div className="bg">
-        <StarrySky />
-      </div>
-      <div className="relative">
-        <Alert />
-      </div>
-      <div className="wrapper">
-        <div>
-          <h1>Список дел</h1>
-          <h2>Лабораторная №4 по теме Redux</h2>
+      <StarrySky />
+      <DayNightToggle>
+        <div className="relative">
+          <Alert />
         </div>
-        <div>
-          <Form />
-          <SelectFilter />
-          <Search />
+        <div className="wrapper">
           <div>
-            <Counter />
+            <h1>Список дел</h1>
+            <h2>Лабораторная №4 по теме Redux</h2>
           </div>
-          <List />
+          <div>
+            <Form />
+            <div className="filter">
+              <SelectFilter />
+              <Search />
+            </div>
+            <div>
+              <Counter />
+            </div>
+            <List />
+          </div>
         </div>
-      </div>
+      </DayNightToggle>
     </>
   );
 }

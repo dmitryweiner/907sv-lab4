@@ -1,0 +1,16 @@
+.list {
+    overflow: scroll;
+    overflow-x: hidden;
+    height: 380px;
+    max-width: 450px;
+    width: 100%;
+}
+
+.list ul {
+    padding: 0;
+    max-width: 450px;
+}
+
+.list > div {
+    width: 400px;
+}

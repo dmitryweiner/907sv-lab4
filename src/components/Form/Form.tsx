@@ -3,6 +3,7 @@ import { addItem, REMOVELIST } from '../../store/actions/todoAction';
 import { useDispatch, useSelector } from 'react-redux';
 import { Store } from '../../store/reducers';
 import { REQUEST_STATUS } from '../../Api/Api';
+import styles from './style.module.css';
 
 function Form() {
   const [value, setValue] = useState<string>('');
@@ -37,17 +38,19 @@ function Form() {
   return (
     <>
       <form data-testid="form" onSubmit={handleSubmit}>
-        <input
-          data-testid="input"
-          type="text"
-          value={value}
-          onChange={e => setValue(e.target.value)}
-        />
-        <button disabled={disabled} type="submit" onClick={handleSubmit}>
-          Добавить
-        </button>
+        <div className={styles.form}>
+          <input
+            data-testid="input"
+            type="text"
+            value={value}
+            onChange={e => setValue(e.target.value)}
+          />
+          <button disabled={disabled} type="submit" onClick={handleSubmit}>
+            Добавить
+          </button>
+          <button onClick={removeListDispatch}>Очистить список</button>
+        </div>
       </form>
-      <button onClick={removeListDispatch}>Очистить список</button>
     </>
   );
 }

@@ -1,0 +1,15 @@
+.day {
+    width: 100vw;
+    height: 100vh;
+    color: #c7135c;
+    background: linear-gradient(to right, #ff47a1 0%, #ff9f4d 100%);
+    background-size: 100%;
+}
+
+.night {
+    width: 100vw;
+    height: 100vh;
+    color: #220632;
+    background: linear-gradient(to right, #000000 0%, #2a032f 100%);
+    background-size: 100%;
+}

@@ -4,6 +4,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { getSelectFilteredList } from '../../selectors/getSelectFilteredList';
 import { ItemI } from '../../store/interfaces/itemInterface';
 import { addAllTodos } from '../../store/actions/todoAction';
+import styles from './style.module.css';
 
 function List() {
   const list: ItemI[] = useSelector(getSelectFilteredList);
@@ -15,11 +16,13 @@ function List() {
 
   return (
     <>
-      <div data-testid="list">
-        {list.map(item => (
-          <Item item={item} key={item.id} />
-        ))}
-      </div>
+      <ul data-testid="list" className={styles.list}>
+        <div>
+          {list.map(item => (
+            <Item item={item} key={item.id} />
+          ))}
+        </div>
+      </ul>
     </>
   );
 }

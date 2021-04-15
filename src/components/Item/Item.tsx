@@ -36,22 +36,24 @@ function Item({ item }: ItemProps) {
   }
 
   return (
-    <li>
-      <input
-        type="checkbox"
-        data-testid="checkbox"
-        checked={item.isChecked}
-        onChange={dispatchChecked}
-      />
-      <span data-testid="item">{item.title}</span>
-      <button data-testid="delete" onClick={dispatchRemove}>
-        X
-      </button>
-      <button data-testid="edit" onClick={dispatchEdit}>
-        Редактировать
-      </button>
-      <span className={styles.error}> {error}</span>
-    </li>
+    <div className={styles.item}>
+      <li>
+        <input
+          type="checkbox"
+          data-testid="checkbox"
+          checked={item.isChecked}
+          onChange={dispatchChecked}
+        />
+        <span data-testid="item">{item.title}</span>
+        <button data-testid="delete" onClick={dispatchRemove}>
+          X
+        </button>
+        <button data-testid="edit" onClick={dispatchEdit}>
+          Редактировать
+        </button>
+        <span className={styles.error}> {error}</span>
+      </li>
+    </div>
   );
 }
 
