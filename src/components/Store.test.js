@@ -16,7 +16,7 @@ const listToAlter = [
 describe(' Тесты Store > getFilteredList + action.type.isFilterDone ', () => {
   test(
     ' добавление нескольких элементов, изменение isChecked у одного, изменение isFilterDone самого списка, ' +
-      'фильтрация списка так чтобы в новом списке только элемент с isChecked === true ',
+      'фильтрация списка так чтобы в новом списке был только элемент с isChecked === true ',
     () => {
       const addAction = {
         type: ACTION_TYPES.ADD,
@@ -40,7 +40,7 @@ describe(' Тесты Store > getFilteredList + action.type.isFilterDone ', () =
   );
 });
 
-describe(' Тесты Store > moveUp и moveDown ', () => {
+describe(' Тесты Store > action.type.moveUp и action.type.moveDown ', () => {
   const filledState = {
     ...initialState,
     list: listToAlter
@@ -55,35 +55,42 @@ describe(' Тесты Store > moveUp и moveDown ', () => {
     expect(alteredList.list[0].id).toEqual(listToAlter[1].id);
     expect(alteredList.list[1].id).toEqual(listToAlter[0].id);
   });
-  // test(' moveUpHandler меняет порядок элементов, возвращает измененный список ', () => {
-  //   const alteredList = moveUpHandler(listToAlter, 2);
-  //   expect(alteredList[0]).toHaveProperty('id', 2);
-  //   expect(alteredList[1]).toHaveProperty('id', 1);
-  // });
-  // test(' moveUpHandler получает элемент с index = 0, возвращает неизмененный список ', () => {
-  //   const alteredList = moveUpHandler(listToAlter, 1);
-  //   expect(alteredList[0]).toHaveProperty('id', 1);
-  //   expect(alteredList[1]).toHaveProperty('id', 2);
-  // });
-  // test(' moveDownHandler меняет порядок элементов, возвращает измененный список ', () => {
-  //   const alteredList = moveDownHandler(listToAlter, 1);
-  //   expect(alteredList[0]).toHaveProperty('id', 2);
-  //   expect(alteredList[1]).toHaveProperty('id', 1);
-  // });
-  // test(' moveDownHandler получает элемент с index = list.length-1, возвращает не измененный список ', () => {
-  //   const alteredList = moveDownHandler(listToAlter, 2);
-  //   expect(alteredList[0]).toHaveProperty('id', 1);
-  //   expect(alteredList[1]).toHaveProperty('id', 2);
-  // });
+  test(' moveUp получает элемент с index = 0, возвращает неизмененный список ', () => {
+    const moveUpAction = {
+      type: ACTION_TYPES.MOVE_UP,
+      payload: filledState.list[0].id
+    };
+    let alteredList = reducer(filledState, moveUpAction);
+    expect(alteredList.list[0].id).toEqual(listToAlter[0].id);
+    expect(alteredList.list[1].id).toEqual(listToAlter[1].id);
+  });
+  test(' moveDown меняет порядок элементов, возвращает измененный список ', () => {
+    const moveDownAction = {
+      type: ACTION_TYPES.MOVE_DOWN,
+      payload: filledState.list[0].id
+    };
+    let alteredList = reducer(filledState, moveDownAction);
+    expect(alteredList.list[0].id).toEqual(listToAlter[1].id);
+    expect(alteredList.list[1].id).toEqual(listToAlter[0].id);
+  });
+  test(' moveDown получает элемент с index = list.length-1, возвращает неизмененный список ', () => {
+    const moveDownAction = {
+      type: ACTION_TYPES.MOVE_DOWN,
+      payload: filledState.list[1].id
+    };
+    let alteredList = reducer(filledState, moveDownAction);
+    expect(alteredList.list[0].id).toEqual(listToAlter[0].id);
+    expect(alteredList.list[1].id).toEqual(listToAlter[1].id);
+  });
 });
 
 describe(' Тесты Store > action.type.add ', () => {
   test(' добавление нового элемента ', () => {
-    const action = {
+    const addAction = {
       type: ACTION_TYPES.ADD,
       payload: testTitle
     };
-    const newState = reducer(initialState, action);
+    const newState = reducer(initialState, addAction);
     expect(newState.list.length).toEqual(1);
     expect(newState.list[0]).toHaveProperty('id');
     expect(newState.list[0].title).toEqual(testTitle);
