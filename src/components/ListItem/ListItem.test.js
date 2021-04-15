@@ -1,14 +1,14 @@
 import { screen, fireEvent } from '@testing-library/react';
 import ListItem from './ListItem';
 import React from 'react';
-import { ACTION_TYPES } from '../../store';
+import { ACTION_TYPES, REQUEST_STATE_TYPES } from '../../store';
 import { makeTestStore, testRender } from '../../setupTests';
 
 const id = '19';
 const title = 'Покормить цветы';
 
 test('Отображение элемента в списке, реакция на кнопку', () => {
-  const store = makeTestStore();
+  const store = makeTestStore({ useMockStore: true });
 
   // arrange
   testRender(<ListItem id={id} title={title} />, { store });
@@ -20,7 +20,10 @@ test('Отображение элемента в списке, реакция н
   fireEvent.click(deleteButton);
 
   // asset
-  expect(store.dispatch).toBeCalledWith({ type: ACTION_TYPES.REMOVE, payload: id });
+  expect(store.getActions()[0]).toEqual({
+    type: ACTION_TYPES.SET_REQUEST_STATE,
+    payload: REQUEST_STATE_TYPES.LOADING
+  });
 });
 
 test('Отображение выбранного чекбокса', () => {
@@ -42,7 +45,7 @@ test('Отображение пустого чекбокса', () => {
 });
 
 test('При клике на чекбокс вызывается нужный метод', () => {
-  const store = makeTestStore();
+  const store = makeTestStore({ useMockStore: true });
 
   testRender(<ListItem id={id} title={title} isChecked={false} />, { store });
   const checkbox = screen.getByTestId('checkbox');
@@ -50,11 +53,14 @@ test('При клике на чекбокс вызывается нужный м
 
   expect(store.dispatch).not.toBeCalled();
   fireEvent.click(checkbox);
-  expect(store.dispatch).toBeCalledWith({ type: ACTION_TYPES.CHECKED, payload: id });
+  expect(store.getActions()[0]).toEqual({
+    type: ACTION_TYPES.SET_REQUEST_STATE,
+    payload: REQUEST_STATE_TYPES.LOADING
+  });
 });
 
 test('Отображение поля редактирования и возможности сохранения содержимого', () => {
-  const store = makeTestStore();
+  const store = makeTestStore({ useMockStore: true });
   const value = 'value';
 
   testRender(<ListItem id={id} title={title} />, { store });
@@ -74,5 +80,8 @@ test('Отображение поля редактирования и возмо
   expect(screen.queryByTestId('saveButton')).toBeNull();
   expect(screen.queryByTestId('editButton')).not.toBeNull();
 
-  expect(store.dispatch).toBeCalledWith({ type: ACTION_TYPES.EDIT, payload: { id, title: value } });
+  expect(store.getActions()[0]).toEqual({
+    type: ACTION_TYPES.SET_REQUEST_STATE,
+    payload: REQUEST_STATE_TYPES.LOADING
+  });
 });

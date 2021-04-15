@@ -20,6 +20,9 @@ export function makeTestStore({ initialState = originalInitialState, useMockStor
   let store;
 
   if (useMockStore) {
+    if (initialState === undefined) {
+      initialState = originalInitialState;
+    }
     store = mockStore(initialState);
   } else {
     store = createStore(reducer, initialState);
