@@ -54,6 +54,11 @@ button {
     color: #d6d6d6;
 }
 
+.addBtn:disabled {
+    color: #d6d6d6;
+    background-color: #576641;
+}
+
 input {
     color: #a9cb81;
     font-family: "Consolas", serif;

@@ -56,7 +56,6 @@ describe('Проверка функционирования store.js', () => {
   test('Проверка удаления элемента (ACTION_TYPES.REMOVE)', () => {
     const addAction = {
       type: ACTION_TYPES.ADD,
-
       payload: title
     };
 
