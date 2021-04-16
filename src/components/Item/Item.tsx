@@ -30,28 +30,31 @@ function Item({ item }: ItemProps) {
           newValue: newItemValue
         }
       });
-    } else if (newItemValue === '') {
-      setError('Новое значение не должно быть пустым');
+      if (newItemValue === '') {
+        setError('Новое значение не должно быть пустым');
+      }
     }
   }
 
   return (
     <div className={styles.item}>
       <li>
-        <input
-          type="checkbox"
-          data-testid="checkbox"
-          checked={item.isChecked}
-          onChange={dispatchChecked}
-        />
-        <span data-testid="item">{item.title}</span>
-        <button data-testid="delete" onClick={dispatchRemove}>
-          X
-        </button>
-        <button data-testid="edit" onClick={dispatchEdit}>
-          Редактировать
-        </button>
-        <span className={styles.error}> {error}</span>
+        <div className={styles.flexItem}>
+          <input
+            type="checkbox"
+            data-testid="checkbox"
+            checked={item.isChecked}
+            onChange={dispatchChecked}
+          />
+          <span data-testid="item">{item.title}</span>
+          <button data-testid="delete" onClick={dispatchRemove}>
+            X
+          </button>
+          <button data-testid="edit" onClick={dispatchEdit}>
+            Редактировать
+          </button>
+          <span className={styles.error}> {error}</span>
+        </div>
       </li>
     </div>
   );

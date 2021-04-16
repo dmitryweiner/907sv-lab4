@@ -4,8 +4,6 @@
 
 .item {
     max-width: 400px;
-    display: flex;
-    flex-direction: row;
 }
 
 li input {
@@ -18,5 +16,22 @@ li button {
 
 li  span {
     flex: 3;
+}
+
+.flexItem {
+    display: flex;
+    flex-direction: row;
+}
+
+.flexItem input {
+    flex: 1;
+}
+
+.flexItem button {
+    flex: 1;
+}
+
+.flexItem span {
+    flex: 5;
 }
 

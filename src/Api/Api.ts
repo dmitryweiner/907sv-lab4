@@ -45,6 +45,24 @@ const api = {
       body: JSON.stringify({
         isChecked: isChecked
       })
+    }).then(handleErrors),
+  auth: (username: string, password: string) =>
+    fetch(`${URL}/auth`, {
+      method: 'POST',
+      headers: defaultHeaders,
+      body: JSON.stringify({
+        username: username,
+        password: password
+      })
+    }).then(handleErrors),
+  checkAuth: () =>
+    fetch(`${URL}/auth`, {
+      headers: defaultHeaders
+    }).then(handleErrors),
+  logout: () =>
+    fetch(`${URL}/auth`, {
+      method: 'DELETE',
+      headers: defaultHeaders
     }).then(handleErrors)
 };
 
