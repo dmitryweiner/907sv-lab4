@@ -1,5 +1,5 @@
 import React, { ChangeEvent } from 'react';
-import { ACTION_TYPES, SELECT_FILTER_TYPE, SELECT_FILTER_TYPES, Store } from '../../store';
+import { ACTION_TYPES, SELECT_FILTER_TYPE, SELECT_FILTER_TYPES, Store } from '../../store/store';
 import { useDispatch, useSelector } from 'react-redux';
 
 export default function Filter() {

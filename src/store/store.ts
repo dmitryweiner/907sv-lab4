@@ -1,6 +1,6 @@
 import thunkMiddleware from 'redux-thunk';
 import { createStore, applyMiddleware } from 'redux';
-import api from './api';
+import api from '../api';
 
 export interface IItem {
   id: string;
@@ -235,7 +235,7 @@ export const removeItem = (id: string) => async (dispatch: AppDispatch) => {
   try {
     dispatch(setRequestState(REQUEST_STATE_TYPES.LOADING));
     const data = await api.todos.remove({ id });
-    dispatch({ type: ACTION_TYPES.REMOVE, payload: data.id });
+    dispatch({ type: ACTION_TYPES.REMOVE, payload: id });
     dispatch(setRequestState(REQUEST_STATE_TYPES.SUCCESS));
   } catch (error) {
     dispatch(setError(error.message));

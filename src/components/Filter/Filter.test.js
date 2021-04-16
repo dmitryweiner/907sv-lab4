@@ -1,7 +1,7 @@
 import { screen, fireEvent } from '@testing-library/react';
 import Filter from './Filter';
 import React from 'react';
-import { ACTION_TYPES, SELECT_FILTER_TYPES } from '../../store';
+import { ACTION_TYPES, SELECT_FILTER_TYPES } from '../../store/store';
 import { makeTestStore, testRender } from '../../setupTests';
 
 const store = makeTestStore({

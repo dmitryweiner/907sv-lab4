@@ -1,12 +1,19 @@
-import reducer, {
-  ACTION_TYPES,
+import {
+  reducer,
   initialState,
+  ACTION_TYPES,
   SELECT_FILTER_TYPES,
+  REQUEST_STATE_TYPES,
+  addItem,
+  getItems,
+  removeItem,
   selectByFilter,
   selectBySearchString,
   selectFilteredList,
   selectItemsCount
 } from './store';
+import fetchMock from 'fetch-mock';
+import { makeTestStore } from '../setupTests';
 
 const title = 'Покормить цветы';
 const substring = 'Кот';
@@ -33,7 +40,7 @@ describe('Проверка функционирования store.js', () => {
   test('Проверка добавления элемента (ACTION_TYPES.ADD)', () => {
     const action = {
       type: ACTION_TYPES.ADD,
-      payload: title
+      payload: list[1]
     };
 
     const newState = reducer(state, action);
@@ -129,7 +136,7 @@ describe('Проверка функционирования store.js', () => {
   test('Проверка поиска элемента по подстроке (ACTION_TYPES.SELECT_BY_SEARCH_STRING)', () => {
     const addAction = {
       type: ACTION_TYPES.ADD,
-      payload: title
+      payload: list[0]
     };
 
     let state = reducer(initialState, addAction);
@@ -186,5 +193,147 @@ describe('Проверка функционирования store.js', () => {
   test('Проверка selectItemsCount', () => {
     const itemsCount = selectItemsCount(state);
     expect(itemsCount).toBe(state.list.length);
+  });
+});
+
+describe('Тестирование асинхронных экшенов store.js', () => {
+  afterEach(() => fetchMock.reset());
+
+  test('addItem', async () => {
+    fetchMock.mock(
+      'express:/todos',
+      {
+        status: 200,
+        body: list[0]
+      },
+      {
+        method: 'POST'
+      }
+    );
+
+    const store = makeTestStore({ useMockStore: true });
+    await store.dispatch(addItem(list[0].title));
+    expect(store.getActions()).toEqual([
+      { type: ACTION_TYPES.SET_REQUEST_STATE, payload: REQUEST_STATE_TYPES.LOADING },
+      { type: ACTION_TYPES.ADD, payload: list[0] },
+      { type: ACTION_TYPES.SET_REQUEST_STATE, payload: REQUEST_STATE_TYPES.SUCCESS }
+    ]);
+  });
+
+  test('addItem с ошибкой', async () => {
+    const errorObject = {
+      error: 'Error message'
+    };
+
+    fetchMock.mock(
+      'express:/todos',
+      {
+        status: 500,
+        body: errorObject
+      },
+      {
+        method: 'POST'
+      }
+    );
+
+    const store = makeTestStore({ useMockStore: true });
+    await store.dispatch(addItem(list[1].title));
+    expect(store.getActions()).toEqual([
+      { type: ACTION_TYPES.SET_REQUEST_STATE, payload: REQUEST_STATE_TYPES.LOADING },
+      { type: ACTION_TYPES.SET_ERROR, payload: errorObject.error },
+      { type: ACTION_TYPES.SET_REQUEST_STATE, payload: REQUEST_STATE_TYPES.ERROR }
+    ]);
+  });
+
+  test('getItems', async () => {
+    fetchMock.mock(
+      'express:/todos',
+      {
+        status: 200,
+        body: list
+      },
+      {
+        method: 'GET'
+      }
+    );
+
+    const store = makeTestStore({ useMockStore: true });
+    await store.dispatch(getItems());
+    expect(store.getActions()).toEqual([
+      { type: ACTION_TYPES.SET_REQUEST_STATE, payload: REQUEST_STATE_TYPES.LOADING },
+      { type: ACTION_TYPES.ADD_ALL, payload: list },
+      { type: ACTION_TYPES.SET_REQUEST_STATE, payload: REQUEST_STATE_TYPES.SUCCESS }
+    ]);
+  });
+
+  test('getItems с ошибкой', async () => {
+    const errorObject = {
+      error: 'Error message'
+    };
+
+    fetchMock.mock(
+      'express:/todos',
+      {
+        status: 500,
+        body: errorObject
+      },
+      {
+        method: 'GET'
+      }
+    );
+
+    const store = makeTestStore({ useMockStore: true });
+    await store.dispatch(getItems());
+    expect(store.getActions()).toEqual([
+      { type: ACTION_TYPES.SET_REQUEST_STATE, payload: REQUEST_STATE_TYPES.LOADING },
+      { type: ACTION_TYPES.SET_ERROR, payload: errorObject.error },
+      { type: ACTION_TYPES.SET_REQUEST_STATE, payload: REQUEST_STATE_TYPES.ERROR }
+    ]);
+  });
+
+  test('removeItem', async () => {
+    fetchMock.mock(
+      'express:/todos/:id',
+      {
+        status: 200,
+        body: {}
+      },
+      {
+        method: 'DELETE'
+      }
+    );
+
+    const store = makeTestStore({ initialState: list, useMockStore: true });
+    await store.dispatch(removeItem(list[0].id));
+    expect(store.getActions()).toEqual([
+      { type: ACTION_TYPES.SET_REQUEST_STATE, payload: REQUEST_STATE_TYPES.LOADING },
+      { type: ACTION_TYPES.REMOVE, payload: list[0].id },
+      { type: ACTION_TYPES.SET_REQUEST_STATE, payload: REQUEST_STATE_TYPES.SUCCESS }
+    ]);
+  });
+
+  test('removeItem с ошибкой', async () => {
+    const errorObject = {
+      error: 'Error message'
+    };
+
+    fetchMock.mock(
+      'express:/todos/:id',
+      {
+        status: 500,
+        body: errorObject
+      },
+      {
+        method: 'DELETE'
+      }
+    );
+
+    const store = makeTestStore({ initialState: list, useMockStore: true });
+    await store.dispatch(removeItem(list[0].id));
+    expect(store.getActions()).toEqual([
+      { type: ACTION_TYPES.SET_REQUEST_STATE, payload: REQUEST_STATE_TYPES.LOADING },
+      { type: ACTION_TYPES.SET_ERROR, payload: errorObject.error },
+      { type: ACTION_TYPES.SET_REQUEST_STATE, payload: REQUEST_STATE_TYPES.ERROR }
+    ]);
   });
 });

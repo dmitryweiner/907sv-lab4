@@ -1,7 +1,7 @@
 import { screen, fireEvent } from '@testing-library/react';
 import ListItem from './ListItem';
 import React from 'react';
-import { ACTION_TYPES, REQUEST_STATE_TYPES } from '../../store';
+import { ACTION_TYPES, REQUEST_STATE_TYPES } from '../../store/store';
 import { makeTestStore, testRender } from '../../setupTests';
 
 const id = '19';

@@ -1,4 +1,4 @@
-import { REQUEST_STATE_TYPES, Store } from '../../store';
+import { REQUEST_STATE_TYPES, Store } from '../../store/store';
 import React from 'react';
 import { useSelector } from 'react-redux';
 
