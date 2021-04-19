@@ -6,7 +6,7 @@ import SelectFilter from './components/SelectFilter/SelectFilter';
 import Search from './components/Search/Search';
 import Counter from './components/Counter/Counter';
 import Alert from './components/Alert/Alert';
-import StarrySky from './components/StarrySky /StarrySky';
+import StarrySky from './components/StarrySky/StarrySky';
 import DayNightToggle from './components/DayNightToggle/DayNightToggle';
 import { useDispatch, useSelector } from 'react-redux';
 import { Store } from './store/reducers';
