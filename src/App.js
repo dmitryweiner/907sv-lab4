@@ -1,55 +1,63 @@
-import React from 'react';
+import React, { useState } from 'react';
 import './App.css';
+import Form from './components/Form';
+import List from './components/List';
 
-function App() {
+export default function App() {
+  const [list, setList] = useState([]);
+  const [isDone, setIsDone] = useState(false);
+
+  function add(value) {
+    const newValue = {
+      id: Math.random().toString(36).substr(2),
+      title: value,
+      isChecked: false
+    };
+
+    setList([...list, newValue]);
+  }
+
+  // function reducer(action) {
+  //     switch (action.type) {
+  //       case add():
+  //     }
+  // }
+
+  function remove(id) {
+    setList([...list.filter(item => item.id !== id)]);
+  }
+
+  function changeChecked(id, isChecked) {
+    setList([
+      ...list.map(function (item) {
+        if (item.id === id) {
+          return { ...item, isChecked };
+        }
+        return item;
+      })
+    ]);
+  }
+
+  function filterList(list, isDone) {
+    if (!isDone) return list;
+
+    return list.filter(item => item.isChecked);
+  }
+
   return (
     <div className="wrapper">
       <div>
         <h1>Список дел</h1>
-        <h2>Лабораторная №4. Осваиваем Redux</h2>
+        <h2>Лабораторная №3. Фильтруемый список в React</h2>
       </div>
+      <Form handleSubmit={value => add(value)} />
       <div>
-        <input type="text" />
-        <button>Добавить</button>
-        <div>
-          Фильтр:
-          <input />
-          <select>
-            <option>Все</option>
-            <option>Выполненные</option>
-            <option>Невыполненные</option>
-          </select>
-        </div>
-        <ul>
-          <li>
-            <input type="checkbox" checked />
-            Завести рыб
-            <button>[x]</button>
-          </li>
-          <li>
-            <input type="checkbox" checked />
-            Поиграть в шахматы под водой
-            <button>[x]</button>
-          </li>
-          <li>
-            <input type="checkbox" />
-            Покормить рыб
-            <button>[x]</button>
-          </li>
-          <li>
-            <input type="checkbox" />
-            Выгулять картошку
-            <button>[x]</button>
-          </li>
-          <li>
-            <input type="checkbox" />
-            Полить кошку
-            <button>[x]</button>
-          </li>
-        </ul>
+        <label>
+          Только выполненные
+          <input type="checkbox" checked={isDone} onChange={() => setIsDone(!isDone)} />
+        </label>
       </div>
+      <List list={filterList(list, isDone)} deleteHandler={remove} checkedHandler={changeChecked} />
     </div>
   );
 }
-
-export default App;
