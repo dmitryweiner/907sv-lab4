@@ -2,7 +2,7 @@ import React, { FormEvent, useEffect, useState } from 'react';
 import { addItem, REMOVELIST } from '../../store/actions/todoAction';
 import { useDispatch, useSelector } from 'react-redux';
 import { Store } from '../../store/reducers';
-import { REQUEST_STATUS } from '../../Api/Api';
+import { REQUEST_STATUS } from '../../api/Api';
 import styles from './style.module.css';
 
 function Form() {

@@ -1,5 +1,5 @@
 import { ItemI } from './itemInterface';
-import { REQUEST_STATUS } from '../../Api/Api';
+import { REQUEST_STATUS } from '../../api/Api';
 
 export interface TodoI {
   items: ItemI[];

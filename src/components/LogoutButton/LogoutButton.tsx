@@ -6,10 +6,10 @@ function LogoutButton() {
   const dispatch = useDispatch();
 
   function handleLogout() {
-    dispatch(logout())
+    dispatch(logout());
   }
 
-  return <button onClick={handleLogout}>Выйти</button>
+  return <button onClick={handleLogout}>Выйти</button>;
 }
 
-export default LogoutButton
+export default LogoutButton;

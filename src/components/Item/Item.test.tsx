@@ -8,8 +8,8 @@ import Item from './Item';
 const store = makeTestStore();
 
 const item: ItemI = {
-  index: '1',
-  value: 'Hello, item',
+  id: '1',
+  title: 'Hello, item',
   isChecked: false
 };
 
@@ -29,7 +29,7 @@ test('delete item', () => {
   fireEvent.click(button);
   expect(store.dispatch).toBeCalledWith({
     type: REMOVE,
-    payload: item.index
+    payload: item.id
   });
 });
 
@@ -47,7 +47,7 @@ test('item checked', () => {
   fireEvent.click(checkbox);
   expect(store.dispatch).toBeCalledWith({
     type: CHECKED,
-    payload: item.index
+    payload: item.id
   });
 });
 

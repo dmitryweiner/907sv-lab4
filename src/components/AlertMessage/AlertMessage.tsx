@@ -25,7 +25,7 @@ function AlertMessage({ error }: AlertMessagePost) {
       () =>
         dispatch({
           type: REMOVE,
-          payload: error.index
+          payload: error.id
         }),
       1000
     );
@@ -36,7 +36,6 @@ function AlertMessage({ error }: AlertMessagePost) {
       onClick={removeDispatch}
       data-testid="alert-message"
       className={styles.error_message + ' ' + styles.animate + ' ' + fadeIn}
-      id={error.index}
     >
       <span>{error.message}</span>
     </div>

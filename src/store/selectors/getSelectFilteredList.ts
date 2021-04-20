@@ -1,7 +1,7 @@
 import { createSelector } from 'reselect';
 import { getSearchFilteredItems } from './getSearchFilteredItems';
-import { Store } from '../store/reducers';
-import { selectOptions } from '../store/reducers/todoReducer';
+import { Store } from '../reducers';
+import { selectOptions } from '../reducers/todoReducer';
 
 const getSelectFilter = (state: Store) => state.todo.filter;
 

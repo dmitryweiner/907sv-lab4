@@ -1,6 +1,6 @@
 import { ItemI } from '../interfaces/itemInterface';
 import { AppDispatch } from '../reducers';
-import api, { REQUEST_STATUS } from '../../Api/Api';
+import api, { REQUEST_STATUS } from '../../api/Api';
 import { ADD as ADD_ALERT } from './alertAction';
 import { AlertMessageI } from '../interfaces/alertMessageInterface';
 
@@ -63,7 +63,7 @@ interface SetRequestStatus {
 
 function getAlertMessage(error: string): AlertMessageI {
   return {
-    index: Math.random().toString(36).substr(2),
+    id: Math.random().toString(36).substr(2),
     message: error
   };
 }

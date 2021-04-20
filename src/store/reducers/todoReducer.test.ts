@@ -5,7 +5,7 @@ import { ItemI } from '../interfaces/itemInterface';
 const title = 'item';
 
 const newItem: ItemI = {
-  index: 'index',
+  id: 'index',
   title: title,
   isChecked: false
 };
@@ -18,7 +18,7 @@ test('add item', () => {
 
   const state = reducer(initialState, action);
   expect(state.items.length).toEqual(1);
-  expect(state.items[0]).toHaveProperty('index');
+  expect(state.items[0]).toHaveProperty('id');
   expect(state.items[0].title).toEqual(title);
 });
 
@@ -32,7 +32,7 @@ test('remove item', () => {
 
   const removeAction: ACTION_TYPE = {
     type: REMOVE,
-    payload: state.items[0].index
+    payload: state.items[0].id
   };
 
   state = reducer(state, removeAction);
@@ -66,7 +66,7 @@ test('checked item', () => {
 
   const checkedAction: ACTION_TYPE = {
     type: CHECKED,
-    payload: state.items[0].index
+    payload: state.items[0].id
   };
 
   state = reducer(state, checkedAction);
@@ -82,7 +82,7 @@ test('edit item', () => {
   const editAction: ACTION_TYPE = {
     type: EDIT,
     payload: {
-      index: 'index',
+      id: 'id',
       newValue: 'editItem'
     }
   };

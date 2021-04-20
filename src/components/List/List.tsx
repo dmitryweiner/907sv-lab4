@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 import Item from '../Item/Item';
 import { useDispatch, useSelector } from 'react-redux';
-import { getSelectFilteredList } from '../../selectors/getSelectFilteredList';
+import { getSelectFilteredList } from '../../store/selectors/getSelectFilteredList';
 import { ItemI } from '../../store/interfaces/itemInterface';
 import { addAllTodos } from '../../store/actions/todoAction';
 import styles from './style.module.css';

@@ -9,7 +9,7 @@ function Alert() {
   return (
     <div data-testid="alert" className={styles.alert}>
       {messages.map(message => (
-        <AlertMessage key={message.index} error={message} />
+        <AlertMessage key={message.id} error={message} />
       ))}
     </div>
   );

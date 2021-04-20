@@ -1,5 +1,5 @@
 import { TodoI } from '../interfaces/todoInterface';
-import { REQUEST_STATUS } from '../../Api/Api';
+import { REQUEST_STATUS } from '../../api/Api';
 import {
   ACTION_TYPE,
   ADD,

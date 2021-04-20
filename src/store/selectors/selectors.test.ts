@@ -1,31 +1,34 @@
-import { ACTION_TYPE, ADD, CHECKED, SEARCH, FILTER } from '../store/actions/todoAction';
-import { initialState as todoInitialState, reducer } from '../store/reducers/todoReducer';
-import { initialState as alertInitialState } from '../store/reducers/alertReducer';
-import { ItemI } from '../store/interfaces/itemInterface';
+import { ACTION_TYPE, ADD, CHECKED, SEARCH, FILTER } from '../actions/todoAction';
+import { initialState as todoInitialState, reducer } from '../reducers/todoReducer';
+import { initialState as alertInitialState } from '../reducers/alertReducer';
+import { ItemI } from '../interfaces/itemInterface';
 import { getSelectFilteredList } from './getSelectFilteredList';
 import { getSearchFilteredItems } from './getSearchFilteredItems';
 import { getFilteredItemsCount } from './getFilteredItemsCount';
-import { Store } from '../store/reducers';
-import { selectOptions } from '../store/reducers/todoReducer';
+import { Store } from '../reducers';
+import { selectOptions } from '../reducers/todoReducer';
 
 const title = 'item';
 
 const newItem: ItemI = {
-  index: 'index',
-  value: title,
+  id: 'index',
+  title: title,
   isChecked: false
 };
 
 const newItem2: ItemI = {
-  index: 'index1',
-  value: 'item2',
+  id: 'index1',
+  title: 'item2',
   isChecked: false
 };
 
 test('get select filtered list', () => {
   let state: Store = {
     todo: todoInitialState,
-    alert: alertInitialState
+    alert: alertInitialState,
+    auth: {
+      isAuth: true
+    }
   };
 
   const action1: ACTION_TYPE = {
@@ -43,7 +46,7 @@ test('get select filtered list', () => {
 
   const checkedAction: ACTION_TYPE = {
     type: CHECKED,
-    payload: state.todo.items[0].index
+    payload: state.todo.items[0].id
   };
 
   state = { ...state, todo: reducer(state.todo, checkedAction) };
@@ -70,7 +73,10 @@ test('get select filtered list', () => {
 test('filtered items count', () => {
   let state: Store = {
     todo: todoInitialState,
-    alert: alertInitialState
+    alert: alertInitialState,
+    auth: {
+      isAuth: true
+    }
   };
   const action: ACTION_TYPE = {
     type: ADD,
@@ -86,7 +92,10 @@ test('filtered items count', () => {
 test('get search filtered items', () => {
   let state: Store = {
     todo: todoInitialState,
-    alert: alertInitialState
+    alert: alertInitialState,
+    auth: {
+      isAuth: true
+    }
   };
   const action1: ACTION_TYPE = {
     type: ADD,

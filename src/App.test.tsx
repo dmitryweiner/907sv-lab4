@@ -8,7 +8,10 @@ import { initialState as alertInitialState } from './store/reducers/alertReducer
 
 const initialState: Store = {
   todo: todoInitialState,
-  alert: alertInitialState
+  alert: alertInitialState,
+  auth: {
+    isAuth: true
+  }
 };
 
 const store = makeTestStore({ initialState });

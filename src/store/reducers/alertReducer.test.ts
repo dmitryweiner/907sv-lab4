@@ -3,7 +3,7 @@ import { initialState, reducer } from './alertReducer';
 import { AlertMessageI } from '../interfaces/alertMessageInterface';
 
 const newMessage: AlertMessageI = {
-  index: 'index',
+  id: 'id',
   message: 'test'
 };
 
@@ -14,7 +14,7 @@ test('add alert message', () => {
   };
   const state = reducer(initialState, action);
   expect(state.messages.length).toEqual(1);
-  expect(state.messages[0]).toHaveProperty('index');
+  expect(state.messages[0]).toHaveProperty('id');
   expect(state.messages[0].message).toEqual(newMessage.message);
 });
 
@@ -28,7 +28,7 @@ test('remove alert message', () => {
 
   const removeAction: ACTION_TYPE = {
     type: REMOVE,
-    payload: newMessage.index
+    payload: newMessage.id
   };
   state = reducer(state, removeAction);
   expect(state.messages.length).toEqual(0);

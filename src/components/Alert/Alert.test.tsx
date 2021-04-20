@@ -10,15 +10,18 @@ const initialState: Store = {
   alert: {
     messages: [
       {
-        index: 'test',
+        id: 'test',
         message: 'error'
       },
       {
-        index: 'test1',
+        id: 'test1',
         message: 'error'
       }
     ],
     delay: 3000
+  },
+  auth: {
+    isAuth: true
   }
 };
 

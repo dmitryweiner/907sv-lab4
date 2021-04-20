@@ -9,12 +9,15 @@ import { initialState as alertInitialState } from '../../store/reducers/alertRed
 
 const initialState: Store = {
   todo: todoInitialState,
-  alert: alertInitialState
+  alert: alertInitialState,
+  auth: {
+    isAuth: true
+  }
 };
 
 const store = makeTestStore({ initialState });
 const error: AlertMessageI = {
-  index: 'index',
+  id: 'id',
   message: 'error'
 };
 

@@ -1,25 +1,30 @@
 import React from 'react';
-import { screen, fireEvent } from '@testing-library/react';
+import { fireEvent, screen } from '@testing-library/react';
 import Form from './Form';
-import { testRender, makeTestStore } from '../../setupTests';
+import { makeTestStore, testRender } from '../../setupTests';
 import { Store } from '../../store/reducers';
 import { initialState as alertInitialState } from '../../store/reducers/alertReducer';
 import { ADD } from '../../store/actions/alertAction';
 import { selectOptions } from '../../store/reducers/todoReducer';
+import { REQUEST_STATUS } from '../../api/Api';
 
 const initialState: Store = {
   todo: {
     items: [
       {
-        index: 'index',
-        value: 'Hello, im a unique element',
+        id: 'index',
+        title: 'Hello, im a unique element',
         isChecked: false
       }
     ],
     filter: selectOptions.All,
-    search: ''
+    search: '',
+    requestStatus: REQUEST_STATUS.IDLE
   },
-  alert: alertInitialState
+  alert: alertInitialState,
+  auth: {
+    isAuth: true
+  }
 };
 
 const store = makeTestStore({ initialState });
