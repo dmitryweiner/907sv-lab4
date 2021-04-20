@@ -1,9 +1,9 @@
-import React from 'react';
-import { render, screen, fireEvent } from '@testing-library/react';
+import { screen, fireEvent } from '@testing-library/react';
 import List from './List';
-const deleteHandler = jest.fn();
-const checkHandler = jest.fn();
-const list = [
+import { ACTION_TYPES, initialState } from '../Store';
+import { makeTestStore, testRender } from '../../setupTests';
+
+const listToDisplay = [
   {
     id: 1,
     isChecked: true,
@@ -17,45 +17,53 @@ const list = [
 ];
 
 describe(' Тесты List > Отображение списка', () => {
-  test(' Отображение непустого списка ', () => {
-    render(<List list={list} deleteHandler={deleteHandler} />);
-    for (let item of list) {
-      expect(screen.getByText(item.title)).toBeInTheDocument();
-    }
+  test(' Отображение пустого списка, вывод надписи ', () => {
+    const emptyListToDisplay = [];
+    const store = makeTestStore({ initialState: { ...initialState, list: emptyListToDisplay } });
+    testRender(<List />, { store });
+    expect(screen.getByText('There are no elements yet (￣︿￣)')).toBeInTheDocument();
   });
 
-  test(' Отображение пустого списка, вывод надписи ', () => {
-    render(<List list={[]} delteHandler={deleteHandler} />);
-    expect(screen.getByText('There are no elements yet (￣︿￣)')).toBeInTheDocument();
+  test(' Отображение непустого списка ', () => {
+    const store = makeTestStore({ initialState: { ...initialState, list: listToDisplay } });
+    testRender(<List />, { store });
+    for (let item of listToDisplay) {
+      expect(screen.getByText(item.title)).toBeInTheDocument();
+    }
   });
 });
 
 describe(' Тесты List > Кнопки элементов', () => {
-  test(' Вызов deleteHandler с id на кнопке у каждого элемента списка ', () => {
-    render(<List list={list} deleteHandler={deleteHandler} />);
-    const buttons = screen.getAllByTestId('delete-button');
-    for (let button of buttons) {
+  test(' Вызов deleteAction с id на кнопке у каждого элемента списка ', () => {
+    const store = makeTestStore({ initialState: { ...initialState, list: listToDisplay } });
+    testRender(<List />, { store });
+    for (let button of screen.getAllByTestId('delete-button')) {
       fireEvent.click(button);
     }
-    expect(deleteHandler).toBeCalledTimes(list.length);
+    expect(store.dispatch).toBeCalledTimes(listToDisplay.length);
   });
 });
 
 describe(' Тесты List > Checkbox"ы элементов', () => {
   test(' Checkbox"ы в List отображаются с правильными значениями ', () => {
-    render(<List list={list} checkHandler={checkHandler} />);
+    const store = makeTestStore({ initialState: { ...initialState, list: listToDisplay } });
+    testRender(<List />, { store });
     const checkboxes = screen.getAllByTestId('checkbox');
     for (let i = 0; i < checkboxes.length; i++) {
-      expect(checkboxes[i]).toHaveAttribute(list[i].isChecked ? 'checked' : 'type');
+      expect(checkboxes[i]).toHaveAttribute(listToDisplay[i].isChecked ? 'checked' : 'type');
     }
   });
 
-  test(' Вызов checkHandler с id на checkbox у каждого элемента списка ', () => {
-    render(<List list={list} checkHandler={checkHandler} />);
+  test(' Вызов checkAction с id на checkbox у каждого элемента списка ', () => {
+    const store = makeTestStore({ initialState: { ...initialState, list: listToDisplay } });
+    testRender(<List />, { store });
     const checkboxes = screen.getAllByTestId('checkbox');
     for (let i = 0; i < checkboxes.length; i++) {
       fireEvent.click(checkboxes[i]);
-      expect(checkHandler).toBeCalledWith(list[i].id, !list[i].isChecked);
+      expect(store.dispatch).toBeCalledWith({
+        type: ACTION_TYPES.CHECK,
+        payload: listToDisplay[i].id
+      });
     }
   });
 });

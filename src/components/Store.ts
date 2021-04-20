@@ -152,17 +152,11 @@ function moveDown(list: Item[], id: string): Item[] {
   }
 }
 
-export function getFilteredList({
-  list,
-  isFilterDone = false
-}: {
-  list: Item[];
-  isFilterDone: boolean;
-}): Item[] {
-  if (isFilterDone === true) {
-    return list.filter(item => item.isChecked === true);
+export function getFilteredList(store: Store): Item[] {
+  if (store.isFilterDone === true) {
+    return store.list.filter(item => item.isChecked === true);
   }
-  return list;
+  return store.list;
 }
 
 const store = createStore(reducer);

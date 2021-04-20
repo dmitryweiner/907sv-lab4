@@ -28,7 +28,7 @@ input:-moz-placeholder {
     padding: 5px;
 }
 .formWrapper {
-    height: 90px;
+    height: auto;
     padding: 20px;
 }
 .name, .formWrapper, .listItem  {

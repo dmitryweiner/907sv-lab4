@@ -1,47 +1,58 @@
 import React from 'react';
-import { Action, ACTION_TYPES } from '../Store';
+import { ACTION_TYPES } from '../Store';
+import { useDispatch } from 'react-redux';
 
 type ItemProps = {
-  title: string;
-  id: string;
-  isChecked: boolean;
-  dispatch: (action: Action) => void;
+  item:{
+    title: string;
+    id: string;
+    isChecked: boolean;
+  }
 };
 
-function ListItem({ title, id, isChecked, dispatch }: ItemProps) {
+function ListItem({ item }: ItemProps) {
+  const dispatch = useDispatch();
+  function itemCheck() {
+    dispatch({
+      type: ACTION_TYPES.CHECK,
+      payload: item.id
+    });
+  }
+  function itemMoveUp() {
+    dispatch({
+      type: ACTION_TYPES.MOVE_UP,
+      payload: item.id
+    });
+  }
+  function itemMoveDown() {
+    dispatch({
+      type: ACTION_TYPES.MOVE_DOWN,
+      payload: item.id
+    });
+  }
+  function itemDelete() {
+    dispatch({
+      type: ACTION_TYPES.DELETE,
+      payload: item.id
+    });
+  }
+
   return (
     <div className="listItem">
       <div className="listItemInformation">
-        <input
-          type="checkbox"
-          data-testid="checkbox"
-          checked={isChecked}
-          onChange={() => dispatch({ type: ACTION_TYPES.CHECK, payload: id })}
-        />
-        {title}
+        <input type="checkbox" data-testid="checkbox" checked={item.isChecked} onChange={itemCheck} />
+        {item.title}
       </div>
       <div className="listItemButtons">
         <div className="moveButtons">
-          <button
-            id="moveUpButton"
-            data-testid="moveUpButton"
-            onClick={() => dispatch({ type: ACTION_TYPES.MOVE_UP, payload: id })}
-          >
+          <button id="moveUpButton" data-testid="moveUpButton" onClick={itemMoveUp}>
             ^
           </button>
-          <button
-            id="moveDownButton"
-            data-testid="moveDownButton"
-            onClick={() => dispatch({ type: ACTION_TYPES.MOVE_DOWN, payload: id })}
-          >
+          <button id="moveDownButton" data-testid="moveDownButton" onClick={itemMoveDown}>
             ˅
           </button>
         </div>
-        <button
-          id="delete-button"
-          data-testid="delete-button"
-          onClick={() => dispatch({ type: ACTION_TYPES.DELETE, payload: id })}
-        >
+        <button id="delete-button" data-testid="delete-button" onClick={itemDelete}>
           ✗
         </button>
       </div>

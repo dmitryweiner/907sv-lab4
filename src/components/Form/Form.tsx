@@ -1,13 +1,9 @@
 import React, { FormEvent } from 'react';
-import { Action, ACTION_TYPES } from '../Store';
+import { ACTION_TYPES } from '../Store';
+import { useDispatch } from 'react-redux';
 
-type FormProps = {
-  dispatch: (action: Action) => void;
-  isFilterDone: boolean;
-  filterHandler: () => void;
-};
-
-function Form({ dispatch, isFilterDone = false, filterHandler = () => {} }: FormProps) {
+function Form() {
+  const dispatch = useDispatch();
   const [inputValue, setInputValue] = React.useState('');
   const [errorMessage, setErrorMessage] = React.useState('');
 
@@ -23,7 +19,7 @@ function Form({ dispatch, isFilterDone = false, filterHandler = () => {} }: Form
   }
 
   return (
-    <div className="formWrapper">
+    <div>
       <form onSubmit={innerSubmit}>
         <input
           id="formInput"
@@ -35,15 +31,6 @@ function Form({ dispatch, isFilterDone = false, filterHandler = () => {} }: Form
         <button id="formAddButton" data-testid="I'm addButton" type="submit">
           Add a deed
         </button>
-        <br />
-        <input
-          type="checkbox"
-          data-testid="filterCheckbox"
-          checked={isFilterDone}
-          onChange={filterHandler}
-        />
-        {' show only done deeds '}
-        <br />
         <div className="errorMessage">{errorMessage}</div>
       </form>
     </div>

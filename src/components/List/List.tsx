@@ -1,13 +1,11 @@
 import React from 'react';
 import ListItem from '../ListItem/ListItem';
-import { Action, Item } from '../Store';
+import { getFilteredList } from '../Store';
+import { useSelector } from 'react-redux';
 
-type ListProps = {
-  list: Item[];
-  dispatch: (action: Action) => void;
-};
+function List() {
+  const list = useSelector(getFilteredList);
 
-function List({ list, dispatch }: ListProps) {
   if (list.length === 0) {
     return <div className="emptyList">There are no elements yet (￣︿￣)</div>;
   }
@@ -16,13 +14,7 @@ function List({ list, dispatch }: ListProps) {
     <div className="listWrapper">
       <ul>
         {list.map(item => (
-          <ListItem
-            id={item.id}
-            key={item.id}
-            isChecked={item.isChecked}
-            title={item.title}
-            dispatch={dispatch}
-          />
+          <ListItem item={item} key={item.id}/>
         ))}
       </ul>
     </div>
