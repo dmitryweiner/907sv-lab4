@@ -1,15 +1,16 @@
 import { render, screen, fireEvent } from '@testing-library/react';
 import List from '../List';
 import React from 'react';
+import { ACTION_TYPES } from '../../store';
 
 const list = [
   {
-    id: '1',
+    id: '123',
     title: 'TestItem1',
     isChecked: false
   },
   {
-    id: '2',
+    id: '456',
     title: 'TestItem2',
     isChecked: true
   }
@@ -17,16 +18,14 @@ const list = [
 
 test('Correct display of an empty list', () => {
   const list = [];
-  const deleteHandler = jest.fn();
-
-  render(<List list={list} deleteHandler={deleteHandler} />);
+  render(<List list={list} />);
   expect(screen.getByText('Список пуст')).toBeInTheDocument();
 });
 
-test('Correct display of the list of items', () => {
-  const deleteHandler = jest.fn();
+test('Correct display of the list of elements', () => {
+  const dispatch = jest.fn();
 
-  render(<List list={list} deleteHandler={deleteHandler} />);
+  render(<List list={list} dispatch={dispatch} />);
 
   for (let item of list) {
     expect(screen.getByText(item.title)).toBeInTheDocument();
@@ -35,7 +34,7 @@ test('Correct display of the list of items', () => {
   for (let deleteButton of screen.getAllByTestId('deleteButton')) {
     fireEvent.click(deleteButton);
   }
-  expect(deleteHandler).toBeCalledTimes(list.length);
+  expect(dispatch).toBeCalledTimes(list.length);
 });
 
 test('Displaying checkboxes in the desired state', () => {
@@ -47,14 +46,14 @@ test('Displaying checkboxes in the desired state', () => {
   }
 });
 
-test('Calling the checkHandler with the necessary parameters when clicking on the checkbox', () => {
-  const checkedHandler = jest.fn();
+test('Calling the checkHandler with the required parameters when clicking on the checkbox', () => {
+  const dispatch = jest.fn();
 
-  render(<List list={list} checkedHandler={checkedHandler} />);
+  render(<List list={list} dispatch={dispatch} />);
 
   const checkboxes = screen.getAllByTestId('checkbox');
   for (let i = 0; i < checkboxes; i++) {
     fireEvent.click(checkboxes[i]);
-    expect(checkedHandler).toBeCalledWith(list[i].id, !list[i].isChecked);
+    expect(dispatch).toBeCalledWith({ type: ACTION_TYPES.CHECKED, payload: list[i].id });
   }
 });
