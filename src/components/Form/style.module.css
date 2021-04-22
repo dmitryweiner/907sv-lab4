@@ -1,0 +1,17 @@
+.error {
+    color: red;
+}
+
+.form {
+    display: flex;
+    flex-direction: row;
+}
+
+.form button {
+    margin-left: 10px;
+    flex-grow: 1;
+}
+
+.form input {
+    flex-grow: 2;
+}
