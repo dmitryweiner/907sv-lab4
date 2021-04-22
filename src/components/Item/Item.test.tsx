@@ -1,9 +1,15 @@
 import React from 'react';
 import { screen, fireEvent } from '@testing-library/react';
 import { ItemI } from '../../store/interfaces/itemInterface';
-import { REMOVE, CHECKED } from '../../store/actions/todoAction';
+import { SET_REQUEST_STATUS } from '../../store/actions/todoAction';
 import { testRender, makeTestStore } from '../../setupTests';
 import Item from './Item';
+import thunkMiddleware from 'redux-thunk';
+import configureStore from 'redux-mock-store';
+import { selectOptions } from '../../store/reducers/todoReducer';
+import { REQUEST_STATUS } from '../../api/Api';
+import { initialState as alertInitialState } from '../../store/reducers/alertReducer';
+import fetchMock from 'fetch-mock';
 
 const store = makeTestStore();
 
@@ -12,6 +18,30 @@ const item: ItemI = {
   title: 'Hello, item',
   isChecked: false
 };
+
+const middlewares = [thunkMiddleware];
+const mockStore = configureStore(middlewares);
+
+const initialState = {
+  todo: {
+    items: [
+      {
+        id: '1',
+        title: 'title',
+        isChecked: false
+      }
+    ],
+    filter: selectOptions.All,
+    search: '',
+    requestStatus: REQUEST_STATUS.IDLE
+  },
+  alert: alertInitialState,
+  auth: {
+    isAuth: true
+  }
+};
+
+afterEach(() => fetchMock.reset());
 
 test('Render Item', () => {
   const value = 'Hello, item';
@@ -22,14 +52,14 @@ test('Render Item', () => {
 });
 
 test('delete item', () => {
+  const store = mockStore(initialState);
   testRender(<Item item={item} />, { store });
   const button = screen.getByTestId('delete');
   expect(button).toBeInTheDocument();
-  expect(store.dispatch).not.toBeCalled();
   fireEvent.click(button);
-  expect(store.dispatch).toBeCalledWith({
-    type: REMOVE,
-    payload: item.id
+  expect(store.getActions()[0]).toEqual({
+    type: SET_REQUEST_STATUS,
+    payload: REQUEST_STATUS.LOADING
   });
 });
 
@@ -40,14 +70,14 @@ test('render checkbox', () => {
 });
 
 test('item checked', () => {
+  const store = mockStore(initialState);
   testRender(<Item item={item} />, { store });
   const checkbox = screen.getByTestId('checkbox');
   expect(checkbox).toBeInTheDocument();
-  expect(store.dispatch).not.toBeCalled();
   fireEvent.click(checkbox);
-  expect(store.dispatch).toBeCalledWith({
-    type: CHECKED,
-    payload: item.id
+  expect(store.getActions()[0]).toEqual({
+    type: SET_REQUEST_STATUS,
+    payload: REQUEST_STATUS.LOADING
   });
 });
 

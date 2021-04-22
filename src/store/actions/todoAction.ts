@@ -85,7 +85,7 @@ export const removeTodo = (id: string) => async (dispatch: AppDispatch) => {
     dispatch({ type: SET_REQUEST_STATUS, payload: REQUEST_STATUS.LOADING });
     const data = await api.remove(id);
     dispatch({ type: SET_REQUEST_STATUS, payload: REQUEST_STATUS.IDLE });
-    dispatch({ type: REMOVE, payload: data.id });
+    dispatch({ type: REMOVE, payload: id });
   } catch (error) {
     dispatch({ type: SET_REQUEST_STATUS, payload: REQUEST_STATUS.ERROR });
     dispatch({ type: ADD_ALERT, payload: getAlertMessage(error.message) });
@@ -109,7 +109,7 @@ export const checkedItem = (id: string, isChecked: boolean) => async (dispatch: 
     dispatch({ type: SET_REQUEST_STATUS, payload: REQUEST_STATUS.LOADING });
     const data = await api.checked(id, isChecked);
     dispatch({ type: SET_REQUEST_STATUS, payload: REQUEST_STATUS.IDLE });
-    dispatch({ type: CHECKED, payload: data.id });
+    dispatch({ type: CHECKED, payload: id });
   } catch (error) {
     dispatch({ type: SET_REQUEST_STATUS, payload: REQUEST_STATUS.ERROR });
     dispatch({ type: ADD_ALERT, payload: getAlertMessage(error.message) });

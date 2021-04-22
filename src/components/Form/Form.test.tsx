@@ -1,12 +1,18 @@
 import React from 'react';
 import { fireEvent, screen } from '@testing-library/react';
 import Form from './Form';
-import { makeTestStore, testRender } from '../../setupTests';
+import { testRender } from '../../setupTests';
 import { Store } from '../../store/reducers';
 import { initialState as alertInitialState } from '../../store/reducers/alertReducer';
-import { ADD } from '../../store/actions/alertAction';
 import { selectOptions } from '../../store/reducers/todoReducer';
 import { REQUEST_STATUS } from '../../api/Api';
+import thunkMiddleware from 'redux-thunk';
+import configureStore from 'redux-mock-store';
+import fetchMock from 'fetch-mock';
+import { SET_REQUEST_STATUS } from '../../store/actions/todoAction';
+
+const middlewares = [thunkMiddleware];
+const mockStore = configureStore(middlewares);
 
 const initialState: Store = {
   todo: {
@@ -27,54 +33,25 @@ const initialState: Store = {
   }
 };
 
-const store = makeTestStore({ initialState });
+afterEach(() => fetchMock.reset());
 
 test('render Form', () => {
+  const store = mockStore(initialState);
   testRender(<Form />, { store });
   const form = screen.getByTestId('form');
   expect(form).toBeInTheDocument();
 });
 
 test('enter text and submit', () => {
+  const store = mockStore(initialState);
   const value = 'test';
   testRender(<Form />, { store });
   const input = screen.getByTestId('input');
   const form = screen.getByTestId('form');
   fireEvent.input(input, { target: { value: value } });
-  expect(store.dispatch).not.toBeCalled();
   fireEvent.submit(form);
-  expect(store.dispatch).toBeCalled();
-});
-
-test('validate error', () => {
-  testRender(<Form />, { store });
-  const input = screen.getByTestId('input');
-  const form = screen.getByTestId('form');
-  fireEvent.input(input, { target: { value: '' } });
-  fireEvent.submit(form);
-  expect(store.dispatch).toBeCalledWith(
-    expect.objectContaining({
-      type: ADD,
-      payload: expect.objectContaining({
-        message: 'Поле пустое, как твоя голова'
-      })
-    })
-  );
-});
-
-test('check title unique', () => {
-  const value = 'Hello, im a unique element';
-  testRender(<Form />, { store });
-  const input = screen.getByTestId('input');
-  const form = screen.getByTestId('form');
-  fireEvent.input(input, { target: { value: value } });
-  fireEvent.submit(form);
-  expect(store.dispatch).toBeCalledWith(
-    expect.objectContaining({
-      type: ADD,
-      payload: expect.objectContaining({
-        message: 'Поле уже существует'
-      })
-    })
-  );
+  expect(store.getActions()[0]).toEqual({
+    type: SET_REQUEST_STATUS,
+    payload: REQUEST_STATUS.LOADING
+  });
 });
