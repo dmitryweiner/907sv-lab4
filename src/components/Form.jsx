@@ -32,7 +32,7 @@ export default function Form({ handleSubmit }) {
           id="outlined-basic"
           label="Задача"
           variant="outlined"
-          data-testid="input"
+          inputProps={{ 'data-testid': 'input' }}
           onChange={handleChange}
           value={value}
         />

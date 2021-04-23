@@ -22,7 +22,7 @@ export default function ListItem({ id, title, isChecked, dispatch }) {
   return (
     <li>
       <Checkbox
-        data-testid="checkbox"
+        inputProps={{ 'data-testid': 'checkbox' }}
         checked={isChecked}
         onChange={() =>
           dispatch({
@@ -51,7 +51,7 @@ export default function ListItem({ id, title, isChecked, dispatch }) {
         <>
           <TextField
             value={editInput}
-            data-testid="editInput"
+            inputProps={{ 'data-testid': 'editInput' }}
             onChange={e => setEditInput(e.target.value)}
           />
           <Fab
