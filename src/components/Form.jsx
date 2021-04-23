@@ -1,16 +1,6 @@
 import React, { useState } from 'react';
 import AddButton from './Design/Button';
-import { makeStyles } from '@material-ui/core/styles';
 import TextField from '@material-ui/core/TextField';
-
-const useStyles = makeStyles(theme => ({
-  root: {
-    '& > *': {
-      margin: theme.spacing(1),
-      width: '25ch'
-    }
-  }
-}));
 
 export default function Form({ handleSubmit }) {
   const [value, setValue] = useState('');
@@ -29,32 +19,23 @@ export default function Form({ handleSubmit }) {
   }
 
   function handleChange(e) {
+    e.preventDefault();
     const newValue = e.target.value;
     setValue(newValue);
-  }
-
-  function Input() {
-    const classes = useStyles();
-
-    return (
-      <form className={classes.root} noValidate autoComplete="off">
-        <TextField
-          id="outlined-basic"
-          label="Задача:"
-          variant="outlined"
-          data-testid="input"
-          value={value}
-          onChange={handleChange}
-        />
-      </form>
-    );
   }
 
   return (
     <form data-testid="form" onSubmit={innerSubmit}>
       <div className="errorMessage">{errorMessage}</div>
       <div>
-        <Input />
+        <TextField
+          id="outlined-basic"
+          label="Задача"
+          variant="outlined"
+          data-testid="input"
+          onChange={handleChange}
+          value={value}
+        />
         <br />
         <AddButton />
       </div>
