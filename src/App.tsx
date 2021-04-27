@@ -12,8 +12,8 @@ function App() {
           <h1>ᕕ( ᐛ )ᕗ To do:</h1>
         </div>
         <div className="formWrapper">
-        <Form />
-        <SelectFilter />
+          <Form />
+          <SelectFilter />
         </div>
         <List />
       </div>

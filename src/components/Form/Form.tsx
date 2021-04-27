@@ -1,6 +1,6 @@
 import React, { FormEvent } from 'react';
-import { ACTION_TYPES } from '../Store';
 import { useDispatch } from 'react-redux';
+import { ACTION_TYPES } from '../../store/actions';
 
 function Form() {
   const dispatch = useDispatch();

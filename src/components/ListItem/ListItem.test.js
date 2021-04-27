@@ -2,7 +2,8 @@ import ListItem from './ListItem';
 import React from 'react';
 import { screen, fireEvent } from '@testing-library/react';
 import { makeTestStore, testRender } from '../../setupTests';
-import { ACTION_TYPES } from '../Store';
+import { ACTION_TYPES } from '../../store/actions';
+
 const listItemTitle = "I'm title";
 const listItemId = "I'm ListItem Id";
 const truthyTestListItem = {

@@ -1,13 +1,13 @@
 import React from 'react';
-import { ACTION_TYPES } from '../Store';
 import { useDispatch } from 'react-redux';
+import { ACTION_TYPES } from '../../store/actions';
 
 type ItemProps = {
-  item:{
+  item: {
     title: string;
     id: string;
     isChecked: boolean;
-  }
+  };
 };
 
 function ListItem({ item }: ItemProps) {
@@ -40,7 +40,12 @@ function ListItem({ item }: ItemProps) {
   return (
     <div className="listItem">
       <div className="listItemInformation">
-        <input type="checkbox" data-testid="checkbox" checked={item.isChecked} onChange={itemCheck} />
+        <input
+          type="checkbox"
+          data-testid="checkbox"
+          checked={item.isChecked}
+          onChange={itemCheck}
+        />
         {item.title}
       </div>
       <div className="listItemButtons">

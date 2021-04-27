@@ -1,14 +1,19 @@
 import { makeTestStore, testRender } from '../../setupTests';
 import { fireEvent, screen } from '@testing-library/react';
 import SelectFilter from './SelectFilter';
-import { ACTION_TYPES, initialState as originalState } from '../Store';
+import { initialState as originalState } from '../../store';
+import { ACTION_TYPES } from '../../store/actions';
 
 describe(' Тесты SelectFilter > checkbox фильтра выполненности всех дел', () => {
   test(' Отображение выбранного checkbox"а фильтра выполненности всех дел ', () => {
     const initialState = {
       ...originalState,
-      isFilterDone: true
+      filter: { isFilterDone: true }
+      //
+      // ...originalState,
+      // isFilterDone: true
     };
+    console.log('this is initial state', initialState);
     const store = makeTestStore({ initialState });
     testRender(<SelectFilter />, { store });
     const filterCheckbox = screen.getByTestId('filterCheckbox');

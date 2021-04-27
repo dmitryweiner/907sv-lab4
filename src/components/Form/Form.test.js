@@ -1,7 +1,7 @@
 import { screen, fireEvent } from '@testing-library/react';
 import Form from './Form';
 import { makeTestStore, testRender } from '../../setupTests';
-import { ACTION_TYPES } from '../Store';
+import { ACTION_TYPES } from '../../store/actions';
 
 describe(' Тесты Form > input и addButton', () => {
   test(' Отображение поля для ввода и кнопки для добавления ', () => {

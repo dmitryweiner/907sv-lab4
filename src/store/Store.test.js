@@ -1,4 +1,8 @@
-import { ACTION_TYPES, reducer, getFilteredList, initialState } from './Store';
+import { ACTION_TYPES } from './actions';
+import { initialState } from './index';
+import rootReducer from './reducers/reducersIndex';
+import { getFilteredList } from './selectors';
+
 const testTitle = "I'm a deed";
 const listToAlter = [
   {
@@ -22,18 +26,18 @@ describe(' Тесты Store > getFilteredList + action.type.isFilterDone ', () =
         type: ACTION_TYPES.ADD,
         payload: testTitle
       };
-      let state = reducer(initialState, addAction);
-      state = reducer(state, addAction);
-      state = reducer(state, addAction);
+      let state = rootReducer(initialState, addAction);
+      state = rootReducer(state, addAction);
+      state = rootReducer(state, addAction);
       const checkAction = {
         type: ACTION_TYPES.CHECK,
-        payload: state.list[0].id
+        payload: state.todos.list[0].id
       };
-      state = reducer(state, checkAction);
+      state = rootReducer(state, checkAction);
       const filterCheckAction = {
         type: ACTION_TYPES.IS_FILTER_DONE
       };
-      state = reducer(state, filterCheckAction);
+      state = rootReducer(state, filterCheckAction);
       const filteredList = getFilteredList(state);
       expect(filteredList).toHaveLength(1);
     }
@@ -43,44 +47,51 @@ describe(' Тесты Store > getFilteredList + action.type.isFilterDone ', () =
 describe(' Тесты Store > action.type.moveUp и action.type.moveDown ', () => {
   const filledState = {
     ...initialState,
-    list: listToAlter
+    todos: { list: listToAlter }
+    //
+    // initialState: { ...initialState, todos: { list: listToAlter } }
+    //
+    // ...initialState,
+    // list: listToAlter
   };
+  console.log('this is filled state', filledState, filledState.todos);
 
   test(' moveUp меняет порядок элементов, возвращает измененный список ', () => {
     const moveUpAction = {
       type: ACTION_TYPES.MOVE_UP,
-      payload: filledState.list[1].id
+      payload: filledState.todos.list[1].id
     };
-    let alteredList = reducer(filledState, moveUpAction);
-    expect(alteredList.list[0].id).toEqual(listToAlter[1].id);
-    expect(alteredList.list[1].id).toEqual(listToAlter[0].id);
+    let alteredList = rootReducer(filledState, moveUpAction);
+    console.log('this is altered list', alteredList, alteredList.todos);
+    expect(alteredList.todos.list[0].id).toEqual(listToAlter[1].id);
+    expect(alteredList.todos.list[1].id).toEqual(listToAlter[0].id);
   });
   test(' moveUp получает элемент с index = 0, возвращает неизмененный список ', () => {
     const moveUpAction = {
       type: ACTION_TYPES.MOVE_UP,
-      payload: filledState.list[0].id
+      payload: filledState.todos.list[0].id
     };
-    let alteredList = reducer(filledState, moveUpAction);
-    expect(alteredList.list[0].id).toEqual(listToAlter[0].id);
-    expect(alteredList.list[1].id).toEqual(listToAlter[1].id);
+    let alteredList = rootReducer(filledState, moveUpAction);
+    expect(alteredList.todos.list[0].id).toEqual(listToAlter[0].id);
+    expect(alteredList.todos.list[1].id).toEqual(listToAlter[1].id);
   });
   test(' moveDown меняет порядок элементов, возвращает измененный список ', () => {
     const moveDownAction = {
       type: ACTION_TYPES.MOVE_DOWN,
-      payload: filledState.list[0].id
+      payload: filledState.todos.list[0].id
     };
-    let alteredList = reducer(filledState, moveDownAction);
-    expect(alteredList.list[0].id).toEqual(listToAlter[1].id);
-    expect(alteredList.list[1].id).toEqual(listToAlter[0].id);
+    let alteredList = rootReducer(filledState, moveDownAction);
+    expect(alteredList.todos.list[0].id).toEqual(listToAlter[1].id);
+    expect(alteredList.todos.list[1].id).toEqual(listToAlter[0].id);
   });
   test(' moveDown получает элемент с index = list.length-1, возвращает неизмененный список ', () => {
     const moveDownAction = {
       type: ACTION_TYPES.MOVE_DOWN,
-      payload: filledState.list[1].id
+      payload: filledState.todos.list[1].id
     };
-    let alteredList = reducer(filledState, moveDownAction);
-    expect(alteredList.list[0].id).toEqual(listToAlter[0].id);
-    expect(alteredList.list[1].id).toEqual(listToAlter[1].id);
+    let alteredList = rootReducer(filledState, moveDownAction);
+    expect(alteredList.todos.list[0].id).toEqual(listToAlter[0].id);
+    expect(alteredList.todos.list[1].id).toEqual(listToAlter[1].id);
   });
 });
 
@@ -90,12 +101,12 @@ describe(' Тесты Store > action.type.add ', () => {
       type: ACTION_TYPES.ADD,
       payload: testTitle
     };
-    const newState = reducer(initialState, addAction);
-    expect(newState.list.length).toEqual(1);
-    expect(newState.list[0]).toHaveProperty('id');
-    expect(newState.list[0].title).toEqual(testTitle);
-    expect(newState.list[0]).toHaveProperty('isChecked');
-    expect(newState.list[0].isChecked).toEqual(false);
+    const newState = rootReducer(initialState, addAction);
+    expect(newState.todos.list.length).toEqual(1);
+    expect(newState.todos.list[0]).toHaveProperty('id');
+    expect(newState.todos.list[0].title).toEqual(testTitle);
+    expect(newState.todos.list[0]).toHaveProperty('isChecked');
+    expect(newState.todos.list[0].isChecked).toEqual(false);
   });
 });
 
@@ -105,13 +116,13 @@ describe(' Тесты Store > action.type.delete ', () => {
       type: ACTION_TYPES.ADD,
       payload: testTitle
     };
-    let state = reducer(initialState, addAction);
+    let state = rootReducer(initialState, addAction);
     const deleteAction = {
       type: ACTION_TYPES.DELETE,
-      payload: state.list[0].id
+      payload: state.todos.list[0].id
     };
-    state = reducer(state, deleteAction);
-    expect(state.list.length).toEqual(0);
+    state = rootReducer(state, deleteAction);
+    expect(state.todos.list.length).toEqual(0);
   });
 });
 
@@ -121,13 +132,13 @@ describe(' Тесты Store > action.type.check ', () => {
       type: ACTION_TYPES.ADD,
       payload: testTitle
     };
-    let state = reducer(initialState, addAction);
-    expect(state.list[0].isChecked).toEqual(false);
+    let state = rootReducer(initialState, addAction);
+    expect(state.todos.list[0].isChecked).toEqual(false);
     const checkAction = {
       type: ACTION_TYPES.CHECK,
-      payload: state.list[0].id
+      payload: state.todos.list[0].id
     };
-    state = reducer(state, checkAction);
-    expect(state.list[0].isChecked).toEqual(true);
+    state = rootReducer(state, checkAction);
+    expect(state.todos.list[0].isChecked).toEqual(true);
   });
 });

@@ -1,7 +1,7 @@
 import React from 'react';
 import ListItem from '../ListItem/ListItem';
-import { getFilteredList } from '../Store';
 import { useSelector } from 'react-redux';
+import { getFilteredList } from '../../store/selectors';
 
 function List() {
   const list = useSelector(getFilteredList);
@@ -14,7 +14,7 @@ function List() {
     <div className="listWrapper">
       <ul>
         {list.map(item => (
-          <ListItem item={item} key={item.id}/>
+          <ListItem item={item} key={item.id} />
         ))}
       </ul>
     </div>
