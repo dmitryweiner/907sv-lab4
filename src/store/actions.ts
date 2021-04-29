@@ -4,7 +4,9 @@ export const ACTION_TYPES = {
   CHECK: 'check',
   MOVE_UP: 'move_up',
   MOVE_DOWN: 'move_down',
-  IS_FILTER_DONE: 'is_filter_done'
+  ALL_DEEDS: 'all_deeds',
+  DONE_DEEDS: 'done_deeds',
+  NOT_DONE_DEEDS: 'not_done_deeds'
 } as const;
 
 export interface ActionAdd {
@@ -32,8 +34,14 @@ export interface ActionMoveDown {
   payload: string;
 }
 
-export interface ActionIsFilterDone {
-  type: typeof ACTION_TYPES.IS_FILTER_DONE;
+export interface ActionAllDeeds {
+  type: typeof ACTION_TYPES.ALL_DEEDS;
+}
+export interface ActionDoneDeeds {
+  type: typeof ACTION_TYPES.DONE_DEEDS;
+}
+export interface ActionNotDoneDeeds {
+  type: typeof ACTION_TYPES.NOT_DONE_DEEDS;
 }
 
 export type Action =
@@ -42,4 +50,6 @@ export type Action =
   | ActionCheck
   | ActionMoveUp
   | ActionMoveDown
-  | ActionIsFilterDone;
+  | ActionAllDeeds
+  | ActionDoneDeeds
+  | ActionNotDoneDeeds;
