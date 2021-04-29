@@ -1,40 +1,25 @@
 import { Action, ACTION_TYPES } from '../actions';
 
+export enum FILTER_STATE {
+  ALL_DEEDS,
+  DONE_DEEDS,
+  NOT_DONE_DEEDS
+}
 export type FilterSlice = {
-  isAllDeedsChecked: boolean;
-  isDoneDeedsChecked: boolean;
-  isNotDoneDeedsChecked: boolean;
+  filterState: FILTER_STATE;
 };
-
 export const filterInitialState: FilterSlice = {
-  isAllDeedsChecked: true,
-  isDoneDeedsChecked: false,
-  isNotDoneDeedsChecked: false
+  filterState: FILTER_STATE.ALL_DEEDS
 };
 
 export function filterReducer(state = filterInitialState, action: Action): FilterSlice {
   switch (action.type) {
-    case ACTION_TYPES.ALL_DEEDS: {
+    case ACTION_TYPES.CHANGE_FILTER_STATE: {
       return {
         ...state,
-        isAllDeedsChecked: !state.isAllDeedsChecked
+        filterState: action.payload
       };
     }
-
-    case ACTION_TYPES.DONE_DEEDS: {
-      return {
-        ...state,
-        isDoneDeedsChecked: !state.isDoneDeedsChecked
-      };
-    }
-
-    case ACTION_TYPES.NOT_DONE_DEEDS: {
-      return {
-        ...state,
-        isNotDoneDeedsChecked: !state.isNotDoneDeedsChecked
-      };
-    }
-
     default:
       return state;
   }

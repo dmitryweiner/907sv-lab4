@@ -1,12 +1,12 @@
+import { FILTER_STATE } from './reducers/filterSlice';
+
 export const ACTION_TYPES = {
   ADD: 'add',
   DELETE: 'delete',
   CHECK: 'check',
   MOVE_UP: 'move_up',
   MOVE_DOWN: 'move_down',
-  ALL_DEEDS: 'all_deeds',
-  DONE_DEEDS: 'done_deeds',
-  NOT_DONE_DEEDS: 'not_done_deeds'
+  CHANGE_FILTER_STATE: 'change_filter_state'
 } as const;
 
 export interface ActionAdd {
@@ -34,14 +34,9 @@ export interface ActionMoveDown {
   payload: string;
 }
 
-export interface ActionAllDeeds {
-  type: typeof ACTION_TYPES.ALL_DEEDS;
-}
-export interface ActionDoneDeeds {
-  type: typeof ACTION_TYPES.DONE_DEEDS;
-}
-export interface ActionNotDoneDeeds {
-  type: typeof ACTION_TYPES.NOT_DONE_DEEDS;
+export interface ActionChangeFilterState {
+  type: typeof ACTION_TYPES.CHANGE_FILTER_STATE;
+  payload: FILTER_STATE;
 }
 
 export type Action =
@@ -50,6 +45,4 @@ export type Action =
   | ActionCheck
   | ActionMoveUp
   | ActionMoveDown
-  | ActionAllDeeds
-  | ActionDoneDeeds
-  | ActionNotDoneDeeds;
+  | ActionChangeFilterState;

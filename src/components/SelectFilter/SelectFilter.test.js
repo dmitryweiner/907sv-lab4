@@ -3,6 +3,7 @@ import { fireEvent, screen } from '@testing-library/react';
 import SelectFilter from './SelectFilter';
 import { initialState as originalState } from '../../store';
 import { ACTION_TYPES } from '../../store/actions';
+import { FILTER_STATE } from '../../store/reducers/filterSlice';
 
 describe(' Тесты SelectFilter > checkbox фильтра всех дел ', () => {
   test(' Отображение выбранного checkbox"а фильтра всех дел ', () => {
@@ -16,7 +17,7 @@ describe(' Тесты SelectFilter > checkbox фильтра всех дел ', 
   test(' Отображение не выбранного checkbox"а фильтра всех дел ', () => {
     const initialState = {
       ...originalState,
-      filter: { isAllDeedsChecked: false }
+      filter: { filterState: FILTER_STATE.DONE_DEEDS }
     };
     const store = makeTestStore({ initialState });
     testRender(<SelectFilter />, { store });
@@ -32,7 +33,8 @@ describe(' Тесты SelectFilter > checkbox фильтра всех дел ', 
     expect(store.dispatch).not.toBeCalled();
     fireEvent.click(allDeedsFilterCheckbox);
     expect(store.dispatch).toBeCalledWith({
-      type: ACTION_TYPES.ALL_DEEDS
+      type: ACTION_TYPES.CHANGE_FILTER_STATE,
+      payload: FILTER_STATE.ALL_DEEDS
     });
   });
 });
@@ -41,7 +43,7 @@ describe(' Тесты SelectFilter > checkbox фильтра всех выпол
   test(' Отображение выбранного checkbox"а фильтра всех выполненных дел ', () => {
     const initialState = {
       ...originalState,
-      filter: { isDoneDeedsChecked: true }
+      filter: { filterState: FILTER_STATE.DONE_DEEDS }
     };
     const store = makeTestStore({ initialState });
     testRender(<SelectFilter />, { store });
@@ -65,7 +67,8 @@ describe(' Тесты SelectFilter > checkbox фильтра всех выпол
     expect(store.dispatch).not.toBeCalled();
     fireEvent.click(doneDeedsFilterCheckbox);
     expect(store.dispatch).toBeCalledWith({
-      type: ACTION_TYPES.DONE_DEEDS
+      type: ACTION_TYPES.CHANGE_FILTER_STATE,
+      payload: FILTER_STATE.DONE_DEEDS
     });
   });
 });
@@ -74,7 +77,7 @@ describe(' Тесты SelectFilter > checkbox фильтра не выполне
   test(' Отображение выбранного checkbox"а фильтра не выполненных дел ', () => {
     const initialState = {
       ...originalState,
-      filter: { isNotDoneDeedsChecked: true }
+      filter: { filterState: FILTER_STATE.NOT_DONE_DEEDS }
     };
     const store = makeTestStore({ initialState });
     testRender(<SelectFilter />, { store });
@@ -98,7 +101,8 @@ describe(' Тесты SelectFilter > checkbox фильтра не выполне
     expect(store.dispatch).not.toBeCalled();
     fireEvent.click(notDoneDeedsFilterCheckbox);
     expect(store.dispatch).toBeCalledWith({
-      type: ACTION_TYPES.NOT_DONE_DEEDS
+      type: ACTION_TYPES.CHANGE_FILTER_STATE,
+      payload: FILTER_STATE.NOT_DONE_DEEDS
     });
   });
 });

@@ -2,6 +2,7 @@ import { ACTION_TYPES } from './actions';
 import { initialState } from './index';
 import rootReducer from './reducers/reducersIndex';
 import { getFilteredList } from './selectors';
+import { FILTER_STATE } from './reducers/filterSlice';
 
 const testTitle = "I'm a deed";
 const listToAlter = [
@@ -17,9 +18,9 @@ const listToAlter = [
   }
 ];
 
-describe(' Тесты Store > getFilteredList + action.type.isFilterDone ', () => {
+describe(' Тесты Store > getFilteredList + action.type.changeFilterState ', () => {
   test(
-    ' добавление нескольких элементов, изменение isChecked у одного, изменение isFilterDone самого списка, ' +
+    ' добавление нескольких элементов, изменение isChecked у одного, изменение filterState.doneDeeds списка, ' +
       'фильтрация списка так чтобы в новом списке был только элемент с isChecked === true ',
     () => {
       const addAction = {
@@ -35,11 +36,69 @@ describe(' Тесты Store > getFilteredList + action.type.isFilterDone ', () =
       };
       state = rootReducer(state, checkAction);
       const filterCheckAction = {
-        type: ACTION_TYPES.IS_FILTER_DONE
+        type: ACTION_TYPES.CHANGE_FILTER_STATE,
+        payload: FILTER_STATE.DONE_DEEDS
       };
       state = rootReducer(state, filterCheckAction);
       const filteredList = getFilteredList(state);
       expect(filteredList).toHaveLength(1);
+    }
+  );
+
+  test(
+    ' добавление нескольких элементов, изменение isChecked у одного, изменение filterState.notDoneDeeds списка, ' +
+      'фильтрация списка так чтобы в новом списке было два элемента с isChecked === false ',
+    () => {
+      const addAction = {
+        type: ACTION_TYPES.ADD,
+        payload: testTitle
+      };
+      let state = rootReducer(initialState, addAction);
+      state = rootReducer(state, addAction);
+      state = rootReducer(state, addAction);
+      const checkAction = {
+        type: ACTION_TYPES.CHECK,
+        payload: state.todos.list[0].id
+      };
+      state = rootReducer(state, checkAction);
+      const filterCheckAction = {
+        type: ACTION_TYPES.CHANGE_FILTER_STATE,
+        payload: FILTER_STATE.NOT_DONE_DEEDS
+      };
+      state = rootReducer(state, filterCheckAction);
+      const filteredList = getFilteredList(state);
+      expect(filteredList).toHaveLength(2);
+    }
+  );
+
+  test(
+    ' изначально выбран filterState.doneDeeds, добавление нескольких элементов, изменение isChecked у одного, ' +
+      'изменение filterState.allDeeds списка, фильтрация списка так чтобы в новом списке были все элементы ',
+    () => {
+      const addAction = {
+        type: ACTION_TYPES.ADD,
+        payload: testTitle
+      };
+      let state = rootReducer(initialState, addAction);
+      state = rootReducer(state, addAction);
+      state = rootReducer(state, addAction);
+      const firstFilterCheckAction = {
+        type: ACTION_TYPES.CHANGE_FILTER_STATE,
+        payload: FILTER_STATE.DONE_DEEDS
+      };
+      state = rootReducer(state, firstFilterCheckAction);
+      const checkAction = {
+        type: ACTION_TYPES.CHECK,
+        payload: state.todos.list[0].id
+      };
+      state = rootReducer(state, checkAction);
+      const filterCheckAction = {
+        type: ACTION_TYPES.CHANGE_FILTER_STATE,
+        payload: FILTER_STATE.ALL_DEEDS
+      };
+      state = rootReducer(state, filterCheckAction);
+      const filteredList = getFilteredList(state);
+      expect(filteredList).toHaveLength(3);
     }
   );
 });
@@ -48,13 +107,7 @@ describe(' Тесты Store > action.type.moveUp и action.type.moveDown ', () =
   const filledState = {
     ...initialState,
     todos: { list: listToAlter }
-    //
-    // initialState: { ...initialState, todos: { list: listToAlter } }
-    //
-    // ...initialState,
-    // list: listToAlter
   };
-  console.log('this is filled state', filledState, filledState.todos);
 
   test(' moveUp меняет порядок элементов, возвращает измененный список ', () => {
     const moveUpAction = {
@@ -62,7 +115,6 @@ describe(' Тесты Store > action.type.moveUp и action.type.moveDown ', () =
       payload: filledState.todos.list[1].id
     };
     let alteredList = rootReducer(filledState, moveUpAction);
-    console.log('this is altered list', alteredList, alteredList.todos);
     expect(alteredList.todos.list[0].id).toEqual(listToAlter[1].id);
     expect(alteredList.todos.list[1].id).toEqual(listToAlter[0].id);
   });

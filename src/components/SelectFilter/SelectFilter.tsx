@@ -2,25 +2,27 @@ import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { ACTION_TYPES } from '../../store/actions';
 import { Store } from '../../store';
+import { FILTER_STATE } from '../../store/reducers/filterSlice';
 
 function SelectFilter() {
   const dispatch = useDispatch();
-  const isAllDeedsChecked = useSelector((state: Store) => state.filter.isAllDeedsChecked);
-  const isDoneDeedsChecked = useSelector((state: Store) => state.filter.isDoneDeedsChecked);
-  const isNotDoneDeedsChecked = useSelector((state: Store) => state.filter.isNotDoneDeedsChecked);
+  const filterState = useSelector((state: Store) => state.filter.filterState);
   function allDeedsHandler() {
     dispatch({
-      type: ACTION_TYPES.ALL_DEEDS
+      type: ACTION_TYPES.CHANGE_FILTER_STATE,
+      payload: FILTER_STATE.ALL_DEEDS
     });
   }
   function doneDeedsHandler() {
     dispatch({
-      type: ACTION_TYPES.DONE_DEEDS
+      type: ACTION_TYPES.CHANGE_FILTER_STATE,
+      payload: FILTER_STATE.DONE_DEEDS
     });
   }
   function notDoneDeedsHandler() {
     dispatch({
-      type: ACTION_TYPES.NOT_DONE_DEEDS
+      type: ACTION_TYPES.CHANGE_FILTER_STATE,
+      payload: FILTER_STATE.NOT_DONE_DEEDS
     });
   }
 
@@ -29,21 +31,21 @@ function SelectFilter() {
       <input
         type="checkbox"
         data-testid="allDeedsFilterCheckbox"
-        checked={isAllDeedsChecked}
+        checked={filterState === FILTER_STATE.ALL_DEEDS}
         onChange={allDeedsHandler}
       />
       {' all deeds '}
       <input
         type="checkbox"
         data-testid="doneDeedsFilterCheckbox"
-        checked={isDoneDeedsChecked}
+        checked={filterState === FILTER_STATE.DONE_DEEDS}
         onChange={doneDeedsHandler}
       />
       {' done deeds '}
       <input
         type="checkbox"
         data-testid="notDoneDeedsFilterCheckbox"
-        checked={isNotDoneDeedsChecked}
+        checked={filterState === FILTER_STATE.NOT_DONE_DEEDS}
         onChange={notDoneDeedsHandler}
       />
       {' not done deeds '}
