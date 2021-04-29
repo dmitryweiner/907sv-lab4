@@ -27,28 +27,34 @@ function SelectFilter() {
   }
 
   return (
-    <div>
-      <input
-        type="checkbox"
-        data-testid="allDeedsFilterCheckbox"
-        checked={filterState === FILTER_STATE.ALL_DEEDS}
-        onChange={allDeedsHandler}
-      />
-      {' all deeds '}
-      <input
-        type="checkbox"
-        data-testid="doneDeedsFilterCheckbox"
-        checked={filterState === FILTER_STATE.DONE_DEEDS}
-        onChange={doneDeedsHandler}
-      />
-      {' done deeds '}
-      <input
-        type="checkbox"
-        data-testid="notDoneDeedsFilterCheckbox"
-        checked={filterState === FILTER_STATE.NOT_DONE_DEEDS}
-        onChange={notDoneDeedsHandler}
-      />
-      {' not done deeds '}
+    <div className="filtersWrapper">
+      <div>
+        <input
+          type="checkbox"
+          data-testid="allDeedsFilterCheckbox"
+          checked={filterState === FILTER_STATE.ALL_DEEDS}
+          onChange={allDeedsHandler}
+        />
+        {' all deeds '}
+      </div>
+      <div>
+        <input
+          type="checkbox"
+          data-testid="doneDeedsFilterCheckbox"
+          checked={filterState === FILTER_STATE.DONE_DEEDS}
+          onChange={doneDeedsHandler}
+        />
+        {' done deeds '}
+      </div>
+      <div>
+        <input
+          type="checkbox"
+          data-testid="notDoneDeedsFilterCheckbox"
+          checked={filterState === FILTER_STATE.NOT_DONE_DEEDS}
+          onChange={notDoneDeedsHandler}
+        />
+        {' not done deeds '}
+      </div>
     </div>
   );
 }

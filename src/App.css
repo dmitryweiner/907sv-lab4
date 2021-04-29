@@ -99,3 +99,8 @@ input:-moz-placeholder {
 .moveButtons {
     flex-direction: column;
 }
+.filtersWrapper {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+}
