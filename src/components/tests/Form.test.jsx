@@ -1,5 +1,5 @@
 import { render, screen, fireEvent } from '@testing-library/react';
-import Form from '../Form';
+import Form from '../Form.tsx';
 import React from 'react';
 
 test('Форма позволяет вводить данные, вызывает обработчик', () => {
