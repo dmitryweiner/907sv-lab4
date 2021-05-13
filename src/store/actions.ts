@@ -6,7 +6,9 @@ export const ACTION_TYPES = {
   CHECK: 'check',
   MOVE_UP: 'move_up',
   MOVE_DOWN: 'move_down',
-  CHANGE_FILTER_STATE: 'change_filter_state'
+  CHANGE_FILTER_STATE: 'change_filter_state',
+  FILTER_SUBSTRING: 'filter_substring'
+  // CHANGE_FILTER_SEARCH: 'change_filter_search'
 } as const;
 
 export interface ActionAdd {
@@ -39,10 +41,22 @@ export interface ActionChangeFilterState {
   payload: FILTER_STATE;
 }
 
+export interface ActionFilterSubstring {
+  type: typeof ACTION_TYPES.FILTER_SUBSTRING;
+  payload: string;
+}
+
+// export interface ActionChangeFilterSearch {
+//   type: typeof ACTION_TYPES.CHANGE_FILTER_SEARCH;
+//   payload: FILTER_SEARCH_STATE;
+// }
+
 export type Action =
   | ActionAdd
   | ActionDelete
   | ActionCheck
   | ActionMoveUp
   | ActionMoveDown
-  | ActionChangeFilterState;
+  | ActionChangeFilterState
+  | ActionFilterSubstring;
+  // | ActionChangeFilterSearch;

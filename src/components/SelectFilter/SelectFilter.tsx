@@ -7,6 +7,7 @@ import { FILTER_STATE } from '../../store/reducers/filterSlice';
 function SelectFilter() {
   const dispatch = useDispatch();
   const filterState = useSelector((state: Store) => state.filter.filterState);
+  const [substringValue, setSubstringValue] = React.useState('');
   function allDeedsHandler() {
     dispatch({
       type: ACTION_TYPES.CHANGE_FILTER_STATE,
@@ -25,6 +26,18 @@ function SelectFilter() {
       payload: FILTER_STATE.NOT_DONE_DEEDS
     });
   }
+  function searchBySubstringHandler() {
+    dispatch({
+      type: ACTION_TYPES.FILTER_SUBSTRING,
+      // payload:
+    });
+  }
+  // function searchBySubstringHandler() {
+  //   dispatch({
+  //     type: ACTION_TYPES.CHANGE_FILTER_STATE,
+  //     payload: FILTER_STATE.SUBSTRING_SEARCH
+  //   });
+  // }
 
   return (
     <div className="filtersWrapper">
@@ -54,6 +67,17 @@ function SelectFilter() {
           onChange={notDoneDeedsHandler}
         />
         {' not done deeds '}
+      {/*</div>*/}
+      {/*<div>*/}
+      {/*  <input*/}
+      {/*    type="text"*/}
+      {/*    data-testid="substringSearchField"*/}
+      {/*    value={substringValue}*/}
+      {/*    onChange={e => setSubstringValue(e.target.value)}*/}
+      {/*  />*/}
+      {/*  <button data-testid="substringSearchButton" onClick={searchBySubstringHandler}>*/}
+      {/*    Find*/}
+      {/*  </button>*/}
       </div>
     </div>
   );
