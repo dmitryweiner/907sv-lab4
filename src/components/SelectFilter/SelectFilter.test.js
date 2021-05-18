@@ -117,21 +117,9 @@ describe(' Тесты SelectFilter > поиск по подстроке ', () =>
     expect(searchButton).toBeInTheDocument();
   });
 
-  test(' Ввод подстроки, нажатие на кнопку, filterAction работает, возвращает правильный список ', () => {
-    const listToDisplay = [
-      {
-        id: 1,
-        isChecked: true,
-        title: 'Meowing'
-      },
-      {
-        id: 2,
-        isChecked: false,
-        title: 'Barking'
-      }
-    ];
+  test(' Ввод подстроки, нажатие на кнопку, filterAction работает ', () => {
     const initialState = {
-      ...listToDisplay,
+      ...originalState,
       filter: { filterState: FILTER_STATE.ALL_DEEDS }
     };
     const store = makeTestStore({ initialState });

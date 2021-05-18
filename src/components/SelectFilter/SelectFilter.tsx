@@ -29,15 +29,9 @@ function SelectFilter() {
   function searchBySubstringHandler() {
     dispatch({
       type: ACTION_TYPES.FILTER_SUBSTRING,
-      // payload:
+      payload: substringValue
     });
   }
-  // function searchBySubstringHandler() {
-  //   dispatch({
-  //     type: ACTION_TYPES.CHANGE_FILTER_STATE,
-  //     payload: FILTER_STATE.SUBSTRING_SEARCH
-  //   });
-  // }
 
   return (
     <div className="filtersWrapper">
@@ -67,17 +61,17 @@ function SelectFilter() {
           onChange={notDoneDeedsHandler}
         />
         {' not done deeds '}
-      {/*</div>*/}
-      {/*<div>*/}
-      {/*  <input*/}
-      {/*    type="text"*/}
-      {/*    data-testid="substringSearchField"*/}
-      {/*    value={substringValue}*/}
-      {/*    onChange={e => setSubstringValue(e.target.value)}*/}
-      {/*  />*/}
-      {/*  <button data-testid="substringSearchButton" onClick={searchBySubstringHandler}>*/}
-      {/*    Find*/}
-      {/*  </button>*/}
+      </div>
+      <div>
+        <input
+          type="text"
+          data-testid="substringSearchField"
+          value={substringValue}
+          onChange={e => setSubstringValue(e.target.value)}
+        />
+        <button data-testid="substringSearchButton" onClick={searchBySubstringHandler}>
+          Find
+        </button>
       </div>
     </div>
   );

@@ -8,7 +8,6 @@ export const ACTION_TYPES = {
   MOVE_DOWN: 'move_down',
   CHANGE_FILTER_STATE: 'change_filter_state',
   FILTER_SUBSTRING: 'filter_substring'
-  // CHANGE_FILTER_SEARCH: 'change_filter_search'
 } as const;
 
 export interface ActionAdd {
@@ -46,11 +45,6 @@ export interface ActionFilterSubstring {
   payload: string;
 }
 
-// export interface ActionChangeFilterSearch {
-//   type: typeof ACTION_TYPES.CHANGE_FILTER_SEARCH;
-//   payload: FILTER_SEARCH_STATE;
-// }
-
 export type Action =
   | ActionAdd
   | ActionDelete
@@ -59,4 +53,3 @@ export type Action =
   | ActionMoveDown
   | ActionChangeFilterState
   | ActionFilterSubstring;
-  // | ActionChangeFilterSearch;

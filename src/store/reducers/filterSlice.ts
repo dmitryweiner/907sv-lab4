@@ -6,10 +6,6 @@ export enum FILTER_STATE {
   NOT_DONE_DEEDS
 }
 
-// export type FILTER_SEARCH_STATE = {
-//   SUBSTRING_SEARCH
-// }
-
 export type FilterSlice = {
   substringValue: string;
   filterState: FILTER_STATE;
