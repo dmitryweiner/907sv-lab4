@@ -1,7 +1,7 @@
 import { render, screen, fireEvent } from '@testing-library/react';
 import List from '../List';
 import React from 'react';
-import { ACTION_TYPES } from '../../store';
+import { ACTION_TYPES } from '../../store/store';
 
 const list = [
   {
