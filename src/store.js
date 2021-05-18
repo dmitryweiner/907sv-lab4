@@ -1,14 +1,17 @@
 import { createStore } from 'redux';
 
-const initialState = {
-  list: []
+export const initialState = {
+  list: [],
+  searchBar: ''
 };
 export const ACTION_TYPES = {
   ADD: 'ADD',
   EDIT: 'EDIT',
   REMOVE: 'REMOVE',
-  CHECK: 'CHECK'
+  CHECK: 'CHECK',
+  SEARCH: 'SEARCH'
 };
+
 export function reducer(state = initialState, action) {
   switch (action.type) {
     case ACTION_TYPES.ADD: {
@@ -47,9 +50,23 @@ export function reducer(state = initialState, action) {
       }
       return { ...state, list: [...state.list] };
     }
+    case ACTION_TYPES.SEARCH: {
+      return { ...state, searchBar: action.payload };
+    }
     default:
       return state;
   }
+}
+
+export function selectBySearchBar(searchBar, list) {
+  if (searchBar !== '') {
+    for (let i = 0; i < list.length; i++) {
+      if (list[i].title.toUpperCase().indexOf(searchBar.toUpperCase()) !== 1) {
+        return list[i];
+      }
+    }
+  }
+  return list;
 }
 
 const store = createStore(reducer);
