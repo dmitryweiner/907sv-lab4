@@ -6,7 +6,7 @@ const initialState = {
 export const ACTION_TYPES = {
   ADD: 'ADD',
   EDIT: 'EDIT',
-  DELETE: 'DELETE',
+  REMOVE: 'REMOVE',
   CHECK: 'CHECK'
 };
 export function reducer(state = initialState, action) {
@@ -27,6 +27,22 @@ export function reducer(state = initialState, action) {
       for (let i = 0; i < state.list.length; i++) {
         if (state.list[i].id === action.payload) {
           state.list[i].isChecked = !state.list[i].isChecked;
+        }
+      }
+      return { ...state, list: [...state.list] };
+    }
+    case ACTION_TYPES.EDIT: {
+      for (let i = 0; i < state.list.length; i++) {
+        if (state.list[i].id === action.payload.id) {
+          state.list[i].title = action.payload.title;
+        }
+      }
+      return { ...state, list: [...state.list] };
+    }
+    case ACTION_TYPES.REMOVE: {
+      for (let i = 0; i < state.list.length; i++) {
+        if (state.list[i].id === action.payload.id) {
+          state.list.splice(state.list[i]);
         }
       }
       return { ...state, list: [...state.list] };

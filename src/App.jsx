@@ -2,12 +2,10 @@ import React, { useState } from 'react';
 import './App.css';
 import Form from './components/Form';
 import List from './components/List';
-//import reducer, { ACTION_TYPES } from './store';
 import Checkbox from '@material-ui/core/Checkbox';
 import 'fontsource-roboto';
 
 export default function App() {
-  //const [list, setList] = useState([]);
   const [isDone, setIsDone] = useState(false);
 
   function MyCheckbox() {

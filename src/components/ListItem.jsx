@@ -17,7 +17,7 @@ export default function ListItem({ id, title, isChecked }) {
     setEditMode(false);
     dispatch({
       type: ACTION_TYPES.EDIT,
-      payload: { id, title: editInput }
+      payload: { id: id, title: editInput }
     });
   }
 
