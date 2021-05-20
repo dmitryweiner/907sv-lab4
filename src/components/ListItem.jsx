@@ -70,7 +70,7 @@ export default function ListItem({ id, title, isChecked }) {
         onClick={() =>
           dispatch({
             type: ACTION_TYPES.REMOVE,
-            payload: { id: id }
+            payload: id
           })
         }
       >

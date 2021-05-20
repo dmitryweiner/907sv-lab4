@@ -1,5 +1,5 @@
 import { render, screen, fireEvent } from '@testing-library/react';
-import ListItem from '../ListItem.tsx';
+import ListItem from '../ListItem';
 import React from 'react';
 import { ACTION_TYPES } from '../../store';
 
