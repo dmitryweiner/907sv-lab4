@@ -1,8 +1,10 @@
 import React, { FormEvent } from 'react';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from "react-redux";
 import { ACTION_TYPES } from '../../store/actions';
+import { Store } from "../../store";
 
 function Form() {
+  const list = useSelector((state: Store) => state.todos.list);
   const dispatch = useDispatch();
   const [inputValue, setInputValue] = React.useState('');
   const [errorMessage, setErrorMessage] = React.useState('');
@@ -10,12 +12,15 @@ function Form() {
   function innerSubmit(e: FormEvent) {
     e.preventDefault();
     if (inputValue === '') {
-      setErrorMessage('Enter something first (￢_￢;)');
-    } else {
-      setErrorMessage('');
-      setInputValue('');
-      return dispatch({ type: ACTION_TYPES.ADD, payload: inputValue });
+      return setErrorMessage('Enter something first (￢_￢;)');
     }
+    if (list.some(item => item.title.toLowerCase() === inputValue.toLowerCase())) {
+      return setErrorMessage('You already have such deed (>_<)');
+    }
+    setErrorMessage('');
+    setInputValue('');
+    return dispatch({ type: ACTION_TYPES.ADD, payload: inputValue.trim() });
+  // trim для обрезки пробелов в начале и конце
   }
 
   return (
