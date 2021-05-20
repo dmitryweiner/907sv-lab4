@@ -47,9 +47,7 @@ test('reducer REMOVE', () => {
   expect(state.list.length).toEqual(1);
   state = reducer(state, {
     type: ACTION_TYPES.REMOVE,
-    payload: {
-      id: state.list[0].id
-    }
+    payload: state.list[0].id
   });
   expect(state.list.length).toEqual(0);
 });

@@ -12,7 +12,7 @@ export const ACTION_TYPES = {
 export function reducer(state = initialState, action) {
   switch (action.type) {
     case ACTION_TYPES.ADD: {
-      let item_id = Math.random() * (10000 - 1) + 1;
+      let item_id = 1 - 0.5 + Math.random() * (10000 - 1 + 1);
       const item = {
         id: item_id,
         title: action.payload,
@@ -40,11 +40,13 @@ export function reducer(state = initialState, action) {
       return { ...state, list: [...state.list] };
     }
     case ACTION_TYPES.REMOVE: {
-      for (let i = 0; i < state.list.length; i++) {
-        if (state.list[i].id === action.payload.id) {
-          state.list.splice(state.list[i]);
+      state.list = state.list.filter(function (elem) {
+        if (elem.id === action.payload) {
+          return false;
+        } else {
+          return true;
         }
-      }
+      });
       return { ...state, list: [...state.list] };
     }
     default:
