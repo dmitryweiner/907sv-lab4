@@ -2,24 +2,34 @@ import { render, screen, fireEvent } from '@testing-library/react';
 import ListItem from '../ListItem';
 import React from 'react';
 import { ACTION_TYPES } from '../../store';
+import { makeTestStore, testRender } from '../../setupTests';
+import List from '../List';
 
-const id = '123';
-const title = 'TestItem';
+const list = [
+  {
+    id: '123',
+    title: 'TestItem1',
+    isChecked: false
+  },
+  {
+    id: '456',
+    title: 'TestItem2',
+    isChecked: true
+  }
+];
 
 test('Displaying an item in the list, reacting to a button', () => {
-  const dispatch = jest.fn();
-
-  // arrange
-  render(<ListItem id={id} title={title} dispatch={dispatch} />);
-  expect(screen.getByText(title)).toBeInTheDocument();
+  const store = makeTestStore({ initialState: { list } });
+  testRender(<List />, { store });
+  expect(screen.getByText('TestItem1')).toBeInTheDocument();
 
   // act
-  const deleteButton = screen.getByTestId('deleteButton');
+  const deleteButton = screen.findByTestId('deleteButton');
   expect(deleteButton).toBeInTheDocument();
   fireEvent.click(deleteButton);
 
   // asset
-  expect(dispatch).toBeCalledWith({ type: ACTION_TYPES.REMOVE, payload: id });
+  expect(store.dispatch).toBeCalledWith({ type: ACTION_TYPES.REMOVE, payload: id });
 });
 
 test('Displaying the selected checkbox', () => {

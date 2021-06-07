@@ -1,7 +1,8 @@
-import { render, screen, fireEvent } from '@testing-library/react';
+import { screen, fireEvent } from '@testing-library/react';
 import List from '../List';
 import React from 'react';
 import { ACTION_TYPES } from '../../store';
+import { makeTestStore, testRender } from '../../setupTests';
 
 const list = [
   {
@@ -17,15 +18,14 @@ const list = [
 ];
 
 test('Correct display of an empty list', () => {
-  const list = [];
-  render(<List list={list} />);
+  const store = makeTestStore();
+  testRender(<List />, { store });
   expect(screen.getByText('Список пуст')).toBeInTheDocument();
 });
 
 test('Correct display of the list of elements', () => {
-  const dispatch = jest.fn();
-
-  render(<List list={list} dispatch={dispatch} />);
+  const store = makeTestStore({ initialState: { list } });
+  testRender(<List />, { store });
 
   for (let item of list) {
     expect(screen.getByText(item.title)).toBeInTheDocument();
@@ -34,11 +34,12 @@ test('Correct display of the list of elements', () => {
   for (let deleteButton of screen.getAllByTestId('deleteButton')) {
     fireEvent.click(deleteButton);
   }
-  expect(dispatch).toBeCalledTimes(list.length);
+  expect(store.dispatch).toBeCalledTimes(list.length);
 });
 
 test('Displaying checkboxes in the desired state', () => {
-  render(<List list={list} />);
+  const store = makeTestStore({ initialState: { list } });
+  testRender(<List />, { store });
 
   const checkboxes = screen.getAllByTestId('checkbox');
   for (let i = 0; i < checkboxes.length; i++) {
@@ -47,13 +48,12 @@ test('Displaying checkboxes in the desired state', () => {
 });
 
 test('Calling the checkHandler with the required parameters when clicking on the checkbox', () => {
-  const dispatch = jest.fn();
-
-  render(<List list={list} dispatch={dispatch} />);
+  const store = makeTestStore({ initialState: { list } });
+  testRender(<List />, { store });
 
   const checkboxes = screen.getAllByTestId('checkbox');
   for (let i = 0; i < checkboxes; i++) {
     fireEvent.click(checkboxes[i]);
-    expect(dispatch).toBeCalledWith({ type: ACTION_TYPES.CHECKED, payload: list[i].id });
+    expect(store.dispatch).toBeCalledWith({ type: ACTION_TYPES.CHECKED, payload: list[i].id });
   }
 });
