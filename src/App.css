@@ -1,8 +1,107 @@
-.wrapper {
+/* чтобы цвет текста в placeholder был белым*/
+input::-webkit-input-placeholder {
+    color:white;
+}
+input:-moz-placeholder {
+    color:white;
+}
+.appBody {
+    width: 100%;
+    height: 100%;
+    padding: 10px;
+    background-image: url("images/background.jpg");
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center center;
+    position: fixed;
+    text-align: center;
+    overflow-y: scroll;
+}
+.appWrapper {
     width: 900px;
     margin: 0 auto;
 }
-
-.wrapper div {
+.appWrapper div {
     margin: 10px;
+}
+.name {
+    margin: 10px;
+    padding: 5px;
+}
+.formWrapper {
+    height: auto;
+    padding: 20px;
+}
+.name, .formWrapper, .listItem  {
+    box-shadow:0 0 20px rgba(255,20,147,0.7);
+    background-color: rgba(255,20,147,0.9);
+    border-radius: 20px;
+}
+#formInput {
+    height: 30px;
+    width: 400px;
+    margin-right: 10px;
+    margin-bottom: 8px;
+    text-align: center;
+}
+#formAddButton {
+    height: 34px;
+    width: 200px;
+    margin-left: 10px;
+}
+#formInput, #formAddButton {
+    border-radius: 20px;
+    border-style: none;
+    font-size:20px;
+    background-color: rgba(0,0,0,0.4);
+    color:white;
+}
+.errorMessage {
+    color: white;
+    text-shadow: 0 0 15px rgba(255,255,255,0.8)
+}
+.listWrapper {
+    box-shadow:0 0 20px rgba(255,20,147,0.5);
+    background-color: rgba(255,20,147,0.3);
+}
+.emptyList {
+    box-shadow:0 0 20px rgba(255,20,147,0.7);
+    background-color: rgba(255,20,147,0.5);
+    color:white;
+}
+.listWrapper, .emptyList {
+    border-radius: 20px;
+    height: auto;
+    padding: 20px;
+}
+.listItem {
+    height: auto;
+    padding: 5px 30px;
+    font-size: 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+#moveUpButton, #moveDownButton, #delete-button {
+    border-radius: 5px;
+    border-style: none;
+    background-color: rgba(0,0,0,0.4);
+    color:white;
+    text-align: center;
+    margin: 2px;
+}
+.listItemInformation {
+    font-size: 25px;
+    color: white;
+}
+.listItemButtons, .moveButtons {
+    display: flex;
+}
+.moveButtons {
+    flex-direction: column;
+}
+.filtersWrapper {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
 }
