@@ -106,3 +106,32 @@ describe(' Тесты SelectFilter > checkbox фильтра не выполне
     });
   });
 });
+
+describe(' Тесты SelectFilter > поиск по подстроке ', () => {
+  test(' Отображение поля и кнопки для ввода подстроки для поиска ', () => {
+    const store = makeTestStore();
+    testRender(<SelectFilter />, { store });
+    const searchField = screen.getByTestId('substringSearchField');
+    const searchButton = screen.getByTestId('substringSearchButton');
+    expect(searchField).toBeInTheDocument();
+    expect(searchButton).toBeInTheDocument();
+  });
+
+  test(' Ввод подстроки, нажатие на кнопку, filterAction работает ', () => {
+    const initialState = {
+      ...originalState,
+      filter: { filterState: FILTER_STATE.ALL_DEEDS }
+    };
+    const store = makeTestStore({ initialState });
+    testRender(<SelectFilter />, { store });
+    const substringValue = 'meow';
+    const searchField = screen.getByTestId('substringSearchField');
+    const searchButton = screen.getByTestId('substringSearchButton');
+    fireEvent.input(searchField, { target: { value: substringValue } });
+    fireEvent.click(searchButton);
+    expect(store.dispatch).toBeCalledWith({
+      type: ACTION_TYPES.FILTER_SUBSTRING,
+      payload: substringValue
+    });
+  });
+});

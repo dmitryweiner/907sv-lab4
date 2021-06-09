@@ -6,7 +6,7 @@ import SelectFilter from './components/SelectFilter/SelectFilter';
 
 function App() {
   return (
-    <div className="body">
+    <div className="appBody">
       <div className="appWrapper">
         <div className="name">
           <h1>ᕕ( ᐛ )ᕗ To do:</h1>

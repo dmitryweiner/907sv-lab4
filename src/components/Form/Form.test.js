@@ -30,7 +30,6 @@ describe(' Тесты Form > input и addButton', () => {
   });
 
   test(' Проверка на пустоту ', () => {
-    jest.spyOn(window, 'alert').mockImplementation(() => {});
     const store = makeTestStore();
     testRender(<Form />, { store });
     const inputField = screen.getByPlaceholderText('Enter a deed');
@@ -40,5 +39,22 @@ describe(' Тесты Form > input и addButton', () => {
     });
     fireEvent.click(addButton);
     expect(store.dispatch).not.toBeCalled();
+  });
+
+  test(' Проверка на уникальность ', () => {
+    const inputValueText = 'Praise the Cat';
+    const store = makeTestStore();
+    testRender(<Form />, { store });
+    const inputField = screen.getByPlaceholderText('Enter a deed');
+    const addButton = screen.getByTestId("I'm addButton");
+    fireEvent.input(inputField, {
+      target: { value: inputValueText }
+    });
+    fireEvent.click(addButton);
+    fireEvent.input(inputField, {
+      target: { value: inputValueText }
+    });
+    fireEvent.click(addButton);
+    expect(store.dispatch).not.toBeCalledTimes(2);
   });
 });
