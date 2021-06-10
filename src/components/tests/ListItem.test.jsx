@@ -1,67 +1,84 @@
 import { render, screen, fireEvent } from '@testing-library/react';
 import ListItem from '../ListItem';
 import React from 'react';
-import { ACTION_TYPES } from '../../store';
+import { ACTION_TYPES, initialState } from '../../store';
+import { makeTestStore, testRender } from '../../setupTests';
+import List from '../List';
 
-const id = '123';
-const title = 'TestItem';
+const list = [
+  {
+    id: '123',
+    title: 'TestItem1',
+    checked: false
+  },
+  {
+    id: '456',
+    title: 'TestItem2',
+    checked: true
+  }
+];
 
 test('Displaying an item in the list, reacting to a button', () => {
-  const dispatch = jest.fn();
-
-  // arrange
-  render(<ListItem id={id} title={title} dispatch={dispatch} />);
-  expect(screen.getByText(title)).toBeInTheDocument();
+  const store = makeTestStore({ initialState: { list } });
+  testRender(<List />, { store });
+  expect(screen.getByText('TestItem1')).toBeInTheDocument();
 
   // act
-  const deleteButton = screen.getByTestId('deleteButton');
-  expect(deleteButton).toBeInTheDocument();
-  fireEvent.click(deleteButton);
+  for (let deleteButton of screen.getAllByTestId('deleteButton')) {
+    fireEvent.click(deleteButton);
+  }
 
   // asset
-  expect(dispatch).toBeCalledWith({ type: ACTION_TYPES.REMOVE, payload: id });
+  expect(store.dispatch).toBeCalledWith({ type: ACTION_TYPES.REMOVE, payload: list[0].id });
 });
 
 test('Displaying the selected checkbox', () => {
-  render(<ListItem id={id} title={title} isChecked={true} />);
+  const store = makeTestStore({ initialState: { list } });
+  testRender(<ListItem id={list[0].id} title={list[0].title} checked={list[0].checked} />, {
+    store
+  });
   const checkbox = screen.getByTestId('checkbox');
   expect(checkbox).toBeInTheDocument();
-  expect(checkbox).toHaveAttribute('checked');
+  expect(checkbox).not.toHaveAttribute('checked');
 });
 
 test('Displaying an empty checkbox', () => {
-  render(<ListItem id={id} title={title} isChecked={false} />);
+  const store = makeTestStore({ initialState: { list } });
+  testRender(<ListItem id={list[0].id} title={list[0].title} checked={list[0].checked} />, {
+    store
+  });
   const checkbox = screen.getByTestId('checkbox');
   expect(checkbox).toBeInTheDocument();
   expect(checkbox).not.toHaveAttribute('checked');
 });
 
 test('When you click on the checkbox, the desired method is called', () => {
-  const dispatch = jest.fn();
-
-  render(<ListItem id={id} title={title} isChecked={false} dispatch={dispatch} />);
+  const store = makeTestStore({ initialState: { list } });
+  testRender(<ListItem id={list[0].id} title={list[0].title} checked={list[0].checked} />, {
+    store
+  });
   const checkbox = screen.getByTestId('checkbox');
   expect(checkbox).toBeInTheDocument();
 
-  expect(dispatch).not.toBeCalled();
+  expect(store.dispatch).not.toBeCalled();
   fireEvent.click(checkbox);
-  expect(dispatch).toBeCalledWith({ type: ACTION_TYPES.CHECKED, payload: id });
+  expect(store.dispatch).toBeCalledWith({ type: ACTION_TYPES.CHECK, payload: list[0].id });
 });
 
 test('Displaying the edit field and the ability to save content', () => {
-  const dispatch = jest.fn();
-  const value = 'value';
-
-  render(<ListItem id={id} title={title} dispatch={dispatch} />);
+  const store = makeTestStore({ initialState: { list } });
+  testRender(<ListItem id={list[0].id} title={list[0].title} checked={list[0].checked} />, {
+    store
+  });
 
   const editButton = screen.getByTestId('editButton');
   fireEvent.click(editButton);
   expect(editButton).not.toBeInTheDocument();
-  expect(screen.queryByTestId('title')).toBeNull();
+  expect(screen.queryByTestId('TestItem1')).toBeNull();
 
   const input = screen.getByTestId('editInput');
-  expect(input.value).toEqual(title);
-  fireEvent.input(input, { target: { value: value } });
+  expect(input.value).toEqual('TestItem1');
+  fireEvent.input(input, { target: { value: 'TestItem1' } });
 
   const saveButton = screen.getByTestId('saveButton');
   fireEvent.click(saveButton);
@@ -69,5 +86,8 @@ test('Displaying the edit field and the ability to save content', () => {
   expect(screen.queryByTestId('saveButton')).toBeNull();
   expect(screen.queryByTestId('editButton')).not.toBeNull();
 
-  expect(dispatch).toBeCalledWith({ type: ACTION_TYPES.EDIT, payload: { id, title: value } });
+  expect(store.dispatch).toBeCalledWith({
+    type: ACTION_TYPES.EDIT,
+    payload: { id: list[0].id, title: 'TestItem1' }
+  });
 });

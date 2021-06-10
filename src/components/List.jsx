@@ -1,9 +1,10 @@
 import React from 'react';
 import { useSelector } from 'react-redux';
 import ListItem from './ListItem';
+import { selectFilteredList } from '../store';
 
 export default function List() {
-  const list = useSelector(state => state.list);
+  const list = useSelector(selectFilteredList);
 
   if (list.length === 0) {
     return <div>Список пуст</div>;

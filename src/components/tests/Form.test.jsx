@@ -1,31 +1,38 @@
-import { render, screen, fireEvent } from '@testing-library/react';
-import Form from '../Form.tsx';
+import { screen, fireEvent } from '@testing-library/react';
+import Form from '../Form.jsx';
 import React from 'react';
+import { makeTestStore, testRender } from '../../setupTests';
+import { ACTION_TYPES } from '../../store';
 
 test('Форма позволяет вводить данные, вызывает обработчик', () => {
   const value = '19';
   const handleSubmit = jest.fn();
-
-  render(<Form handleSubmit={handleSubmit} />);
+  const store = makeTestStore();
+  testRender(<Form handleSubmit={handleSubmit} />, { store });
 
   const input = screen.getByTestId('input');
   fireEvent.input(input, {
     target: {
-      value: value
+      value
     }
+  });
+  const actionInc = () => ({
+    type: ACTION_TYPES.ADD,
+    payload: value
   });
   expect(handleSubmit).not.toBeCalled();
 
   const form = screen.getByTestId('form');
   fireEvent.submit(form);
-  expect(handleSubmit).toBeCalledWith(value);
+  expect(store.dispatch).toBeCalledWith(actionInc());
 });
 
 test('Валидация', () => {
   const value = '';
   const handleSubmit = jest.fn();
 
-  render(<Form handleSubmit={handleSubmit} />);
+  const store = makeTestStore();
+  testRender(<Form handleSubmit={handleSubmit} />, { store });
 
   const input = screen.getByTestId('input');
   fireEvent.input(input, {
