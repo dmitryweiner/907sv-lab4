@@ -24,17 +24,24 @@ test('Correct display of an empty list', () => {
 });
 
 test('Correct display of the list of elements', () => {
-  const store = makeTestStore({ initialState: { list } });
+  const soloList = [
+    {
+      id: '123',
+      title: 'TestItem1',
+      isChecked: false
+    }
+  ];
+  const store = makeTestStore({ initialState: { list: soloList } });
   testRender(<List />, { store });
 
-  for (let item of list) {
+  for (let item of soloList) {
     expect(screen.getByText(item.title)).toBeInTheDocument();
   }
 
   for (let deleteButton of screen.getAllByTestId('deleteButton')) {
     fireEvent.click(deleteButton);
   }
-  expect(store.dispatch).toBeCalledTimes(list.length);
+  expect(store.dispatch).toBeCalledTimes(soloList.length);
 });
 
 test('Displaying checkboxes in the desired state', () => {
