@@ -70,13 +70,10 @@ export function reducer(state = initialState, action) {
 }
 
 export function selectBySearchBar(searchBar, list) {
-  const acc = [];
   if (searchBar !== '') {
-    for (let i = 0; i < list.length; i++) {
-      if (list[i].title.toUpperCase().indexOf(searchBar.toUpperCase()) !== -1) {
-        acc.push(list[i]);
-      }
-    }
+    const acc = list.filter(function (e) {
+      return e.title.toUpperCase().indexOf(searchBar.toUpperCase()) !== -1;
+    });
     return acc;
   }
   return list;

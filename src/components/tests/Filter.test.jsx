@@ -5,14 +5,15 @@ import { ACTION_TYPES } from '../../store';
 
 test('Filter', () => {
   const store = makeTestStore();
-  testRender(<Filter />, { store });
-
-  const searchBar = screen.getByTestId('search-bar');
-  fireEvent.input(searchBar, {
+  const input = {
     target: {
       value: '123'
     }
-  });
+  }
+  testRender(<Filter />, { store });
+
+  const searchBar = screen.getByTestId('search-bar');
+  fireEvent.input(searchBar, input);
   expect(store.dispatch).toBeCalledWith({
     type: ACTION_TYPES.SEARCH,
     payload: '123'

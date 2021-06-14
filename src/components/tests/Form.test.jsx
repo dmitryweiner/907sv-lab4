@@ -16,15 +16,15 @@ test('Форма позволяет вводить данные, вызывае�
       value
     }
   });
-  const actionInc = () => ({
+  const action = {
     type: ACTION_TYPES.ADD,
     payload: value
-  });
+  }
   expect(handleSubmit).not.toBeCalled();
 
   const form = screen.getByTestId('form');
   fireEvent.submit(form);
-  expect(store.dispatch).toBeCalledWith(actionInc());
+  expect(store.dispatch).toBeCalledWith(action);
 });
 
 test('Валидация', () => {
@@ -32,7 +32,7 @@ test('Валидация', () => {
   const handleSubmit = jest.fn();
 
   const store = makeTestStore();
-  testRender(<Form handleSubmit={handleSubmit} />, { store });
+  testRender(<Form />, { store });
 
   const input = screen.getByTestId('input');
   fireEvent.input(input, {

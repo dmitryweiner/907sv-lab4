@@ -1,7 +1,7 @@
 import { screen, fireEvent } from '@testing-library/react';
 import List from '../List';
 import React from 'react';
-import { ACTION_TYPES, initialState, selectFilteredList, SELECTORS } from "../../store";
+import { ACTION_TYPES, SELECTORS } from '../../store';
 import { makeTestStore, testRender } from '../../setupTests';
 
 const list = [
@@ -39,9 +39,7 @@ test('Correct display of the list of elements', () => {
   const store = makeTestStore({ initialState: { list: soloList } });
   testRender(<List />, { store });
 
-  for (let item of soloList) {
-    expect(screen.getByText(item.title)).toBeInTheDocument();
-  }
+  expect(screen.getByText(soloList.title)).toBeInTheDocument();
 
   for (let deleteButton of screen.getAllByTestId('deleteButton')) {
     fireEvent.click(deleteButton);
