@@ -72,7 +72,7 @@ export function reducer(state = initialState, action) {
 export function selectBySearchBar(searchBar, list) {
   if (searchBar !== '') {
     const acc = list.filter(function (e) {
-      return e.title.toUpperCase().indexOf(searchBar.toUpperCase()) !== -1;
+      return e.title.toUpperCase().includes(searchBar.toUpperCase());
     });
     return acc;
   }
@@ -83,18 +83,10 @@ export function selectBySelector(selector, list) {
   const acc = [];
   switch (selector) {
     case Object.keys(SELECTORS)[0]:
-      for (let i = 0; i < list.length; i++) {
-        if (list[i].isChecked === true) {
-          acc.push(list[i]);
-        }
-      }
+      const acc = list.filter(e => e.isChecked; );
       break;
     case SELECTORS.SELECTNOTDONE:
-      for (let i = 0; i < list.length; i++) {
-        if (list[i].isChecked === false) {
-          acc.push(list[i]);
-        }
-      }
+      const acc = list.filter(e => !e.isChecked; );
       break;
     case SELECTORS.SELECTALL:
       return list;
