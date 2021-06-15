@@ -71,30 +71,22 @@ export function reducer(state = initialState, action) {
 
 export function selectBySearchBar(searchBar, list) {
   if (searchBar !== '') {
-    const acc = list.filter(function (e) {
-      return e.title.toUpperCase().includes(searchBar.toUpperCase());
-    });
-    return acc;
+    return list.filter(e => e.title.toUpperCase().includes(searchBar.toUpperCase()));
   }
   return list;
 }
 
 export function selectBySelector(selector, list) {
-  const acc = [];
   switch (selector) {
     case Object.keys(SELECTORS)[0]:
-      const acc = list.filter(e => e.isChecked; );
-      break;
+      return list.filter(e => e.isChecked);
     case SELECTORS.SELECTNOTDONE:
-      const acc = list.filter(e => !e.isChecked; );
-      break;
+      return list.filter(e => !e.isChecked);
     case SELECTORS.SELECTALL:
       return list;
     default:
       return list;
   }
-
-  return acc;
 }
 
 export function selectFilteredList(state) {
